@@ -19,9 +19,10 @@ import Profile from "./pages/Page1profile";
 import Save from "./pages/Page2save";
 import Chat from "./pages/Page3chat";
 import Analysis from "./pages/Page4analysis";
-import Composition from "./pages/Page5composigion";
+import Composition from "./pages/Page5composition";
 import Statistics from "./pages/Page6Statistics";
 import SearchResults from "./components/SearchResults";
+import ResultComposition from "./pages/Page5resultComposition";
 
 function App() {
   const navigate = useNavigate();
@@ -79,6 +80,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/analysis" element={<Analysis />} />
         <Route path="/composition" element={<Composition />} />
+        <Route path="/result-composition" element={<ResultComposition />} />
         <Route path="/statistics" element={<Statistics />} />
         <Route path="*" element={<Navigate to="/home" />} />
       </Routes>
