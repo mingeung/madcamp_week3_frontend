@@ -19,8 +19,8 @@ import Profile from "./pages/Page1profile";
 import Save from "./pages/Page2save";
 import Chat from "./pages/Page3chat";
 import Analysis from "./pages/Page4analysis";
-import Composition from "./pages/page5composigion";
-import Statistics from "./pages/page6Statistics";
+import Composition from "./pages/Page5composigion";
+import Statistics from "./pages/Page6Statistics";
 import SearchResults from "./components/SearchResults";
 
 function App() {
