@@ -1,0 +1,13 @@
+.navbar {
+  width: 100%;
+  margin-top: 0;
+  padding: 15px 0px;
+  text-align: right;
+  position: fixed;
+}
+
+.navbarMenu {
+  color: black;
+  margin: 8px;
+  text-decoration: none;
+}

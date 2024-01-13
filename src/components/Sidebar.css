@@ -1,0 +1,19 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 177px;
+  z-index: 99;
+  background-color: #22263d;
+}
+
+.sidebar-item {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.sidebar-item.active {
+  color: "7C93C3";
+}
