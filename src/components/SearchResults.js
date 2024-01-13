@@ -1,87 +1,51 @@
 // SearchResults.js
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import fetchSearchResults from "../utils/fetchSearchresults";
-import fetchSpotifyToken from "../utils/spotifyApi";
+import fetchSpotifyToken from "../utils/spotifyApi"; // 토큰 얻는 파일
 import getActiveDeviceId from "../to/getActiveDeviceId";
+import fetchPlay from "../utils/fetchPlay";
 
 function SearchResults() {
+  const navigate = useNavigate();
   const location = useLocation();
   const searchQuery = location.state?.query || "";
   const [searchResults, setSearchResults] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeDeviceId, setActiveDeviceId] = useState(null);
-
+  const [PressMusic, setPressMusic] = useState(null);
+  const [playResults, setPlayResults] = useState([]);
+  //검색 기록 가져오기
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const access_token = await fetchSpotifyToken();
-        const results = await fetchSearchResults(access_token, searchQuery);
+        const access_token = await fetchSpotifyToken(); // access token 받기
+        const results = await fetchSearchResults(access_token, searchQuery); //track 유형의 아이템을 반환
         setSearchResults(results);
-        const deviceId = await getActiveDeviceId(access_token);
-        setActiveDeviceId(deviceId);
+        // const deviceId = await getActiveDeviceId(access_token); //사용자의 활성 장치 ? 어디다가 쓰는거지
+        // setActiveDeviceId(deviceId);
       } catch (error) {
         console.log("Error fetching data:", error);
       }
     };
     fetchData();
   }, [location.state?.query]);
-  const play = ({
-    spofity_uri,
-    playerInstance: {
-      _options: { getOAuthToken },
-    },
-  }) => {
-    getOAuthToken((access_token) => {
-      const device_id = activeDeviceId || "your_default_device_id";
-      fetch(
-        `https://api.spotify.com/v1/me/player/play?device_id=${device_id}`,
-        {
-          method: "PUT",
-          body: JSON.stringify({ uris: [spofity_uri] }),
-          headers: {
-            "Content-Type": "applications/json",
-            Authorization: "Bearer %{access_token}",
-          },
-        }
-      );
-    });
-  };
 
-  const handlePlayPause = async () => {
+  //음원 듣기
+  const handlePlayPause = async (track) => {
     try {
-      const access_token = await fetchSpotifyToken();
-      const device_id =
-        activeDeviceId ||
-        (await getActiveDeviceId(access_token)) ||
-        "your_default_device_id";
-      const context_uri = searchResults[0].album.uri;
-      const response = await fetch(
-        "https://api.spotify.com/v1/me/player/play",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${access_token}`,
-          },
-          body: JSON.stringify({
-            device_id,
-            context_uri,
-            uris: [searchResults[0].uri],
-          }),
-        }
-      );
-      if (response.status === 204) {
-        // Playback successful
-        setIsPlaying(!isPlaying); // Toggle the play/pause state
-      } else {
-        console.error("Failed to play track");
-      }
+      //클릭된 정보를 PressMusic에 저장
+      setPressMusic(track);
+      const access_token = await fetchSpotifyToken(); // access token 받기
+      const results = await fetchPlay(access_token, track.id);
+      setPlayResults(results);
+      window.location.href = results;
+
+      navigate("/playback", { state: { playResults } });
     } catch (error) {
-      console.log("Error:", error);
+      console.log("Error fetching data:", error);
     }
   };
-
   return (
     <div style={{ marginLeft: "500px" }}>
       <h2>Search Results for "{searchQuery}"</h2>
@@ -100,22 +64,13 @@ function SearchResults() {
                     alt={track.album.name}
                     style={{ width: "100px", height: "100px" }}
                   />
-                  <button onClick={handlePlayPause}>
+                  <button onClick={() => handlePlayPause(track)}>
                     {isPlaying ? "정지" : "재생"}
                   </button>
                   <button>보관함에 담기</button>
                 </li>
               ))}
             </ul>
-            {/* <ul>
-              {searchResults.map((artist, index) => (
-                <li key={index}>
-                  <p>
-                    Genres: {artist.genres ? artist.genres.join(", ") : "N/A"}
-                  </p>
-                </li>
-              ))}
-            </ul> */}
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 // 예시: Spotify API를 호출하는 함수
 const fetchSpotifyToken = async () => {
-  const client_id = "0bc8e3aba37b4dc9ad5e0d950ad88d17";
-  const client_secret = "737450288d9d4a2a9b3e08535873b34a";
+  const client_id = "449411fb0d224652a5771ed8e0db1ede";
+  const client_secret = "5a77cb7854a94524879439bfa3e98668";
 
   const authOptions = {
     url: "https://accounts.spotify.com/api/token",

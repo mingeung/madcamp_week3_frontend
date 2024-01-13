@@ -1,6 +1,6 @@
-// fetchSearchResults.js
-const fetchSearchResults = async (accessToken, query) => {
-  const apiUrl = `https://api.spotify.com/v1/search?q=${query}&type=track`;
+// fetchPlay.js
+const fetchPlay = async (accessToken, track_id) => {
+  const apiUrl = `https://api.spotify.com/v1/tracks/${track_id}`;
 
   try {
     const response = await fetch(apiUrl, {
@@ -12,7 +12,8 @@ const fetchSearchResults = async (accessToken, query) => {
 
     if (response.ok) {
       const data = await response.json();
-      return data.tracks.items || []; // "track" 유형의 아이템들을 반환
+      console.log("Play Info:", data.preview_url); // 이거 잘 나옴!
+      return data.preview_url || [];
     } else {
       console.error("Failed to fetch search results");
       return [];
@@ -23,4 +24,4 @@ const fetchSearchResults = async (accessToken, query) => {
   }
 };
 
-export default fetchSearchResults;
+export default fetchPlay;
