@@ -59,7 +59,7 @@ const Page5composition = () => {
       <div className="composition-banner">
         <p className="composition-title">작곡하기</p>
         <p className="composition-intro">
-          이제 내가 좋아하는 노래를 직접 만들어 들어요
+          내가 좋아하는 노래를 직접 만들어 들어요
         </p>
       </div>
       <div className="select-genres">

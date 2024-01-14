@@ -26,11 +26,19 @@ import ResultComposition from "./pages/Page5resultComposition";
 import Page3chatRock from "./pages/Page3chatRock";
 
 function App() {
-  const navigate = useNavigate();
+  //데이터가 잘 받아와지는지 확인
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    // Navigate to the login page
-    navigate("/login");
+    fetch("/register")
+      .then(
+        // response 객체의 json() 이용하여 json 데이터를 객체로 변화
+        (res) => res.json()
+      )
+      .then(
+        // 데이터를 콘솔에 출력
+        (data) => console.log(data)
+      );
   }, []);
 
   return (
