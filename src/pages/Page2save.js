@@ -1,19 +1,26 @@
 //Page2save.js
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./Page2save.css";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
 import fetchSearchResults from "../utils/fetchSearchresults";
 import fetchSpotifyToken from "../utils/spotifyApi"; // 토큰 얻는 파일
 import fetchPlay from "../utils/fetchPlay";
+import "./Page2save.css";
+import "./Home.css";
 
 const Page2save = () => {
   const navigate = useNavigate();
   const [PressMusic, setPressMusic] = useState(null);
   const [playResults, setPlayResults] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  //검색기능
+  const handleSearch = () => {
+    navigate(`/search-results`, { state: { query: searchQuery } });
+  };
 
   useEffect(() => {
     // 로컬 스토리지에서 저장된 즐겨찾기 데이터 가져오기
@@ -52,6 +59,18 @@ const Page2save = () => {
   return (
     <div className="container">
       <h1>보관함 페이지 입니다.</h1>
+
+      <div className="search-bar-container">
+        <input
+          type="text"
+          placeholder="검색어를 입력하세요"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+        <FaSearch onClick={handleSearch} className="search-button" />
+      </div>
+
       <div className="grid-container">
         <ul className="grid">
           {favorites.map((favorite, index) => (

@@ -4,11 +4,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import fetchSearchResults from "../utils/fetchSearchresults";
 import fetchSpotifyToken from "../utils/spotifyApi"; // 토큰 얻는 파일
 import getActiveDeviceId from "../to/getActiveDeviceId";
-import fetchPlay from "../utils/fetchPlay";
-import "./SearchResults.css";
+
 import { FaRegHeart } from "react-icons/fa6";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
+import fetchPlay from "../utils/fetchPlay";
+import "./SearchResults.css";
+import "../pages/Home.js";
 function SearchResults() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,12 +21,18 @@ function SearchResults() {
   const [activeDeviceId, setActiveDeviceId] = useState(null);
   const [playResults, setPlayResults] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [searchMusic, setSearchMusic] = useState("");
 
   useEffect(() => {
     // 로컬 스토리지에서 저장된 즐겨찾기 데이터 가져오기
     const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
     setFavorites(storedFavorites);
   }, []); // 초기 렌더링 시에만 실행
+
+  //검색기능
+  const handleSearch = () => {
+    navigate(`/search-results`, { state: { query: searchMusic } });
+  };
 
   //검색 기록 가져오기
   useEffect(() => {
@@ -107,6 +116,16 @@ function SearchResults() {
 
   return (
     <div className="container">
+      <div className="search-bar-container">
+        <input
+          type="text"
+          placeholder="검색어를 입력하세요"
+          value={searchMusic}
+          onChange={(e) => setSearchMusic(e.target.value)}
+          className="search-input"
+        />
+        <FaSearch onClick={handleSearch} className="search-button" />
+      </div>
       <div className="grid-container">
         {searchResults.length > 0 && (
           <div>
