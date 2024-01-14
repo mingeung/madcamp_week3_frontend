@@ -42,9 +42,9 @@ export default function Page3chatRock() {
 
   return (
     <div className="container">
-      <h1>록 채팅방입니다</h1>
       <div className="rock-chat-room">
         <div className="Box">
+          <div className="header">rock 채팅방</div>
           <div className="ChatBox">
             {chatArr.map((ele) => (
               <div className="Chat">
@@ -54,13 +54,14 @@ export default function Page3chatRock() {
             ))}
           </div>
           <div className="InputBox">
-            <input placeholder="내용" onChange={changeMessage} />
-            <input placeholder="이름" onChange={changeName} />
-            <button onClick={buttonHandler}>등록</button>
+            <input className="input-text" onChange={changeMessage} />
+            {/* <input placeholder="이름" onChange={changeName} /> */}
+            <button className="btn-send" onClick={buttonHandler}>
+              전송
+            </button>
           </div>
         </div>
       </div>
-      <input />
     </div>
   );
 }

@@ -5,7 +5,6 @@ body {
   margin: 0;
   padding: 0;
 }
-
 .sign-up {
   background-image: url(../assets/login_background.png);
   background-repeat: repeat-x;
@@ -27,7 +26,7 @@ h2 {
   font-size: 55px;
   color: #ffffff;
   font-weight: "bold";
-  margin-top: 110px;
+  margin-top: 100px;
 }
 .signup-container {
   position: absolute;

@@ -10,10 +10,14 @@ const Page3chat = () => {
   };
   return (
     <div className="container">
-      <h1>채팅방 페이지 입니다.</h1>
-      <p>혼자 노래 듣고 있나요? </p>
-      <p>이제 대화하면서 노래를 들어요</p>
-      <p>대화 시작하기</p>
+      <div className="banner">
+        <p>아무말 </p>
+        <p className="title">채팅방</p>
+        <p className="intro-text">혼자 노래 듣고 있나요? </p>
+        <p className="intro-text">이제 대화하면서 노래를 들어요</p>
+        <p className="go-talk">대화 시작하기</p>
+      </div>
+
       <div className="chat-rooms">
         <div className="chat-box-rock" onClick={onClickGoRock}>
           {" "}

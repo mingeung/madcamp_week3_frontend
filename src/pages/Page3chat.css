@@ -1,8 +1,44 @@
+.container {
+  margin-left: 235px;
+}
+.banner {
+  background-image: url(../assets/Group\ 36-2.png);
+  background-repeat: no-repeat;
+  z-index: -99;
+  margin-left: -34px;
+  margin-top: -32px;
+}
+.title {
+  margin-top: 60px;
+  margin-bottom: 45px;
+  font-size: 30px;
+  color: #ffffff;
+  font-weight: bold;
+  margin-left: 30px;
+}
+.intro-text {
+  color: #ffffff;
+  font-size: 20px;
+  margin-left: 30px;
+}
+.go-talk {
+  color: #ffffff;
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 230px;
+  margin-left: 30px;
+}
+/* 스크롤 바 디자인 숨기기 */
 .chat-rooms {
   display: flex;
   overflow-x: auto;
-  padding-top: 75px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.chat-rooms::-webkit-scrollbar {
+  display: none;
+}
+
 .chat-box-rock,
 .chat-box-kpop,
 .chat-box-ballade,
