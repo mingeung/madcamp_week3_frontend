@@ -23,6 +23,7 @@ import Composition from "./pages/Page5composition";
 import Statistics from "./pages/Page6Statistics";
 import SearchResults from "./components/SearchResults";
 import ResultComposition from "./pages/Page5resultComposition";
+import Page3chatRock from "./pages/Page3chatRock";
 
 function App() {
   const navigate = useNavigate();
@@ -78,6 +79,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/save" element={<Save />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/chat-rock" element={<Page3chatRock />} />
         <Route path="/analysis" element={<Analysis />} />
         <Route path="/composition" element={<Composition />} />
         <Route path="/result-composition" element={<ResultComposition />} />

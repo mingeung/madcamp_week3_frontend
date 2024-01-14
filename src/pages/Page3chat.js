@@ -1,8 +1,13 @@
-//Home.js
 import React from "react";
 import "./Page3chat.css";
+import { useNavigate } from "react-router-dom";
 
 const Page3chat = () => {
+  const navigate = useNavigate();
+
+  const onClickGoRock = () => {
+    navigate("/chat-rock");
+  };
   return (
     <div style={{ marginLeft: "300px" }}>
       <h1>채팅방 페이지 입니다.</h1>
@@ -10,7 +15,7 @@ const Page3chat = () => {
       <p>이제 대화하면서 노래를 들어요</p>
       <p>대화 시작하기</p>
       <div className="chat-rooms">
-        <div className="chat-box-rock">
+        <div className="chat-box-rock" onClick={onClickGoRock}>
           {" "}
           <p className="chat-name">Rock</p>
         </div>
