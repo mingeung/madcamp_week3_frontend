@@ -1,5 +1,83 @@
+.container {
+  margin-left: 235px;
+}
+.composition-banner {
+  background-image: url(../assets/Group\ 38.png);
+  background-repeat: no-repeat;
+  z-index: -99;
+  margin-left: -34px;
+  margin-top: -400px;
+  height: 400px;
+}
+.composition-title {
+  padding-top: 200px;
+  margin-top: 260px;
+  margin-bottom: 45px;
+  font-size: 30px;
+  color: #ffffff;
+  font-weight: bold;
+  margin-left: 30px;
+}
+.composition-intro {
+  color: #ffffff;
+  font-size: 20px;
+  margin-left: 30px;
+}
+.choose-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+button,
 .selected {
-  background-color: #007bff; /* 색상은 필요에 따라 변경 가능 */
+  width: 113px;
+  height: 36px;
+  border-radius: 30px;
+  border-style: none;
   color: #fff;
-  border: 1px solid #007bff;
+  font-size: 15px;
+  margin-right: 23px;
+  margin-bottom: 80px;
+}
+
+button {
+  background-color: #22263d;
+}
+.selected {
+  background-color: #7c93c3;
+}
+
+.talk-yoursong {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+.favorite-q {
+  font-size: 13px;
+  color: #ffffff;
+}
+.favorite-input {
+  border-radius: 7px;
+  border-style: none;
+  width: 240px;
+  height: 15px;
+  padding: 10px;
+}
+.go {
+  margin-top: 40px;
+  width: 150px;
+}
+.alert {
+  color: #fa3535;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.alert-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
 }

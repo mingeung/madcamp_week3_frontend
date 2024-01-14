@@ -56,13 +56,17 @@ const Page5composition = () => {
 
   return (
     <div className="container">
-      <div className="head">
-        <h1>작곡하기</h1>
-        <h3>이제 내가 좋아하는 노래를 직접 만들어 들어요</h3>
+      <div className="composition-banner">
+        <p className="composition-title">작곡하기</p>
+        <p className="composition-intro">
+          이제 내가 좋아하는 노래를 직접 만들어 들어요
+        </p>
       </div>
       <div className="select-genres">
-        <p>작곡하고 싶은 장르를 선택해주세요</p>
-        {genreError && <p>**장르를 선택해주세요**</p>}
+        <div className="alert-box">
+          <p className="choose-title">작곡하고 싶은 장르를 선택해주세요</p>
+          {genreError && <p className="alert">*장르를 선택해주세요</p>}
+        </div>
         <button
           onClick={() => handleButtonClick("classic")}
           className={buttonStates.classic ? "selected" : ""}
@@ -95,26 +99,31 @@ const Page5composition = () => {
         </button>
       </div>
       <div className="favorite-songs">
-        <p>{nickname}님이 좋아하는 노래를 말해주세요!</p>
-        {inputErrror && <p>**빈칸을 입력해주세요**</p>}
-        <p>가수</p>
+        <div className="alert-box">
+          <p className="talk-yoursong">
+            {nickname}님이 좋아하는 노래를 말해주세요!
+          </p>
+          {inputErrror && <p className="alert">*빈칸을 입력해주세요</p>}
+        </div>
+        <p className="favorite-q">가수</p>
         <input
           type="text"
-          name="favorite-singer"
+          className="favorite-input"
           placeholder="가수"
           value={inputSinger}
           onChange={handleInputSigner}
         />
-        <p>제목</p>
+        <p className="favorite-q">제목</p>
         <input
           type="text"
-          name="favorite-song"
+          className="favorite-input"
           placeholder="제목"
           value={inputTitle}
           onChange={handleInputTitle}
         />
       </div>
       <button
+        className="go"
         type="button"
         onClick={() => {
           handleCompositionStart();
