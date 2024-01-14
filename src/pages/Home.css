@@ -4,7 +4,11 @@ body {
   background-color: #161728;
 }
 
-/* .container {
-  padding-top: 70px; 
-  margin-left: 500px;
-} */
+.search-bar-container {
+  margin-top: 30px;
+}
+
+.search-input {
+  color: #ffffff;
+  font-size: 15px;
+}

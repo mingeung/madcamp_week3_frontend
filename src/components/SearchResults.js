@@ -5,7 +5,10 @@ import fetchSearchResults from "../utils/fetchSearchresults";
 import fetchSpotifyToken from "../utils/spotifyApi"; // 토큰 얻는 파일
 import getActiveDeviceId from "../to/getActiveDeviceId";
 import fetchPlay from "../utils/fetchPlay";
-
+import "./SearchResults.css";
+import { FaRegHeart } from "react-icons/fa6";
+import { FaCirclePlay } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa6";
 function SearchResults() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,6 +19,14 @@ function SearchResults() {
   const [PressMusic, setPressMusic] = useState(null);
   const [playResults, setPlayResults] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [heartStates, setHeartStates] = useState(false);
+  // 로컬 스토리지에서 저장된 하트 상태 가져오기
+  useEffect(() => {
+    const storedHeartStates =
+      JSON.parse(localStorage.getItem("heartStates")) || {};
+    setHeartStates(storedHeartStates);
+  }, []);
+
   //검색 기록 가져오기
   useEffect(() => {
     const fetchData = async () => {
@@ -47,24 +58,61 @@ function SearchResults() {
       console.log("Error fetching data:", error);
     }
   };
-  //음원 보관 함수
   const handleFavorite = async (track) => {
-    //이미 추가한 노래인지 확인
+    //각 곡의 하트 상태
+    const currentHeartState = heartStates[track.id] || false;
+    // 이미 추가한 노래인지 확인
     const isAlreadyAdded = favorites.some(
       (favorites) => favorites.song_id === track.id
     );
+    //이미 추가한 경우에 제거
+    if (isAlreadyAdded) {
+      removeFavoriteFromLocalStorage(track.id);
+    }
+    // 각 곡의 하트 상태를 토글로 변경
+    const updatedHeartStates = {
+      ...heartStates,
+      [track.id]: !currentHeartState,
+    };
+    setHeartStates(updatedHeartStates);
+
+    // 로컬 파일로 저장
+    localStorage.setItem("heartStates", JSON.stringify(updatedHeartStates));
 
     if (!isAlreadyAdded) {
       // 추가되지 않은 경우에만 추가
-      setFavorites([
-        ...favorites,
-        {
-          song_id: track.id,
-          signer_name: track.artists[0].name,
-          song_title: track.name,
-        },
-      ]);
+      const newFavorite = {
+        song_id: track.id,
+        signer_name: track.artists[0].name,
+        song_title: track.name,
+        image_url: track.album.images[0].url,
+      };
+
+      setFavorites([...favorites, newFavorite]);
+
+      // 로컬 파일로 저장
+      saveFavoritesToLocalStorage(newFavorite);
     }
+  };
+  //로컬 스토리지에서 제거하는 함수
+  const removeFavoriteFromLocalStorage = (songId) => {
+    const updatedFavorites = favorites.filter((fav) => fav.song_id !== songId);
+    setFavorites(updatedFavorites);
+
+    //로컬 스토리지에서 해당 항목 제거
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  };
+
+  // 로컬 파일로 저장하는 함수
+  const saveFavoritesToLocalStorage = (favorite) => {
+    // 이전에 저장된 데이터 가져오기
+    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    // 새로운 데이터 추가
+    const updatedFavorites = [...storedFavorites, favorite];
+
+    // 로컬 스토리지에 저장
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
 
   useEffect(() => {
@@ -72,32 +120,48 @@ function SearchResults() {
   }, [favorites]);
 
   return (
-    <div style={{ marginLeft: "500px" }}>
-      <h2>Search Results for "{searchQuery}"</h2>
-
-      <div>
+    <div className="container">
+      <div className="grid-container">
         {searchResults.length > 0 && (
           <div>
-            <h2>Search Results</h2>
-            <ul>
+            <ul className="grid">
               {searchResults.map((track, index) => (
-                <li key={index}>
-                  <strong>{track.name}</strong> by {track.artists[0].name}
-                  <p>Release Date: {track.album.release_date}</p>
+                <li className="list" key={index}>
+                  {/* <p className="">Release Date: {track.album.release_date}</p> */}
+
                   <img
+                    className="image"
                     src={track.album.images[0].url}
                     alt={track.album.name}
-                    style={{ width: "100px", height: "100px" }}
                   />
-                  <button onClick={() => handlePlayPause(track)}>
-                    {isPlaying ? "정지" : "재생"}
-                  </button>
-                  <button
-                    className="btn-favorite"
-                    onClick={() => handleFavorite(track)}
-                  >
-                    보관함에 담기
-                  </button>
+
+                  <div className="song-intro">
+                    <p className="song-title">{track.name}</p>
+                    <p className="artist">{track.artists[0].name}</p>
+                    {/* <p className="genres">{track.artists[0].genres}</p> */}
+                  </div>
+
+                  <FaCirclePlay
+                    onClick={() => handlePlayPause(track)}
+                    className="btn-play"
+                    color="#7c93c3"
+                    size={34}
+                  />
+                  {heartStates[track.id] ? (
+                    <FaHeart
+                      size={30}
+                      className="btn-favorite"
+                      onClick={() => handleFavorite(track)}
+                      color="#7c93c3"
+                    />
+                  ) : (
+                    <FaRegHeart
+                      size={30}
+                      className="btn-favorite"
+                      onClick={() => handleFavorite(track)}
+                      color="#7c93c3"
+                    />
+                  )}
                 </li>
               ))}
             </ul>

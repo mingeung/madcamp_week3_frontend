@@ -13,6 +13,7 @@ function Sidebar() {
   const pathName = useLocation().pathname;
 
   const menus = [
+    { name: "home", path: "/home" },
     { name: "프로필", path: "/profile" },
     { icon: <FaHeart />, name: "보관함", path: "/save" },
     { icon: <IoChatbubble />, name: "채팅방", path: "/chat" },
