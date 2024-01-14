@@ -31,54 +31,56 @@ const SignUp = () => {
   };
 
   return (
-    <div className="container">
-      <h2>회원가입</h2>
-      <div className="signup-container">
-        <div>
-          <input
-            className="input-box"
-            type="text"
-            name="input_id"
-            placeholder="아이디"
-            value={inputNickName}
-            onChange={handleInputNickName}
-          />
-        </div>
-        <div>
-          <input
-            className="input-box"
-            type="text"
-            name="input_nickname"
-            placeholder="닉네임"
-            value={inputSignId}
-            onChange={handleInputSignId}
-          />
-        </div>
-        <div>
-          <input
-            className="input-box"
-            type="password"
-            name="input_pw"
-            placeholder="비밀번호"
-            value={inputSignPw}
-            onChange={handleInputSignPw}
-          />
-        </div>
+    <div className="sign-up">
+      <div className="container">
+        <h2>회원가입</h2>
+        <div className="signup-container">
+          <div>
+            <input
+              className="input-box"
+              type="text"
+              name="input_id"
+              placeholder="아이디"
+              value={inputNickName}
+              onChange={handleInputNickName}
+            />
+          </div>
+          <div>
+            <input
+              className="input-box"
+              type="text"
+              name="input_nickname"
+              placeholder="닉네임"
+              value={inputSignId}
+              onChange={handleInputSignId}
+            />
+          </div>
+          <div>
+            <input
+              className="input-box"
+              type="password"
+              name="input_pw"
+              placeholder="비밀번호"
+              value={inputSignPw}
+              onChange={handleInputSignPw}
+            />
+          </div>
 
-        <div>
-          <input
-            className="input-box"
-            type="password"
-            name="input_re_pw"
-            placeholder="비밀번호 확인"
-            value={inputReSignPw}
-            onChange={handleInputReSignPw}
-          />
-        </div>
-        <div>
-          <button className="btn-pw" type="button" onClick={onClickSignUp}>
-            회원가입
-          </button>
+          <div>
+            <input
+              className="input-box"
+              type="password"
+              name="input_re_pw"
+              placeholder="비밀번호 확인"
+              value={inputReSignPw}
+              onChange={handleInputReSignPw}
+            />
+          </div>
+          <div>
+            <button className="btn-pw" type="button" onClick={onClickSignUp}>
+              회원가입
+            </button>
+          </div>
         </div>
       </div>
     </div>

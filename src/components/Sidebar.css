@@ -1,8 +1,10 @@
+/* sidebar.css */
 .sidebar {
   position: fixed;
   top: 0;
   bottom: 0;
-  left: 0;
+  padding-left: 24px;
+  padding-top: 100px;
   height: 100%;
   width: 177px;
   z-index: 99;
@@ -10,10 +12,17 @@
 }
 
 .sidebar-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
   color: #ffffff;
   text-decoration: none;
+  margin-bottom: 20px;
 }
 
 .sidebar-item.active {
-  color: "7C93C3";
+  display: flex;
+  flex-direction: row;
+  color: #7c93c3;
 }

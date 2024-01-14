@@ -1,6 +1,7 @@
 .chat-rooms {
   display: flex;
   overflow-x: auto;
+  padding-top: 75px;
 }
 .chat-box-rock,
 .chat-box-kpop,

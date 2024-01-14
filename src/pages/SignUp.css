@@ -1,7 +1,20 @@
 :root {
   --primary-color: #7c93c3;
 }
+body {
+  margin: 0;
+  padding: 0;
+}
 
+.sign-up {
+  background-image: url(../assets/login_background.png);
+  background-repeat: repeat-x;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
 .container {
   position: relative;
 }
@@ -14,12 +27,13 @@ h2 {
   font-size: 55px;
   color: #ffffff;
   font-weight: "bold";
-  margin-top: 130px;
+  margin-top: 110px;
 }
 .signup-container {
   position: absolute;
-  width: 330px;
-  height: 330px;
+  width: 350px;
+  height: 420px;
+  padding: 30px 0px 20px 35px;
   top: 50%;
   left: 50%;
   margin: 270px 0 0 -195px;
@@ -32,7 +46,7 @@ h2 {
   border-radius: 7px;
   background-color: #333333;
   border-style: none;
-  margin-bottom: 29px;
+  margin-bottom: 40px;
   padding: 10px;
   color: #ffffff;
   font-size: 13px;

@@ -55,7 +55,7 @@ const Page5composition = () => {
   };
 
   return (
-    <div style={{ marginLeft: "500px" }}>
+    <div className="container">
       <div className="head">
         <h1>작곡하기</h1>
         <h3>이제 내가 좋아하는 노래를 직접 만들어 들어요</h3>

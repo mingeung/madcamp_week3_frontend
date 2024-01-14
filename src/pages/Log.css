@@ -1,10 +1,11 @@
 :root {
   --primary-color: #7c93c3;
 }
-
 body {
   margin: 0;
   padding: 0;
+}
+.login {
   background-image: url(../assets/login_background.png);
   background-size: cover;
   background-position: center;
@@ -22,7 +23,7 @@ h2 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 55px;
+  font-size: 50px;
   color: #ffffff;
   font-weight: "bold";
   margin-top: 170px;
@@ -71,13 +72,13 @@ h2 {
 }
 .sign-up-text {
   color: #ffffff;
-  font-size: 10px;
+  font-size: 12px;
   width: max-content;
 }
 
 .go-sign-up {
   color: #ffffff;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
   text-decoration: none;
   width: max-content;

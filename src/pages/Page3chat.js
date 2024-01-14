@@ -9,7 +9,7 @@ const Page3chat = () => {
     navigate("/chat-rock");
   };
   return (
-    <div style={{ marginLeft: "300px" }}>
+    <div className="container">
       <h1>채팅방 페이지 입니다.</h1>
       <p>혼자 노래 듣고 있나요? </p>
       <p>이제 대화하면서 노래를 들어요</p>

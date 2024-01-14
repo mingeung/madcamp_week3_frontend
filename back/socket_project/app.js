@@ -1,5 +1,4 @@
 //app.js
-WDS_SOCKET_PORT = 0;
 const express = require("express");
 const http = require("http");
 const socketIO = require("socket.io");
@@ -14,7 +13,7 @@ const io = socketIO(httpServer, {
   },
 });
 
-const PORT = 3000;
+const PORT = 3000; // 여기 주소
 
 io.on("connection", (socket) => {
   console.log("connection");
@@ -23,8 +22,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send message", (item) => {
+    //send message 이벤트 발생
     console.log(item.name + ": " + item.message);
     io.emit("receive message", { name: item.name, message: item.message });
+    //클라이언트에게 이벤트 보냄
   });
 });
 

@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
-
+import { GoHomeFill } from "react-icons/go";
+import { FaSearch } from "react-icons/fa";
 function Header() {
   //검색 기능
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    // 검색 버튼 클릭 시 처리할 로직을 여기에 추가
-    // 예: 검색 결과 페이지로 이동
-    // navigate(`/search-results?query=${searchQuery}`);
     navigate(`/search-results`, { state: { query: searchQuery } });
   };
 
@@ -18,7 +16,7 @@ function Header() {
     <div>
       <div className="navbar">
         <Link className="navbarMenu" to={"/Home"}>
-          Home
+          <GoHomeFill />
         </Link>
         <div className="search-bar-container">
           <input
@@ -28,9 +26,7 @@ function Header() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="search-input"
           />
-          <button onClick={handleSearch} className="search-button">
-            검색
-          </button>
+          <FaSearch onClick={handleSearch} className="search-button" />
         </div>
       </div>
     </div>
