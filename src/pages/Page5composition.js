@@ -55,7 +55,7 @@ const Page5composition = () => {
   };
 
   return (
-    <div className="container">
+    <div className="composition-container">
       <div className="composition-banner">
         <p className="composition-title">작곡하기</p>
         <p className="composition-intro">
