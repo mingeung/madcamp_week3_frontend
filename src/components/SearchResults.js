@@ -16,7 +16,6 @@ function SearchResults() {
   const [searchResults, setSearchResults] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeDeviceId, setActiveDeviceId] = useState(null);
-  const [PressMusic, setPressMusic] = useState(null);
   const [playResults, setPlayResults] = useState([]);
   const [favorites, setFavorites] = useState([]);
 
@@ -45,8 +44,6 @@ function SearchResults() {
   //음원 듣기
   const handlePlayPause = async (track) => {
     try {
-      //클릭된 정보를 PressMusic에 저장
-      setPressMusic(track);
       const access_token = await fetchSpotifyToken(); // access token 받기
       const results = await fetchPlay(access_token, track.id);
       setPlayResults(results);
@@ -57,6 +54,7 @@ function SearchResults() {
       console.log("Error fetching data:", error);
     }
   };
+
   const handleFavorite = async (track) => {
     // 이미 추가한 노래인지 확인
     const isAlreadyAdded = favorites.some(
