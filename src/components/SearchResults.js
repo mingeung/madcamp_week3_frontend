@@ -19,13 +19,12 @@ function SearchResults() {
   const [PressMusic, setPressMusic] = useState(null);
   const [playResults, setPlayResults] = useState([]);
   const [favorites, setFavorites] = useState([]);
-  const [heartStates, setHeartStates] = useState(false);
-  // 로컬 스토리지에서 저장된 하트 상태 가져오기
+
   useEffect(() => {
-    const storedHeartStates =
-      JSON.parse(localStorage.getItem("heartStates")) || {};
-    setHeartStates(storedHeartStates);
-  }, []);
+    // 로컬 스토리지에서 저장된 즐겨찾기 데이터 가져오기
+    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(storedFavorites);
+  }, []); // 초기 렌더링 시에만 실행
 
   //검색 기록 가져오기
   useEffect(() => {
@@ -59,8 +58,6 @@ function SearchResults() {
     }
   };
   const handleFavorite = async (track) => {
-    //각 곡의 하트 상태
-    const currentHeartState = heartStates[track.id] || false;
     // 이미 추가한 노래인지 확인
     const isAlreadyAdded = favorites.some(
       (favorites) => favorites.song_id === track.id
@@ -69,15 +66,6 @@ function SearchResults() {
     if (isAlreadyAdded) {
       removeFavoriteFromLocalStorage(track.id);
     }
-    // 각 곡의 하트 상태를 토글로 변경
-    const updatedHeartStates = {
-      ...heartStates,
-      [track.id]: !currentHeartState,
-    };
-    setHeartStates(updatedHeartStates);
-
-    // 로컬 파일로 저장
-    localStorage.setItem("heartStates", JSON.stringify(updatedHeartStates));
 
     if (!isAlreadyAdded) {
       // 추가되지 않은 경우에만 추가
@@ -147,7 +135,7 @@ function SearchResults() {
                     color="#7c93c3"
                     size={34}
                   />
-                  {heartStates[track.id] ? (
+                  {favorites.some((fav) => fav.song_id === track.id) ? (
                     <FaHeart
                       size={30}
                       className="btn-favorite"
