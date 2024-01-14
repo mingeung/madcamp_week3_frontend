@@ -1,0 +1,66 @@
+.chat-rooms {
+  display: flex;
+  overflow-x: auto;
+}
+.chat-box-rock,
+.chat-box-kpop,
+.chat-box-ballade,
+.chat-box-dance,
+.chat-box-jpop {
+  flex: 0 0 auto; /* 고정된 너비로 설정 */
+  width: 200px; /* 각 채팅방의 너비 설정 */
+  margin-right: 20px; /* 각 채팅방 사이의 간격 설정 */
+}
+
+.chat-box-rock {
+  position: relative;
+  border-radius: 20px;
+  width: 240px;
+  height: 160px;
+  background-image: url("../assets/rock.png");
+  background-size: cover;
+}
+.chat-box-kpop {
+  position: relative;
+  border-radius: 20px;
+  width: 240px;
+  height: 160px;
+  background-image: url("../assets/kpop.png");
+  background-size: cover;
+}
+.chat-box-ballade {
+  position: relative;
+  border-radius: 20px;
+  width: 240px;
+  height: 160px;
+  background-image: url("../assets/ballade.png");
+  background-size: cover;
+}
+.chat-box-dance {
+  position: relative;
+  border-radius: 20px;
+  width: 240px;
+  height: 160px;
+  background-image: url("../assets/dance.png");
+  background-size: cover;
+}
+
+.chat-box-jpop {
+  position: relative;
+  border-radius: 20px;
+  width: 240px;
+  height: 160px;
+  background-image: url("../assets/jpop.png");
+  background-size: cover;
+}
+.chat-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 15px;
+  margin-left: 15px;
+  z-index: 99;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: bold;
+}
