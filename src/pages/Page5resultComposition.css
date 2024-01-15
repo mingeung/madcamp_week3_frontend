@@ -1,10 +1,29 @@
 .ai-result-container {
-  display: flex;
-  margin-top: 300px;
-  margin-left: 700px;
-  height: 100vh; /* 화면 전체 높이만큼의 공간을 차지합니다. */
+  margin-left: 235px;
 }
 
+.composition-banner {
+  background-image: url(../assets/Group\ 38.png);
+  background-repeat: no-repeat;
+  z-index: -99;
+  margin-left: -34px;
+  margin-top: -400px;
+  height: 400px;
+}
+.composition-title {
+  padding-top: 200px;
+  margin-top: 260px;
+  margin-bottom: 45px;
+  font-size: 30px;
+  color: #ffffff;
+  font-weight: bold;
+  margin-left: 30px;
+}
+.composition-intro {
+  color: #ffffff;
+  font-size: 20px;
+  margin-left: 30px;
+}
 .loader {
   margin-top: -10px;
   margin-left: 100px;
@@ -15,4 +34,25 @@
   font-size: 20px;
   margin-left: -100px;
   margin-top: 50px;
+}
+.generated-by-ai {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+.ai-song {
+  color: #ffffff;
+  font-size: 20px;
+}
+.ai-lyrics {
+  color: #ffffff;
+  font-size: 20px;
+}
+.ai-chord {
+  color: #ffffff;
+  font-size: 20px;
+}
+.ai-result-image {
+  width: 250px;
+  height: 250px;
 }

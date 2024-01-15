@@ -26,7 +26,7 @@ function Sidebar() {
     <div className="sidebar">
       {menus.map((menu, index) => {
         return (
-          <Link to={menu.path} key={index}>
+          <Link to={menu.path} key={index} style={{ textDecoration: "none" }}>
             <SidebarItem
               icon={menu.icon}
               menu={menu}

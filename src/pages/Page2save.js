@@ -58,15 +58,19 @@ const Page2save = () => {
         <ul className="save-grid">
           {favorites.map((favorite, index) => (
             <li className="save-list" key={index}>
-              <img
-                className="image"
-                src={favorite.image_url}
-                alt={favorite.song_title}
-              />
+              <div className="img-box">
+                <img
+                  className="image"
+                  src={favorite.image_url}
+                  alt={favorite.song_title}
+                />
+              </div>
+
               <div className="song-intro">
                 <p className="song-title">{favorite.song_title}</p>
                 <p className="artist">{favorite.signer_name}</p>
               </div>
+
               <FaCirclePlay
                 onClick={() => handlePlayPause(favorite)}
                 className="btn-play"

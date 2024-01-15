@@ -31,13 +31,12 @@ export default function Page5resultComposition() {
           }
         );
         //응답에서 lyrics와 chord 정보 추출
-        const { generated_lyrics, generated_chord, image } = response.data;
+        const { generated_lyrics, generated_chord } = response.data;
 
         setLyrics(generated_lyrics);
         setChord(generated_chord);
-        setImage(image);
+
         setLoading(false);
-        console.log("image:", image);
 
         // 여기서 response를 사용하여 필요한 작업 수행
       } catch (error) {
@@ -52,9 +51,10 @@ export default function Page5resultComposition() {
             favorite_artist: inputSinger,
           }
         );
-        const { send_file } = imageResponse.data;
+        const { image_url } = imageResponse.data;
 
-        setImage(send_file);
+        setImage(image_url);
+        console.log("img:", image_url);
       } catch (error) {
         console.error("이미지 에러 발생:", error);
       }
@@ -65,6 +65,12 @@ export default function Page5resultComposition() {
 
   return (
     <div className="ai-result-container">
+      <div className="composition-banner">
+        <p className="composition-title">작곡하기</p>
+        <p className="composition-intro">
+          내가 좋아하는 노래를 직접 만들어 들어요
+        </p>
+      </div>
       {loading ? (
         <div>
           <MutatingDots
@@ -81,10 +87,12 @@ export default function Page5resultComposition() {
         </div>
       ) : (
         <div>
-          <div>{lyrics}!</div>
-          <div>{chord}!</div>
+          <p className="generated-by-ai">AI가 만든 곡</p>
+          <div className="ai-song">
+            <div className="ai-lyrics">{lyrics}!</div>
+            <div className="ai-chord">{chord}!</div>
+          </div>
           <img src={image} className="ai-result-image" alt="ai-result-image" />
-          <p>{image}</p>
         </div>
       )}
     </div>

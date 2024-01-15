@@ -33,6 +33,11 @@ function SearchResults() {
   const handleSearch = () => {
     navigate(`/search-results`, { state: { query: searchMusic } });
   };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   //검색 기록 가져오기
   useEffect(() => {
@@ -122,55 +127,53 @@ function SearchResults() {
           placeholder="검색어를 입력하세요"
           value={searchMusic}
           onChange={(e) => setSearchMusic(e.target.value)}
+          onKeyDown={handleKeyDown}
           className="search-input"
         />
         <FaSearch onClick={handleSearch} className="search-button" />
       </div>
-      <div className="grid-container">
+      <div className="search-grid-container">
         {searchResults.length > 0 && (
-          <div>
-            <ul className="grid">
-              {searchResults.map((track, index) => (
-                <li className="list" key={index}>
-                  {/* <p className="">Release Date: {track.album.release_date}</p> */}
-
+          <ul className="search-grid">
+            {searchResults.map((track, index) => (
+              <li className="search-list" key={index}>
+                <div className="img-box">
                   <img
                     className="image"
                     src={track.album.images[0].url}
                     alt={track.album.name}
                   />
+                </div>
 
-                  <div className="song-intro">
-                    <p className="song-title">{track.name}</p>
-                    <p className="artist">{track.artists[0].name}</p>
-                    {/* <p className="genres">{track.artists[0].genres}</p> */}
-                  </div>
+                <div className="song-intro">
+                  <p className="song-title">{track.name}</p>
+                  <p className="artist">{track.artists[0].name}</p>
+                </div>
 
-                  <FaCirclePlay
-                    onClick={() => handlePlayPause(track)}
-                    className="btn-play"
+                <FaCirclePlay
+                  onClick={() => handlePlayPause(track)}
+                  className="btn-play"
+                  color="#7c93c3"
+                  size={34}
+                />
+                {favorites.some((fav) => fav.song_id === track.id) ? (
+                  <FaHeart
+                    size={30}
+                    className="btn-favorite"
+                    onClick={() => handleFavorite(track)}
                     color="#7c93c3"
-                    size={34}
                   />
-                  {favorites.some((fav) => fav.song_id === track.id) ? (
-                    <FaHeart
-                      size={30}
-                      className="btn-favorite"
-                      onClick={() => handleFavorite(track)}
-                      color="#7c93c3"
-                    />
-                  ) : (
-                    <FaRegHeart
-                      size={30}
-                      className="btn-favorite"
-                      onClick={() => handleFavorite(track)}
-                      color="#7c93c3"
-                    />
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
+                ) : (
+                  <FaRegHeart
+                    size={30}
+                    className="btn-favorite"
+                    onClick={() => handleFavorite(track)}
+                    color="#7c93c3"
+                  />
+                )}
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </div>
