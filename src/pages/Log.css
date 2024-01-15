@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+
 :root {
   --primary-color: #7c93c3;
 }
@@ -29,6 +31,7 @@ body {
   color: #ffffff;
   font-weight: "bold";
   margin-top: 180px;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .login-container {

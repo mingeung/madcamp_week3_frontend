@@ -104,21 +104,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// # 로그인 API 엔드포인트
-// @app.route('/login', methods=['POST'])
-// def login():
-//     data = request.json
-//     user_id = data.get('user_id')
-//     password = data.get('password')
-
-//     if not user_id or not password:
-//         return jsonify({'error': '아이디와 비밀번호를 입력하세요.'}), 400
-
-//     user = User.query.filter_by(user_id=user_id).first()
-//     if user and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-//         # 로그인 성공 시 사용자 프로필 반환
-//         return jsonify({'user_id': user.user_id, 'email': user.email, 'nickname': user.nickname})
-//     else:
-//         # 로그인 실패 시 null 반환
-//         return jsonify({'error': '로그인 실패'}), 401

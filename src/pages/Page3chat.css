@@ -1,5 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;400&display=swap");
+
 .container {
   margin-left: 235px;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .banner {

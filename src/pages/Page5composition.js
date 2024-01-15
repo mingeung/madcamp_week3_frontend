@@ -1,16 +1,10 @@
-//Home.js
+//Pgae5composition.js
 import React, { useState } from "react";
 import "./Page5composition.css";
 import { useNavigate } from "react-router-dom";
 
 const Page5composition = () => {
-  const [buttonStates, setButtonStates] = useState({
-    classic: false,
-    jazz: false,
-    pop: false,
-    ballad: false,
-    hipHop: false,
-  });
+  const [selectedGenre, setSelectedGenre] = useState("");
   const navigate = useNavigate();
   const [inputSinger, setInputSinger] = useState("");
   const [inputTitle, setInputTitle] = useState("");
@@ -27,31 +21,26 @@ const Page5composition = () => {
   };
 
   const handleButtonClick = (genre) => {
-    setButtonStates((prevStates) => ({
-      ...prevStates,
-      [genre]: !prevStates[genre],
-    }));
+    setSelectedGenre(genre);
     setGenreError(false);
   };
-
   const handleCompositionStart = () => {
-    //장르 선택 여부 체크
-    const isGenreSelected = Object.values(buttonStates).some(
-      (isSelected) => isSelected
-    );
-    setGenreError(!isGenreSelected);
-    //가수와 노래 제목 입력 여부 체크
+    // 가수와 노래 제목 입력 여부 체크
     setInputError(!inputTitle || !inputSinger);
 
-    if (isGenreSelected && inputTitle && inputSinger) {
-      //작곡 페이지로 넘어가기
+    if (selectedGenre && inputTitle && inputSinger) {
+      // 작곡 페이지로 넘어가기
       onClickResultPage();
+    } else {
+      setGenreError(!selectedGenre); // 장르 선택 여부 체크
     }
   };
 
   //작곡 결과 페이지로 이동
   const onClickResultPage = () => {
-    navigate("/result-composition");
+    navigate("/result-composition", {
+      state: { selectedGenre, inputTitle, inputSinger },
+    });
   };
 
   return (
@@ -69,31 +58,31 @@ const Page5composition = () => {
         </div>
         <button
           onClick={() => handleButtonClick("classic")}
-          className={buttonStates.classic ? "selected" : ""}
+          className={selectedGenre === "classic" ? "selected" : ""}
         >
           클래식
         </button>
         <button
           onClick={() => handleButtonClick("jazz")}
-          className={buttonStates.jazz ? "selected" : ""}
+          className={selectedGenre === "jazz" ? "selected" : ""}
         >
           재즈
         </button>
         <button
           onClick={() => handleButtonClick("pop")}
-          className={buttonStates.pop ? "selected" : ""}
+          className={selectedGenre === "pop" ? "selected" : ""}
         >
           팝
         </button>
         <button
           onClick={() => handleButtonClick("ballad")}
-          className={buttonStates.ballad ? "selected" : ""}
+          className={selectedGenre === "ballad" ? "selected" : ""}
         >
           발라드
         </button>
         <button
           onClick={() => handleButtonClick("hipHop")}
-          className={buttonStates.hipHop ? "selected" : ""}
+          className={selectedGenre === "hipHop" ? "selected" : ""}
         >
           힙합
         </button>
