@@ -52,12 +52,12 @@ const Page2save = () => {
 
   return (
     <div className="container">
-      <h1>보관함 페이지 입니다.</h1>
+      <p className="save-title">내 보관함</p>
 
-      <div className="grid-container">
-        <ul className="grid">
+      <div className="save-grid-container">
+        <ul className="save-grid">
           {favorites.map((favorite, index) => (
-            <li className="list" key={index}>
+            <li className="save-list" key={index}>
               <img
                 className="image"
                 src={favorite.image_url}

@@ -1,15 +1,17 @@
 .container {
   margin-left: 235px;
 }
+
 .banner {
-  background-image: url(../assets/Group\ 36-2.png);
+  background-image: url(../assets/Group\ 36-3.png);
   background-repeat: no-repeat;
   z-index: -99;
-  margin-left: -34px;
-  margin-top: -32px;
+  height: 400px;
+  margin-top: -100px;
+  margin-left: -40px;
 }
 .title {
-  margin-top: 60px;
+  padding-top: 140px;
   margin-bottom: 45px;
   font-size: 30px;
   color: #ffffff;
@@ -25,7 +27,7 @@
   color: #ffffff;
   font-size: 25px;
   font-weight: bold;
-  margin-top: 230px;
+  margin-top: 130px;
   margin-left: 30px;
 }
 /* 스크롤 바 디자인 숨기기 */
@@ -34,6 +36,8 @@
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  margin-top: 130px;
+  margin-left: -10px;
 }
 .chat-rooms::-webkit-scrollbar {
   display: none;

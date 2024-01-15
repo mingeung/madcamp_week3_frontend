@@ -1,0 +1,57 @@
+:root {
+  --primary-color: #7c93c3;
+}
+.container {
+  margin-left: 235px;
+}
+
+.analysis-banner {
+  background-image: url(../assets/Group\ 41-3.png);
+  background-repeat: no-repeat;
+  z-index: -99;
+  height: 400px;
+  margin-top: -100px;
+  margin-left: -40px;
+}
+.analysis-title {
+  padding-top: 140px;
+  font-size: 30px;
+  color: #ffffff;
+  font-weight: bold;
+  margin-left: 30px;
+  margin-bottom: 45px;
+}
+.analysis-intro {
+  color: #ffffff;
+  font-size: 20px;
+  margin-left: 30px;
+}
+.analysis-main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 400px;
+}
+
+.analysis-compelete {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 100px;
+  margin-left: 50px;
+}
+
+.analysis-box {
+  width: max-content;
+  height: fit-content;
+  color: #ffffff;
+  font-size: 15px;
+  border-radius: 10px;
+  border: #7c93c3 solid 2px;
+  padding: 5px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+.analysis-text {
+  color: #ffffff;
+}
