@@ -19,13 +19,23 @@ const Page1profile = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      console.log(user_id);
       try {
-        const response = await axios.get(`http://172.10.7.24:80/users`);
-        const userData = response.data;
-
-        setUserId(userData.user_id);
-        setUserEmail(userData.email);
-        setNickname(userData.nickname);
+        const response = await axios.get("http://172.10.7.24:80/users", {
+          params: {
+            user_id: user_id,
+          },
+          headers: {
+            "Content-Type": "application/json", // Set the Content-Type header to application/json
+          },
+        });
+        console.log(response.data);
+        // console.log("되나");
+        // const userData = response.data;
+        // console.log(userData);
+        // setUserId(userData.user_id);
+        // setUserEmail(userData.email);
+        // setNickname(userData.nickname);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

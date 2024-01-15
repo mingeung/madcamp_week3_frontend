@@ -42,9 +42,11 @@ const Login = () => {
       });
 
       setResponseData(response.data);
+      const user = response.data.user;
 
       navigate("/home");
-      login(response.user_id);
+      login(user.user_id);
+      console.log(user.user_id);
     } catch (e) {
       console.log("오류 발생:", e);
     }
