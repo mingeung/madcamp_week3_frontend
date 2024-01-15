@@ -32,12 +32,12 @@ const SignUp = () => {
 
   return (
     <div className="sign-up">
-      <div className="container">
-        <h2>회원가입</h2>
+      <div className="signup-container-box">
+        <h2 className="signup-title">회원가입</h2>
         <div className="signup-container">
           <div>
             <input
-              className="input-box"
+              className="sign-up-input-box"
               type="text"
               name="input_id"
               placeholder="아이디"
@@ -47,7 +47,7 @@ const SignUp = () => {
           </div>
           <div>
             <input
-              className="input-box"
+              className="sign-up-input-box"
               type="text"
               name="input_nickname"
               placeholder="닉네임"
@@ -57,7 +57,7 @@ const SignUp = () => {
           </div>
           <div>
             <input
-              className="input-box"
+              className="sign-up-input-box"
               type="password"
               name="input_pw"
               placeholder="비밀번호"
@@ -68,7 +68,7 @@ const SignUp = () => {
 
           <div>
             <input
-              className="input-box"
+              className="sign-up-input-box"
               type="password"
               name="input_re_pw"
               placeholder="비밀번호 확인"

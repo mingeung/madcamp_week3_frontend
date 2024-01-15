@@ -24,21 +24,12 @@ import Statistics from "./pages/Page6Statistics";
 import SearchResults from "./components/SearchResults";
 import ResultComposition from "./pages/Page5resultComposition";
 import Page3chatRock from "./pages/Page3chatRock";
+import axios from "axios";
 
-function App() {
-  //데이터가 잘 받아와지는지 확인
-  const [data, setData] = useState(null);
-
+const App = () => {
+  const navigate = useNavigate();
   useEffect(() => {
-    fetch("/register")
-      .then(
-        // response 객체의 json() 이용하여 json 데이터를 객체로 변화
-        (res) => res.json()
-      )
-      .then(
-        // 데이터를 콘솔에 출력
-        (data) => console.log(data)
-      );
+    navigate("/login");
   }, []);
 
   return (
@@ -56,7 +47,6 @@ function App() {
       <Routes>
         <Route path="/login" element={<Log />} />
         <Route path="/signup" element={<SignUp />} />
-
         <Route path="/home" element={<Home />} />
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/profile" element={<Profile />} />
@@ -71,6 +61,6 @@ function App() {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;
