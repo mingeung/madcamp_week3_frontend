@@ -6,11 +6,13 @@ import SignUp from "./SignUp";
 import Home from "./Home";
 import { useNavigate } from "react-router-dom";
 import "./Log.css";
+import { useAuth } from "../AuthContext";
 
 const Login = () => {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
   const [responseData, setResponseData] = useState("");
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   //input data의 변화가 있을 때마다 value 값을 변경해서 useState 해준다.
@@ -33,18 +35,16 @@ const Login = () => {
 
   //login 버튼 클릭 이벤트
   const onClickLogin = async () => {
-    console.log("click login");
-    console.log("id:", inputId, "password:", inputPw);
     try {
-      console.log("try 실행");
       const response = await axios.post("http://172.10.7.24:80/login", {
         user_id: inputId,
         password: inputPw,
       });
-      console.log("await 실행");
+
       setResponseData(response.data);
-      console.log(inputId, inputPw);
-      console.log(response.data);
+
+      navigate("/home");
+      login(response.user_id);
     } catch (e) {
       console.log("오류 발생:", e);
     }

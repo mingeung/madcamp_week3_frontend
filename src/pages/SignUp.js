@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [inputSignId, setInputSignId] = useState("");
   const [inputNickName, setInputNickName] = useState("");
   const [inputSignPw, setInpuSigntPw] = useState("");
   const [inputReSignPw, setInputReSignPw] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [responseData, setResponseData] = useState("");
+  const [notSameError, setNotSameError] = useState(false);
 
   //input data의 변화가 있을 때마다 value 값을 변경해서 useState 해준다.
   const handleInputSignId = (e) => {
@@ -47,6 +49,11 @@ const SignUp = () => {
       console.log(response.data);
     } catch (e) {
       console.log("오류 발생:", e);
+    }
+    if (inputSignPw === inputReSignPw) {
+      navigate("/login");
+    } else if (inputSignPw !== inputReSignPw) {
+      setNotSameError(true);
     }
   };
 
@@ -106,6 +113,9 @@ const SignUp = () => {
               onChange={handleInputReSignPw}
             />
           </div>
+          {notSameError && (
+            <p className="alert">비밀번호가 일치하지 않습니다.</p>
+          )}
           <div>
             <button
               className="signup-button"

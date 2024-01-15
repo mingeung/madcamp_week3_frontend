@@ -1,0 +1,73 @@
+.profile-card {
+  position: relative;
+}
+.profile-text-box {
+  width: 400px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -150px 0 -0 -150px;
+}
+.box {
+  width: 400px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -200px 0 -0 -150px;
+}
+.profile-card {
+  background-image: url("../assets/Group\ 42.png");
+  height: 440px;
+  margin: auto;
+  z-index: -99;
+}
+.photo-nickname-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60%;
+}
+
+.profile-nick-name {
+  color: #ffffff;
+  font-size: 20px;
+  margin-top: 40px;
+  margin-bottom: 0;
+}
+.email-id-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 40%;
+  margin-top: 50px;
+}
+.row-dir {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  height: 50px;
+}
+.bold-text {
+  font-size: 20px;
+  color: #ffffff;
+  font-weight: bold;
+}
+.user-info {
+  font-size: 20px;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+.bold-email-text {
+  font-size: 20px;
+  color: #ffffff;
+  font-weight: bold;
+}
+.user-email-info {
+  font-size: 20px;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
