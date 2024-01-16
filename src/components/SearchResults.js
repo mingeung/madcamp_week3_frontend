@@ -17,7 +17,7 @@ function SearchResults() {
   const location = useLocation();
   const searchQuery = location.state?.query || "";
   const [searchResults, setSearchResults] = useState([]);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [activeDeviceId, setActiveDeviceId] = useState(null);
   const [playResults, setPlayResults] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -56,14 +56,21 @@ function SearchResults() {
   }, [location.state?.query]);
 
   //음원 듣기
-  const handlePlayPause = async (track) => {
+  let audio;
+  const handlePlayPause = async (e, track) => {
     try {
       const access_token = await fetchSpotifyToken(); // access token 받기
-      const results = await fetchPlay(access_token, track.id);
-      setPlayResults(results);
-      window.location.href = results;
+      e.preventDefault();
 
-      navigate("/playback", { state: { playResults } });
+      if (isPlaying) {
+        await fetchPlay(access_token, track.id, false); //stop
+        console.log("isplaying", isPlaying);
+      } else {
+        await fetchPlay(access_token, track.id, true); //play
+
+        console.log("isplaying", isPlaying);
+      }
+      setIsPlaying(!isPlaying);
     } catch (error) {
       console.log("Error fetching data:", error);
     }
@@ -151,7 +158,7 @@ function SearchResults() {
                 </div>
 
                 <FaCirclePlay
-                  onClick={() => handlePlayPause(track)}
+                  onClick={(e) => handlePlayPause(e, track)}
                   className="btn-play"
                   color="#7c93c3"
                   size={34}
@@ -179,5 +186,4 @@ function SearchResults() {
     </div>
   );
 }
-
 export default SearchResults;

@@ -1,5 +1,7 @@
 // fetchPlay.js
-const fetchPlay = async (accessToken, track_id) => {
+let audio;
+
+const fetchPlay = async (accessToken, track_id, isPlaying) => {
   const apiUrl = `https://api.spotify.com/v1/tracks/${track_id}`;
 
   try {
@@ -12,15 +14,37 @@ const fetchPlay = async (accessToken, track_id) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("Play Info:", data.preview_url); // 이거 잘 나옴!
-      return data.preview_url || [];
+      const previewUrl = data.preview_url;
+
+      if (previewUrl) {
+        if (isPlaying) {
+          playAudio(previewUrl);
+        } else {
+          stopAudio();
+        }
+      } else {
+        console.error("No preview URL available for the selected track");
+      }
     } else {
-      console.error("Failed to fetch search results");
-      return [];
+      console.error("Failed to fetch track information");
     }
   } catch (error) {
-    console.error("Error fetching search results:", error);
-    return [];
+    console.error("Error fetching track information:", error);
+  }
+};
+
+const playAudio = (previewUrl) => {
+  if (!audio) {
+    audio = new Audio(previewUrl);
+  } else {
+    audio.src = previewUrl; // Reuse the existing Audio element
+  }
+  audio.play();
+};
+
+const stopAudio = () => {
+  if (audio && !audio.paused) {
+    audio.pause();
   }
 };
 

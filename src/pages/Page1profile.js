@@ -14,7 +14,6 @@ const Page1profile = () => {
   const [nickname, setNickname] = useState("");
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
-
   const { user_id } = useAuth();
 
   useEffect(() => {
