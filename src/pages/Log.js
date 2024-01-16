@@ -14,14 +14,17 @@ const Login = () => {
   const [responseData, setResponseData] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(true);
 
   //input data의 변화가 있을 때마다 value 값을 변경해서 useState 해준다.
   const handleInputId = (e) => {
     setInputId(e.target.value);
+    updateIsLoginButtonDisabled();
   };
 
   const handleInputPw = (e) => {
     setInputPw(e.target.value);
+    updateIsLoginButtonDisabled();
   };
 
   //회원가입 페이지 이동
@@ -52,6 +55,14 @@ const Login = () => {
     }
   };
 
+  const updateIsLoginButtonDisabled = () => {
+    if (inputId !== "" && inputPw !== "") {
+      setIsLoginButtonDisabled(false);
+    } else {
+      setIsLoginButtonDisabled(true);
+    }
+  };
+
   return (
     <div className="login">
       <div className="total-container">
@@ -79,7 +90,10 @@ const Login = () => {
           </div>
           <div>
             <button
-              className="login-button"
+              className={`login-button ${
+                isLoginButtonDisabled ? "disabled" : "enabled"
+              }`}
+              disabled={isLoginButtonDisabled}
               type="button"
               onClick={onClickLogin}
             >

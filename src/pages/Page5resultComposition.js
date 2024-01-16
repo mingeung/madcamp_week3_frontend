@@ -5,6 +5,7 @@ import "./Page5resultComposition.css";
 import { MutatingDots } from "react-loader-spinner";
 import "./Page5resultComposition.css";
 import axios from "../axiosConfig";
+import * as Tone from "tone";
 
 export default function Page5resultComposition() {
   const location = useLocation();
@@ -12,57 +13,41 @@ export default function Page5resultComposition() {
   const { selectedGenre, inputTitle, inputSinger } = state || {};
   const [loading, setLoading] = useState(true);
   const nickname = "민승"; //임시 닉네임
+  const [songTitle, setSongTitle] = useState("");
   const [lyrics, setLyrics] = useState("");
   const [chord, setChord] = useState("");
   const [image, setImage] = useState("");
+  //실제 음악 듣기
+  // Create a synth and connect it to the main output (your speakers)
+  const synth = new Tone.Synth().toDestination();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log(selectedGenre);
-      console.log(inputTitle);
-      console.log(inputSinger);
-      try {
-        const response = await axios.post(
-          "http://172.10.7.24:80/generate-lyrics-and-chord",
-          {
-            genre: selectedGenre,
-            favorite_song: inputTitle,
-            favorite_artist: inputSinger,
-          }
-        );
-        //응답에서 lyrics와 chord 정보 추출
-        const { generated_lyrics, generated_chord } = response.data;
+  // Play the chords C Am F G7
+  const playChords = async () => {
+    await Tone.start();
 
-        setLyrics(generated_lyrics);
-        setChord(generated_chord);
+    const now = Tone.now();
 
-        setLoading(false);
+    // Define the chords and their durations
+    const chords = [
+      { note: "C4", duration: "4n" },
+      { note: "Am5", duration: "4n" },
+      { note: "F6", duration: "4n" },
+      { note: "G7", duration: "4n" },
+      { note: "C4", duration: "4n" },
+      { note: "Am5", duration: "4n" },
+      { note: "F6", duration: "4n" },
+      { note: "G7", duration: "4n" },
+      { note: "C4", duration: "4n" },
+      { note: "Am5", duration: "4n" },
+      { note: "F6", duration: "4n" },
+      { note: "G7", duration: "4n" },
+    ];
 
-        // 여기서 response를 사용하여 필요한 작업 수행
-      } catch (error) {
-        console.error("에러 발생:", error);
-      }
-      try {
-        const imageResponse = await axios.post(
-          "http://172.10.7.24:80/generate-image",
-          {
-            genre: selectedGenre,
-            favorite_song: inputTitle,
-            favorite_artist: inputSinger,
-          }
-        );
-        const { image_url } = imageResponse.data;
-
-        setImage(image_url);
-        console.log("img:", image_url);
-      } catch (error) {
-        console.error("이미지 에러 발생:", error);
-      }
-    };
-
-    fetchData();
-  }, [selectedGenre, inputTitle, inputSinger]);
-
+    // Play each chord in sequence
+    chords.forEach((chord, index) => {
+      synth.triggerAttackRelease(chord.note, chord.duration, now + index * 0.5);
+    });
+  };
   return (
     <div className="ai-result-container">
       <div className="composition-banner">
@@ -71,30 +56,39 @@ export default function Page5resultComposition() {
           내가 좋아하는 노래를 직접 만들어 들어요
         </p>
       </div>
-      {loading ? (
-        <div>
-          <MutatingDots
-            className="loader"
-            height="90"
-            width="80"
-            radius="13"
-            color="#7C93C3"
-            ariaLabel="loading"
-          />
-          <p className="load-text">
-            AI가 {nickname}님 취향의 곡을 작곡하는 중이에요
-          </p>
-        </div>
-      ) : (
-        <div>
+
+      <div className="composition-main">
+        <div className="blur">
           <p className="generated-by-ai">AI가 만든 곡</p>
-          <div className="ai-song">
-            <div className="ai-lyrics">{lyrics}!</div>
-            <div className="ai-chord">{chord}!</div>
+          <div className="song-info-box">
+            <img
+              className="ai-result-image"
+              src={"../assets/images/dance.png"}
+            />
+
+            <div>
+              <div className="ai-bold-text">songTitle</div>
+              <div className="ai-lyrics">{lyrics}</div>
+              <div className="ai-lyrics">
+                챗지피티가 제공해준 가사가 여기에 제시될 예정입니다. 여러분이
+                적어준 가수와 노래, 장르를 토대로 비슷한 느낌의 노래를
+                작곡해줍니다.{" "}
+              </div>
+            </div>
+            <div>
+              <p className="ai-bold-text">코드 진행</p>
+
+              <div className="ai-chord">
+                Cm G7 F Am Cm G7 F Am Cm G7 F Am Cm G7 F Am Cm G7 F Am Cm G7 F
+                Am{" "}
+              </div>
+              <button className="btn-cords" onClick={playChords}>
+                Chords 재생
+              </button>
+            </div>
           </div>
-          <img src={image} className="ai-result-image" alt="ai-result-image" />
         </div>
-      )}
+      </div>
     </div>
   );
 }

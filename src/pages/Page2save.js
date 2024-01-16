@@ -5,11 +5,12 @@ import { FaRegHeart } from "react-icons/fa6";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaCircleStop } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
-
+import { useAuth } from "../AuthContext";
 import fetchSearchResults from "../utils/fetchSearchresults";
 import fetchSpotifyToken from "../utils/spotifyApi"; // 토큰 얻는 파일
 import fetchPlay from "../utils/fetchPlay";
 import "./Page2save.css";
+import axios from "axios";
 
 const Page2save = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Page2save = () => {
   const [favorites, setFavorites] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [musicIcon, setMusicIcon] = useState("");
+  const { user_id } = useAuth();
 
   useEffect(() => {
     // 로컬 스토리지에서 저장된 즐겨찾기 데이터 가져오기
@@ -54,9 +56,31 @@ const Page2save = () => {
         console.log("musicIcon", musicIcon);
         console.log("isplaying", isPlaying);
         setIsPlaying((prevIsPlaying) => !prevIsPlaying);
+        //play할 때마다 사용자 노래 기록에 저장
+        userMusicSave(PressMusic);
       }
     } catch (error) {
       console.log("Error fetching data:", error);
+    }
+  };
+
+  //사용자 노래 기록 저장
+  const userMusicSave = async (track) => {
+    try {
+      console.log("사용자 노래 저장 시도");
+      console.log("user_id", user_id);
+      console.log("song_title", track.song_title);
+      console.log("singer_name", track.signer_name);
+      const save_response = await axios.post(
+        "http://172.10.7.24:80/play-song",
+        {
+          user_id: user_id,
+          song_title: track.song_title,
+          singer_name: track.signer_name,
+        }
+      );
+    } catch (e) {
+      console.log("사용자 노래 기록 저장 오류 발생:", e);
     }
   };
 

@@ -60,12 +60,20 @@ body {
   width: 310px;
   height: 55px;
   border-radius: 10px;
-  background-color: var(--primary-color);
+
   border-style: none;
   color: #ffffff;
   font-size: 18px;
   margin-bottom: 0;
 }
+.login-button.enabled {
+  background-color: var(--primary-color);
+}
+.login-button.disabled {
+  background-color: #b7c8ed;
+  cursor: not-allowed;
+}
+
 .sign-up-box {
   display: flex;
   flex-direction: row;

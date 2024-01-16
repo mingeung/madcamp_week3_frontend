@@ -52,7 +52,7 @@
 }
 .btn-play {
   position: absolute;
-  margin-top: 20px;
+  margin-top: -40px;
   top: 70%;
   left: 5%;
   background-color: #ffffff;

@@ -59,6 +59,7 @@ button {
   color: #ffffff;
 }
 .favorite-input {
+  font-size: 15px;
   border-radius: 7px;
   border-style: none;
   width: 240px;

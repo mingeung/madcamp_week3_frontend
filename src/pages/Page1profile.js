@@ -4,8 +4,11 @@ import "./Page1profile.css";
 import { Avatar } from "antd";
 import axios from "axios";
 import { useAuth } from "../AuthContext";
+import { upload } from "@testing-library/user-event/dist/upload";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Page1profile = () => {
+  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [Image, setImage] = useState(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
@@ -14,7 +17,7 @@ const Page1profile = () => {
   const [nickname, setNickname] = useState("");
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const { user_id } = useAuth();
+  const { user_id, logout } = useAuth();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -25,16 +28,14 @@ const Page1profile = () => {
             user_id: user_id,
           },
           headers: {
-            "Content-Type": "application/json", // Set the Content-Type header to application/json
+            "Content-Type": "application/json",
           },
         });
         console.log(response.data);
-        // console.log("되나");
-        // const userData = response.data;
-        // console.log(userData);
-        // setUserId(userData.user_id);
-        // setUserEmail(userData.email);
-        // setNickname(userData.nickname);
+        const userData = response.data;
+        setUserId(userData.user_id);
+        setUserEmail(userData.email);
+        setNickname(userData.nickname);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -43,7 +44,7 @@ const Page1profile = () => {
     if (user_id) {
       fetchUserData();
     }
-  }, [user_id]); // Fetch data when user_id changes
+  }, [user_id]);
 
   const onChange = (e) => {
     if (e.target.files[0]) {
@@ -63,6 +64,35 @@ const Page1profile = () => {
       }
     };
     reader.readAsDataURL(e.target.files[0]);
+    uploadImage(user_id, Image);
+
+    console.log("image2", Image);
+  };
+  //backend에 이미지 업로드
+  const uploadImage = async (user_id, imageUrl) => {
+    try {
+      const response = await axios.put(
+        `http://172.10.7.24:80/upload_image/${user_id}`,
+        { imageurl: imageUrl }
+      );
+
+      console.log("Image uploaded successfully:", response.data);
+    } catch (error) {
+      console.log("Image upload error:", error);
+    }
+  };
+  const onClickLogOut = async () => {
+    try {
+      const response = await axios.post("http://172.10.7.24:80/logout");
+      logout();
+      console.log(response.data);
+      navigate("/home");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const onClickLogIn = () => {
+    navigate("/login");
   };
   return (
     <div className="profile-container">
@@ -105,6 +135,15 @@ const Page1profile = () => {
           </div>
         </div>
       </div>
+      {user_id ? (
+        <p className="log-inout" onClick={onClickLogOut}>
+          로그아웃
+        </p>
+      ) : (
+        <p className="log-inout" onClick={onClickLogIn}>
+          로그인
+        </p>
+      )}
     </div>
   );
 };

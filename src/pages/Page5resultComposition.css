@@ -39,20 +39,65 @@
   color: #ffffff;
   font-size: 20px;
   font-weight: bold;
+  padding-top: 50px;
+  margin-left: 200px;
 }
 .ai-song {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+
   color: #ffffff;
   font-size: 20px;
 }
+
 .ai-lyrics {
   color: #ffffff;
   font-size: 20px;
+  width: 200px;
 }
 .ai-chord {
   color: #ffffff;
   font-size: 20px;
+  width: 200px;
 }
 .ai-result-image {
   width: 250px;
   height: 250px;
+}
+.composition-main {
+  background-size: cover;
+  margin-left: -40px;
+  padding-left: 20px;
+  height: 600px;
+}
+.blur {
+  background-color: rgba(108, 97, 97, 0.4);
+  backdrop-filter: blur(15px);
+  margin-left: -20px;
+  padding-left: 20px;
+  height: 100%;
+  z-index: 99;
+}
+.song-info-box {
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+  margin-left: 200px;
+  margin-top: 60px;
+
+  width: 500px;
+  height: 250px;
+}
+
+.ai-bold-text {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.btn-cords {
+  margin-top: 50px;
 }

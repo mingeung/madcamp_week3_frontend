@@ -22,7 +22,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -100%);
   font-size: 45px;
   color: #ffffff;
   font-weight: "bold";
@@ -34,7 +34,7 @@ body {
   height: 470px;
   top: 50%;
   left: 50%;
-  margin: 230px 0 0 -195px;
+  margin: 200px 0 0 -195px;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 30px 0px 20px 40px;
@@ -60,4 +60,18 @@ body {
   color: #ffffff;
   font-size: 18px;
   margin-top: 10px;
+}
+.signup-button.enabled {
+  background-color: var(--primary-color);
+}
+.signup-button.disabled {
+  background-color: #b7c8ed;
+  cursor: not-allowed;
+}
+.signup-alert {
+  position: absolute;
+  font-size: 13px;
+  color: #ff3636;
+  bottom: 1;
+  margin-top: 63px;
 }

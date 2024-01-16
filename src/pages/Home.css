@@ -79,11 +79,12 @@ body {
 }
 .btn-start {
   color: #ffffff;
+  width: max-content;
   font-size: 18px;
   margin-left: 25px;
   border: 1px solid #ffffff;
   border-radius: 0;
-  padding: 5px;
+  padding: 8px;
   background-color: transparent;
 }
 /* 채팅방 디자인 */

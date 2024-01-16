@@ -48,7 +48,7 @@
 .row-dir {
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: 40px;
   height: 50px;
 }
 .bold-text {
@@ -70,4 +70,14 @@
   font-size: 20px;
   color: #ffffff;
   margin-bottom: 10px;
+}
+.log-inout {
+  color: #ffffff;
+  font-size: 20px;
+  text-decoration: underline;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-right: 480px;
+  margin-bottom: 130px;
 }

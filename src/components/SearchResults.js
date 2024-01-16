@@ -4,15 +4,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import fetchSearchResults from "../utils/fetchSearchresults";
 import fetchSpotifyToken from "../utils/spotifyApi"; // 토큰 얻는 파일
 import getActiveDeviceId from "../to/getActiveDeviceId";
-
 import { FaRegHeart } from "react-icons/fa6";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import { FaCircleStop } from "react-icons/fa6";
 import fetchPlay from "../utils/fetchPlay";
+import { useAuth } from "../AuthContext";
 import "./SearchResults.css";
 import "../pages/Home.js";
+import axios from "axios";
 function SearchResults() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,6 +25,7 @@ function SearchResults() {
   const [favorites, setFavorites] = useState([]);
   const [musicIcon, setMusicIcon] = useState("");
   const [searchMusic, setSearchMusic] = useState("");
+  const { user_id } = useAuth();
 
   useEffect(() => {
     // 로컬 스토리지에서 저장된 즐겨찾기 데이터 가져오기
@@ -73,9 +75,30 @@ function SearchResults() {
         console.log("musicIcon", musicIcon);
         console.log("isplaying", isPlaying);
         setIsPlaying((prevIsPlaying) => !prevIsPlaying);
+        //play할 때마다 사용자 노래 기록에 저장
+        userMusicSave(track);
       }
     } catch (error) {
       console.log("Error fetching data:", error);
+    }
+  };
+  //사용자 노래 기록 저장
+  const userMusicSave = async (track) => {
+    try {
+      console.log("사용자 노래 저장 시도");
+      console.log("user_id", user_id);
+      console.log("song_title", track.name);
+      console.log("singer_name", track.artists[0].name);
+      const save_response = await axios.post(
+        "http://172.10.7.24:80/play-song",
+        {
+          user_id: user_id,
+          song_title: track.name,
+          singer_name: track.artists[0].name,
+        }
+      );
+    } catch (e) {
+      console.log("사용자 노래 기록 저장 오류 발생:", e);
     }
   };
 
