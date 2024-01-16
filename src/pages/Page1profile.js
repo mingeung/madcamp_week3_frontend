@@ -17,6 +17,7 @@ const Page1profile = () => {
   const [nickname, setNickname] = useState("");
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [userImage, setUserImage] = useState("");
   const { user_id, logout } = useAuth();
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const Page1profile = () => {
         setUserId(userData.user_id);
         setUserEmail(userData.email);
         setNickname(userData.nickname);
+        setUserImage(userData.imageurl);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -46,29 +48,42 @@ const Page1profile = () => {
     }
   }, [user_id]);
 
-  const onChange = (e) => {
+  const onChange = async (e) => {
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
+
+      const formData = new FormData();
+      formData.append("profile_img", e.target.files[0]);
+      console.log("formData", e.target.files[0]);
+
+      try {
+        // 파일을 서버에 업로드하고 새로운 이미지 파일의 주소를 받아옴
+        const uploadResponse = await axios.post(
+          "http://172.10.7.24:80/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        const newImageUrl = uploadResponse.data.imageurl;
+
+        // 서버에서 받아온 이미지 주소로 미리보기 업데이트 및 사용자 정보 업로드
+        setImage(newImageUrl);
+        uploadImage(user_id, newImageUrl);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
     } else {
-      //업로드 취소할 시
+      // 업로드 취소할 시
       setImage(
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
       );
       return;
     }
-    //화면에 프로필 사진 표시
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setImage(reader.result);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-    uploadImage(user_id, Image);
-
-    console.log("image2", Image);
   };
-  //backend에 이미지 업로드
   const uploadImage = async (user_id, imageUrl) => {
     try {
       const response = await axios.put(
@@ -81,6 +96,7 @@ const Page1profile = () => {
       console.log("Image upload error:", error);
     }
   };
+
   const onClickLogOut = async () => {
     try {
       const response = await axios.post("http://172.10.7.24:80/logout");

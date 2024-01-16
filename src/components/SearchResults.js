@@ -74,6 +74,7 @@ function SearchResults() {
         setMusicIcon(track.id);
         console.log("musicIcon", musicIcon);
         console.log("isplaying", isPlaying);
+        console.log(track.id);
         setIsPlaying((prevIsPlaying) => !prevIsPlaying);
         //play할 때마다 사용자 노래 기록에 저장
         userMusicSave(track);

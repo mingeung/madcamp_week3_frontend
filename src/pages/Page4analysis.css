@@ -55,3 +55,25 @@
 .analysis-text {
   color: #ffffff;
 }
+
+.hashtags {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 25px;
+}
+.hashtag {
+  display: flex;
+  flex-direction: row;
+  background-color: #7c93c3;
+  border-radius: 40px;
+  padding: 10px;
+  width: 140px;
+  height: 50px;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,5 +1,4 @@
 //Log.js
-// import axios from "axios";
 import axios from "../axiosConfig";
 import React, { useState, useEffect } from "react";
 import SignUp from "./SignUp";
