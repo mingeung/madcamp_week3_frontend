@@ -9,6 +9,7 @@ import { FaRegHeart } from "react-icons/fa6";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
+import { FaCircleStop } from "react-icons/fa6";
 import fetchPlay from "../utils/fetchPlay";
 import "./SearchResults.css";
 import "../pages/Home.js";
@@ -17,10 +18,11 @@ function SearchResults() {
   const location = useLocation();
   const searchQuery = location.state?.query || "";
   const [searchResults, setSearchResults] = useState([]);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [activeDeviceId, setActiveDeviceId] = useState(null);
   const [playResults, setPlayResults] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [musicIcon, setMusicIcon] = useState("");
   const [searchMusic, setSearchMusic] = useState("");
 
   useEffect(() => {
@@ -56,7 +58,6 @@ function SearchResults() {
   }, [location.state?.query]);
 
   //음원 듣기
-  let audio;
   const handlePlayPause = async (e, track) => {
     try {
       const access_token = await fetchSpotifyToken(); // access token 받기
@@ -65,12 +66,14 @@ function SearchResults() {
       if (isPlaying) {
         await fetchPlay(access_token, track.id, false); //stop
         console.log("isplaying", isPlaying);
+        setIsPlaying((prevIsPlaying) => !prevIsPlaying);
       } else {
         await fetchPlay(access_token, track.id, true); //play
-
+        setMusicIcon(track.id);
+        console.log("musicIcon", musicIcon);
         console.log("isplaying", isPlaying);
+        setIsPlaying((prevIsPlaying) => !prevIsPlaying);
       }
-      setIsPlaying(!isPlaying);
     } catch (error) {
       console.log("Error fetching data:", error);
     }
@@ -157,12 +160,21 @@ function SearchResults() {
                   <p className="artist">{track.artists[0].name}</p>
                 </div>
 
-                <FaCirclePlay
-                  onClick={(e) => handlePlayPause(e, track)}
-                  className="btn-play"
-                  color="#7c93c3"
-                  size={34}
-                />
+                {musicIcon === track.id && isPlaying ? (
+                  <FaCircleStop
+                    onClick={(e) => handlePlayPause(e, track)}
+                    className="btn-play"
+                    color="#7c93c3"
+                    size={34}
+                  />
+                ) : (
+                  <FaCirclePlay
+                    onClick={(e) => handlePlayPause(e, track)}
+                    className="btn-play"
+                    color="#7c93c3"
+                    size={34}
+                  />
+                )}
                 {favorites.some((fav) => fav.song_id === track.id) ? (
                   <FaHeart
                     size={30}

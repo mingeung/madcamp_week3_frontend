@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaCirclePlay } from "react-icons/fa6";
+import { FaCircleStop } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
 
 import fetchSearchResults from "../utils/fetchSearchresults";
@@ -15,6 +16,8 @@ const Page2save = () => {
   const [PressMusic, setPressMusic] = useState(null);
   const [playResults, setPlayResults] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [musicIcon, setMusicIcon] = useState("");
 
   useEffect(() => {
     // 로컬 스토리지에서 저장된 즐겨찾기 데이터 가져오기
@@ -36,15 +39,22 @@ const Page2save = () => {
   };
 
   //음원 듣기
-  const handlePlayPause = async (PressMusic) => {
+  const handlePlayPause = async (e, PressMusic) => {
     try {
-      //클릭된 정보를 PressMusic에서 가져옴
-      const access_token = await fetchSpotifyToken(); // access token 받기
-      const results = await fetchPlay(access_token, PressMusic.song_id);
-      setPlayResults(results);
-      window.location.href = results;
+      const access_token = await fetchSpotifyToken();
+      e.preventDefault();
 
-      navigate("/playback", { state: { playResults } });
+      if (isPlaying) {
+        await fetchPlay(access_token, PressMusic.song_id, false); //stop
+        console.log("isplaying", isPlaying);
+        setIsPlaying((prevIsPlaying) => !prevIsPlaying);
+      } else {
+        await fetchPlay(access_token, PressMusic.song_id, true); //play
+        setMusicIcon(PressMusic.song_id);
+        console.log("musicIcon", musicIcon);
+        console.log("isplaying", isPlaying);
+        setIsPlaying((prevIsPlaying) => !prevIsPlaying);
+      }
     } catch (error) {
       console.log("Error fetching data:", error);
     }
@@ -71,13 +81,21 @@ const Page2save = () => {
                 <p className="artist">{favorite.signer_name}</p>
               </div>
 
-              <FaCirclePlay
-                onClick={() => handlePlayPause(favorite)}
-                className="btn-play"
-                color="#7c93c3"
-                size={34}
-              />
-
+              {musicIcon === favorite.song_id && isPlaying ? (
+                <FaCircleStop
+                  onClick={(e) => handlePlayPause(e, favorite)}
+                  className="btn-play"
+                  color="#7c93c3"
+                  size={34}
+                />
+              ) : (
+                <FaCirclePlay
+                  onClick={(e) => handlePlayPause(e, favorite)}
+                  className="btn-play"
+                  color="#7c93c3"
+                  size={34}
+                />
+              )}
               <FaHeart
                 size={30}
                 className="btn-favorite"
