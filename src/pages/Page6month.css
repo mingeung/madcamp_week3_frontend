@@ -1,0 +1,122 @@
+.static-container {
+  margin-left: 235px;
+}
+.static-banner {
+  position: relative;
+  background-image: url(../assets/Group\ 43.png);
+  background-repeat: no-repeat;
+  z-index: -99;
+  margin-left: -40px;
+  margin-top: -100px;
+  height: 400px;
+}
+.static-head-title {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 200px;
+  margin-left: 30px;
+  z-index: 100;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: bold;
+}
+.static-intro {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 130px;
+}
+.static-intro {
+  color: #ffffff;
+  font-size: 20px;
+  margin-left: 30px;
+}
+
+.static-boxs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  margin-top: 70px;
+}
+.static-row {
+  display: flex;
+  flex-direction: row;
+}
+.today-month {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  margin-left: 150px;
+  gap: 20px;
+  color: #ffffff;
+  font-size: 25px;
+  font-weight: bold;
+
+  margin-bottom: 30px;
+  width: max-content;
+}
+.total-play-count {
+  color: #ffffff;
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  width: max-content;
+}
+
+.most-listened-singer,
+.most-listened-genre,
+.most-listened-song {
+  position: relative;
+  z-index: -99;
+  width: 240px;
+  height: 330px;
+  border-radius: 5px;
+}
+
+.most-listened-singer {
+  background-image: url("../assets/Rectangle\ 47.png");
+}
+.most-listened-genre {
+  background-image: url("../assets/Rectangle\ 48-2.png");
+}
+.most-listened-song {
+  background-image: url("../assets/Rectangle\ 49-2.png");
+}
+
+.static-title {
+  position: absolute;
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 900;
+  left: 0;
+  margin-top: 20px;
+  padding-top: 0;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.static-result {
+  position: absolute;
+  font-size: 24px;
+  color: #ffffff;
+  margin-top: 50px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 0;
+  font-weight: bolder;
+}
+.static-count {
+  position: absolute;
+  font-size: 25px;
+  color: #ffffff;
+  left: 0;
+  bottom: 0;
+  font-weight: bold;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+.mini-text {
+  margin-bottom: 0;
+}

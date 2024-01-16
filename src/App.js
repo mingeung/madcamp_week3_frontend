@@ -24,6 +24,7 @@ import Statistics from "./pages/Page6Statistics";
 import SearchResults from "./components/SearchResults";
 import ResultComposition from "./pages/Page5resultComposition";
 import Page3chatRock from "./pages/Page3chatRock";
+import Page6month from "./pages/Page6month";
 import axios from "axios";
 
 const App = () => {
@@ -57,6 +58,7 @@ const App = () => {
         <Route path="/composition" element={<Composition />} />
         <Route path="/result-composition" element={<ResultComposition />} />
         <Route path="/statistics" element={<Statistics />} />
+        <Route path="/page6month" element={<Page6month />} />
         <Route path="*" element={<Navigate to="/home" />} />
       </Routes>
     </div>
