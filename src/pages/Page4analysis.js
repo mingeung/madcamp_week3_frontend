@@ -11,7 +11,7 @@ import { MutatingDots } from "react-loader-spinner";
 
 const Page4analysis = () => {
   // const [nickname, setNickname] = useState("");
-  const nickname = "민승";
+  const [nickname, setNickname] = useState("");
   const { user_id } = useAuth();
   const [hashtags, setHashtags] = useState([]);
   const [similarSongs, setSimilarSongs] = useState([]);
@@ -21,6 +21,30 @@ const Page4analysis = () => {
   const [musicIcon, setMusicIcon] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
+  //닉네임 정보 가져오기
+
+  const fetchUserData = async () => {
+    console.log(user_id);
+    try {
+      const response = await axios.get("http://172.10.7.24:80/users", {
+        params: {
+          user_id: user_id,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data);
+      const userData = response.data;
+      setNickname(userData.nickname);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     console.log("Component mounted");
@@ -132,7 +156,7 @@ const Page4analysis = () => {
             ariaLabel="loading"
           />
           <p className="load-text">
-            AI가 {nickname}님 취향의 곡을 작곡하는 중이에요
+            AI가 {nickname}님 취향을 분석하는 중이에요
           </p>
         </div>
       ) : (

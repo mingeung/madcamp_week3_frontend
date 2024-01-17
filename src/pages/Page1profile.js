@@ -9,7 +9,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 const Page1profile = () => {
   const navigate = useNavigate();
-  const [file, setFile] = useState(null);
   const [Image, setImage] = useState(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
@@ -17,64 +16,51 @@ const Page1profile = () => {
   const [nickname, setNickname] = useState("");
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [userImage, setUserImage] = useState("");
   const { user_id, logout } = useAuth();
 
+  const fetchUserData = async () => {
+    console.log(user_id);
+    try {
+      const response = await axios.get("http://172.10.7.24:80/users", {
+        params: {
+          user_id: user_id,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data);
+      const userData = response.data;
+      setUserId(userData.user_id);
+      setUserEmail(userData.email);
+      setNickname(userData.nickname);
+      setImage(userData.imageurl);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
   useEffect(() => {
-    const fetchUserData = async () => {
-      console.log(user_id);
-      try {
-        const response = await axios.get("http://172.10.7.24:80/users", {
-          params: {
-            user_id: user_id,
-          },
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        console.log(response.data);
-        const userData = response.data;
-        setUserId(userData.user_id);
-        setUserEmail(userData.email);
-        setNickname(userData.nickname);
-        setUserImage(userData.imageurl);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
     if (user_id) {
       fetchUserData();
     }
   }, [user_id]);
 
+  //이미지 업로드
   const onChange = async (e) => {
     if (e.target.files[0]) {
-      setFile(e.target.files[0]);
-
-      const formData = new FormData();
-      formData.append("profile_img", e.target.files[0]);
-      console.log("formData", e.target.files[0]);
-
+      const imgURL = URL.createObjectURL(e.target.files[0]);
+      console.log(imgURL);
       try {
-        // 파일을 서버에 업로드하고 새로운 이미지 파일의 주소를 받아옴
-        const uploadResponse = await axios.post(
-          "http://172.10.7.24:80/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+        const response = await axios.put(
+          `http://172.10.7.24:80/upload_image/${user_id}`,
+          { imageurl: imgURL }
         );
 
-        const newImageUrl = uploadResponse.data.imageurl;
-
-        // 서버에서 받아온 이미지 주소로 미리보기 업데이트 및 사용자 정보 업로드
-        setImage(newImageUrl);
-        uploadImage(user_id, newImageUrl);
+        console.log("Image uploaded successfully:", response.data);
+        // 이미지를 업로드한 후에 서버에서 다시 가져옴
+        fetchUserData();
       } catch (error) {
-        console.error("Error uploading image:", error);
+        console.log("Image upload error:", error);
       }
     } else {
       // 업로드 취소할 시
@@ -82,18 +68,6 @@ const Page1profile = () => {
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
       );
       return;
-    }
-  };
-  const uploadImage = async (user_id, imageUrl) => {
-    try {
-      const response = await axios.put(
-        `http://172.10.7.24:80/upload_image/${user_id}`,
-        { imageurl: imageUrl }
-      );
-
-      console.log("Image uploaded successfully:", response.data);
-    } catch (error) {
-      console.log("Image upload error:", error);
     }
   };
 

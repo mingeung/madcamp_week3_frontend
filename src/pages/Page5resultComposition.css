@@ -55,11 +55,13 @@
   color: #ffffff;
   font-size: 20px;
   width: 200px;
+  letter-spacing: 1px;
 }
 .ai-chord {
   color: #ffffff;
   font-size: 20px;
   width: 200px;
+  letter-spacing: 1px;
 }
 .ai-result-image {
   width: 250px;
@@ -84,7 +86,7 @@
   flex-direction: row;
   gap: 100px;
   margin-left: 200px;
-  margin-top: 60px;
+  margin-top: 40px;
 
   width: 500px;
   height: 250px;

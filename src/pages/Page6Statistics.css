@@ -54,7 +54,7 @@
   position: absolute;
   margin-left: 180px;
   bottom: 0;
-  margin-bottom: -200px;
+  margin-bottom: 70px;
   background-color: var(--primary-color);
   width: max-content;
   padding: 10px;

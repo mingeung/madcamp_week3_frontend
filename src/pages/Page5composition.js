@@ -1,17 +1,41 @@
 //Pgae5composition.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Page5composition.css";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../AuthContext";
+import axios from "axios";
 const Page5composition = () => {
   const [selectedGenre, setSelectedGenre] = useState("");
+  const { user_id } = useAuth();
   const navigate = useNavigate();
   const [inputSinger, setInputSinger] = useState("");
   const [inputTitle, setInputTitle] = useState("");
   const [genreError, setGenreError] = useState(false);
   const [inputErrror, setInputError] = useState(false);
-  // const [nickname, setNickname] = useState("");
-  const nickname = "민승";
+  const [nickname, setNickname] = useState("");
+  //닉네임 정보 불러오기
+  const fetchUserData = async () => {
+    console.log(user_id);
+    try {
+      const response = await axios.get("http://172.10.7.24:80/users", {
+        params: {
+          user_id: user_id,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data);
+      const userData = response.data;
+
+      setNickname(userData.nickname);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const handleInputSigner = (e) => {
     setInputSinger(e.target.value);

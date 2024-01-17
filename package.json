@@ -25,8 +25,10 @@
     "react-scripts": "5.0.1",
     "request": "^2.88.2",
     "socket.io-client": "^4.7.4",
+    "soundfont-player": "^0.12.0",
     "styled-components": "^6.1.8",
     "tone": "^14.7.77",
+    "vexflow": "^4.2.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

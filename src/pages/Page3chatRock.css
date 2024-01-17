@@ -3,72 +3,46 @@
 }
 
 .rock-chat-room {
-  width: 100%;
-  height: 100vh;
-  padding: 0;
+  margin-left: 190px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: -20px;
-}
-
-.Box {
-  width: 100%;
-  height: 100%;
-  border-radius: 1rem;
-}
-.header {
-  background-color: var(--primary-color);
-  width: 100%;
-  height: 10%;
-  color: #ffffff;
-  font-size: 25px;
+  flex-direction: column;
+  font-size: 30px;
   font-weight: bold;
-  padding-left: 10px;
-  padding-top: 10px;
+  color: #ffffff;
+}
+.chat-room-head {
+  padding-left: 20px;
+  padding-top: 20px;
+  height: 100px;
+  background-color: var(--primary-color);
 }
 .ChatBox {
-  border-radius: 1rem;
-  height: 70%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  margin-left: 30px;
+  height: 535px;
+  background-color: #161728;
 }
-
 .InputBox {
   display: flex;
-  width: 100%;
-  height: 20%;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  /* position: relative; */
   background-color: var(--primary-color);
 }
 .input-text {
-  width: 95%;
-  height: 87%;
-  background-color: var(--primary-color);
-  border: none;
   font-size: 20px;
-}
-.Chat {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  width: 80%;
-  height: 20%;
-  border: 1px solid sandybrown;
-  border-radius: 1rem;
-}
-.ChatLog {
-  margin-left: 100px;
+  color: #000000;
+  padding: 15px;
+  background-color: #7c93c3;
+  border-style: none;
+  position: absolute;
+  width: 84%;
+  height: 100px;
+  bottom: 0;
 }
 .btn-send {
-  background-color: #22263d;
-  color: #ffffff;
-  border-radius: 10px;
-  border-style: none;
-  width: 70px;
-  height: 40%;
-  margin-right: 10px;
+  position: absolute;
+  z-index: 99;
+  right: 0;
+  height: 50px;
+  bottom: 0;
+  margin-bottom: 50px;
 }

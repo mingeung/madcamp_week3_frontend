@@ -6,7 +6,7 @@ import { assert } from "tone/build/esm/core/util/Debug";
 import { Flex, Row } from "antd";
 
 const Page6month = () => {
-  const nickname = "민승";
+  const [nickname, setNickname] = useState("");
   const month = "1월";
   const [totalPlayCount, setTotalPlayCount] = useState(0);
   const [mostListenedSinger, setMostListenedSinger] = useState("");
@@ -16,6 +16,31 @@ const Page6month = () => {
   const [mostListenedSong, setMostListenedSong] = useState("");
   const [mostListenedSongCount, setMostListenedSongCount] = useState(0);
   const { user_id } = useAuth();
+
+  //닉네임 받아오기
+  const fetchNickData = async () => {
+    console.log(user_id);
+    try {
+      const response = await axios.get("http://172.10.7.24:80/users", {
+        params: {
+          user_id: user_id,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data);
+      const userData = response.data;
+
+      setNickname(userData.nickname);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchNickData();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -135,7 +160,9 @@ const Page6month = () => {
               <p className="static-title">선호하는 아티스트</p>
               <p className="static-result">
                 <p className="mini-text">
-                  <span style={{ color: "#320000" }}>{mostListenedSinger}</span>
+                  <span style={{ color: "#320000", fontWeight: "bolder" }}>
+                    {mostListenedSinger}
+                  </span>
                   을
                 </p>
                 <p style={{ marginTop: "5px" }}>가장 많이 들었어요</p>
@@ -146,9 +173,10 @@ const Page6month = () => {
               <p className="static-title">가장 많이 들은 장르</p>
               <p className="static-result">
                 <p className="mini-text">
-                  <span style={{ color: "#97039D" }}>
-                    {mostListenedGenre}을{" "}
-                  </span>{" "}
+                  <span style={{ color: "#97039D", fontWeight: "bolder" }}>
+                    {mostListenedGenre}{" "}
+                  </span>
+                  을{" "}
                 </p>
                 <p style={{ marginTop: "5px" }}>가장 많이 들었어요</p>
               </p>
@@ -158,7 +186,10 @@ const Page6month = () => {
               <p className="static-title">나의 최애 노래</p>
               <p className="static-result">
                 <p className="mini-text">
-                  <span style={{ color: "#154235" }}>{mostListenedSong}</span>을
+                  <span style={{ color: "#154235", fontWeight: "bolder" }}>
+                    {mostListenedSong}
+                  </span>
+                  을
                 </p>{" "}
                 <p style={{ marginTop: "5px" }}>가장 많이 들었어요</p>
               </p>

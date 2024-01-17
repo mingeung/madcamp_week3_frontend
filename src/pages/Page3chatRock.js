@@ -69,28 +69,28 @@ const Page3chatRock = () => {
 
   return (
     <div className="rock-chat-room">
-      <div className="Box">
-        <div className="header">Rock Chat Room</div>
-        <div className="ChatBox">
-          {messages.map((message, index) => (
-            <div key={index} className="Chat">
-              <p className="ChatLog">{message.message}</p>
-            </div>
-          ))}
-        </div>
-        <div className="InputBox">
-          <input
-            type="text"
-            className="input-text"
-            placeholder="Type a message..."
-            value={input}
-            onChange={handleInputChange}
-            onKeyPress={handleKeyPress}
-          />
-          <button className="btn-send" onClick={sendMessage}>
-            Send
-          </button>
-        </div>
+      <div className="chat-room-head">
+        <div className="chat-room-name">Rock Chat Room</div>
+      </div>
+      <div className="ChatBox">
+        {messages.map((message, index) => (
+          <div key={index} className="Chat">
+            <p className="ChatLog">{message.message}</p>
+          </div>
+        ))}
+      </div>
+      <div className="InputBox">
+        <input
+          type="text"
+          className="input-text"
+          placeholder="Type a message..."
+          value={input}
+          onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
+        />
+        <button className="btn-send" onClick={sendMessage}>
+          전송
+        </button>
       </div>
     </div>
   );

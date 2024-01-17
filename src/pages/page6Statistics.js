@@ -12,13 +12,38 @@ import { Pie } from "@nivo/pie";
 
 const Page6statistics = () => {
   const { user_id } = useAuth();
-  const nickname = "민승";
+  const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
   const [monthStatic, setMonthStatic] = useState([]);
   const [weekStatic, setWeekStatic] = useState([]);
   const onClickGoMonth = () => {
     navigate("/page6month");
   };
+
+  //닉네임 받아오기
+  const fetchNickData = async () => {
+    console.log(user_id);
+    try {
+      const response = await axios.get("http://172.10.7.24:80/users", {
+        params: {
+          user_id: user_id,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data);
+      const userData = response.data;
+
+      setNickname(userData.nickname);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchNickData();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
