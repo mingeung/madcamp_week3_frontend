@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# Developers
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+고려대학교 불어불문학과 21학번 정민승
 
-In the project directory, you can run:
+한양대학교 생명과학과 20학번 강다희
 
-### `npm start`
+# 사용된 기술
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **프론트엔드:** React
+- **백엔드:** Flask, Python
+- **Cloud:** Kcloud
+- **DB:** MySQL
 
-### `npm test`
+# 프로젝트 소개
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+# 기능 소개
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1. 회원가입/로그인
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+이메일, 아이디, 비밀번호, 닉네임 정보를 입력하여 회원가입 할 수 있습니다. 가입된 정보로 로그인 할 수 있습니다. 
 
-### `npm run eject`
+### 2. 프로필
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+가입된 회원정보를 프로필에서 확인할 수 있습니다. 프로필에 사진을 등록하려면 사진 칸을 클릭해서 사진을 올릴 수 있습니다. 
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 3. 음원 스트리밍
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+듣고싶은 가수 이름, 노래 제목, 장르 등을 검색해서 spotify api를 통해 불러온 음악들을 들을 수 있습니다. 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 4. 보관함
 
-## Learn More
+사용자가 자주 듣고싶거나, 좋아하는 음악은 하트를 눌러 보관함에 보관할 수 있습니다. 보관함에 보관된 노래는 하트를 다시 누르면 삭제할수도 있습니다.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 5. 커뮤니티
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Rock, Kpop, Jpop, Ballade, Dance 중 사용자가 관심있는 장르의 커뮤니티를 선택해서 같은 장르를 좋아하는 다른 사용자들과 의견을 나눌 수 있습니다.
 
-### Code Splitting
+### 6. AI 노래 취향 분석
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+사용자가 보관함에 보관한 노래 데이터를 AI가 분석합니다. 사용자의 노래 취향을 해시태그 3개로 나타내어 알려주고 , 사용자의 취향에 맞는 노래를 추천해줍니다. 
 
-### Analyzing the Bundle Size
+### 7. AI 작곡하기
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+내가 원하는 느낌의 노래를 직접 만들 수 있습니다. 작곡하고 싶은 장르를 선택하고, 좋아하는 노래의 가수 이름과 제목을 입력하면 AI가 사용자 취향의 곡을 작곡해줍니다.
 
-### Making a Progressive Web App
+AI가 사용자가 원하는 느낌으로 직접 만든 앨범커버와 가사, 코드를 확인할 수 있습니다.  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+   
 
-### Advanced Configuration
+### 8. AI 음원 이용 현황 분석
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. 월간통계/주간통계
+    
+    월간, 주간 음원 이용 현황을 알 수 있습니다.
+    
+    AI가 사용자가 들은 노래 데이터를 분석하여 월간 및 주간 음원 장르 비율을 파이차트로 알기 쉽게 보여줍니다.
+    
+     
+    
+2. 월간로그
+    
+    월간 음원 이용 현황을 AI가 분석하여 사용자가 선호하는 아티스트, 가장 많이 들은 장르, 가장 많이 들은 노래를 한 눈에 보여줍니다.
