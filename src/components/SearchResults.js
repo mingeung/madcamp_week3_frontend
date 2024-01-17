@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import fetchSearchResults from "../utils/fetchSearchresults";
-import fetchSpotifyToken from "../utils/spotifyApi"; // 토큰 얻는 파일
+import fetchSpotifyToken from "../utils/spotifyApi";
 import getActiveDeviceId from "../to/getActiveDeviceId";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaCirclePlay } from "react-icons/fa6";
@@ -48,6 +48,7 @@ function SearchResults() {
     const fetchData = async () => {
       try {
         const access_token = await fetchSpotifyToken(); // access token 받기
+        console.log("access_token:", access_token);
         const results = await fetchSearchResults(access_token, searchQuery); //track 유형의 아이템을 반환
         setSearchResults(results);
         // const deviceId = await getActiveDeviceId(access_token); //사용자의 활성 장치 ? 어디다가 쓰는거지
@@ -74,7 +75,7 @@ function SearchResults() {
         setMusicIcon(track.id);
         console.log("musicIcon", musicIcon);
         console.log("isplaying", isPlaying);
-        console.log(track.id);
+        console.log("track.id:", track.id);
         setIsPlaying((prevIsPlaying) => !prevIsPlaying);
         //play할 때마다 사용자 노래 기록에 저장
         userMusicSave(track);

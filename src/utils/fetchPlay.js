@@ -21,6 +21,7 @@ const fetchPlay = async (accessToken, track_id, isPlaying) => {
           playAudio(previewUrl);
         } else {
           stopAudio();
+          // audio.pause();
         }
       } else {
         console.error("No preview URL available for the selected track");
