@@ -96,16 +96,21 @@ const Page6statistics = () => {
         <p className="static-head-title">통계</p>
         <p className="static-intro">{nickname}님이 많이 들은 노래</p>
       </div>
+      <div className="static-sub-title">
+        <p className="each-sub-title">월간 통계</p>
+        <p className="each-sub-title">주간 통계</p>
+      </div>
       <div className="charts">
         <div style={{ width: "500px" }}>
           <PieChart
             data={monthPieChartData}
             label={({ dataEntry }) => dataEntry.title}
-            labelPosition={65}
+            labelPosition={60}
             labelStyle={{
               fill: "#000000",
-              fontSize: "4px",
+              fontSize: "2.7px",
               fontFamily: "sans-serif",
+              fontWeight: "bold",
             }}
             radius={30}
           />
@@ -114,17 +119,20 @@ const Page6statistics = () => {
           <PieChart
             data={weekPieChartData}
             label={({ dataEntry }) => dataEntry.title}
-            labelPosition={65}
+            labelPosition={60}
             labelStyle={{
               fill: "#000000",
-              fontSize: "4px",
+              fontSize: "2.7px",
               fontFamily: "sans-serif",
+              fontWeight: "bold",
             }}
             radius={30}
           />
         </div>
       </div>
-      <button onClick={onClickGoMonth}>월간 통계 보러 가기</button>
+      <button className="go-month-static" onClick={onClickGoMonth}>
+        월간 통계 보러 가기
+      </button>
     </div>
   );
 };

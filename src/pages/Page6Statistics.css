@@ -1,3 +1,7 @@
+:root {
+  --primary-color: #7c93c3;
+}
+
 .static1-container {
   margin-left: 235px;
 }
@@ -33,4 +37,27 @@
 .charts {
   display: flex;
   flex-direction: row;
+  position: relative;
+}
+.static-sub-title {
+  display: flex;
+  flex-direction: row;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+  justify-content: space-around;
+  gap: 100px;
+  margin-right: 300px;
+  margin-bottom: -80px;
+}
+.go-month-static {
+  position: absolute;
+  margin-left: 180px;
+  bottom: 0;
+  margin-bottom: -200px;
+  background-color: var(--primary-color);
+  width: max-content;
+  padding: 10px;
+  width: 150px;
+  color: "#161728";
 }

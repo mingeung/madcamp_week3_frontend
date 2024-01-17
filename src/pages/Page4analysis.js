@@ -15,7 +15,7 @@ const Page4analysis = () => {
   const { user_id } = useAuth();
   const [hashtags, setHashtags] = useState([]);
   const [similarSongs, setSimilarSongs] = useState([]);
-  const [coverImg, setCoverImg] = useState([]);
+  const [analysisCoverImg, setAnalysisCoverImg] = useState([]);
   const [play, setPlay] = useState([]);
   const hashtagColors = ["#603F63", "#A85873", "#E37D6E"];
   const [musicIcon, setMusicIcon] = useState("");
@@ -23,22 +23,24 @@ const Page4analysis = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("Component mounted");
     const fetchData = async () => {
+      console.log("chatgpt api call");
       try {
-        //ex
-        setHashtags(["잔잔한", "댄스", "힙한"]);
-        setSimilarSongs([
+        const anaylsis_response = await axios.post(
+          "http://172.10.7.24:80/analyze-recommend-songs",
           {
-            artist: "Ariana Grande",
-            song_id: "63y6xWR4gXz7bnUGOk8iI6",
-            title: "Into You",
-          },
-          {
-            artist: "Dua Lipa",
-            song_id: "7cYNQkJoyHVhP8Drb2n6d5",
-            title: "Don't Start Now",
-          },
-        ]);
+            user_id: user_id,
+          }
+        );
+        const ai_analysis = anaylsis_response.data;
+        setHashtags(ai_analysis.hashtags);
+        const similarSongs = ai_analysis.similar_songs;
+        setSimilarSongs(similarSongs);
+        console.log("취향 분석", ai_analysis);
+        console.log("해시태그", hashtags);
+        console.log("비슷한 느낌의 노래 추천", similarSongs);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching analysis data:", error);
       }
@@ -69,14 +71,16 @@ const Page4analysis = () => {
             const img_url = trackInfo.album.images[0].url;
             const preview_url = trackInfo.preview_url;
 
-            setCoverImg((prevCoverImg) => [...prevCoverImg, img_url]);
+            setAnalysisCoverImg((prevanalysisCoverImg) => [
+              ...prevanalysisCoverImg,
+              img_url,
+            ]);
             setPlay((prevPlay) => [...prevPlay, preview_url]);
 
-            console.log("coverImg:", coverImg);
+            console.log("analysiscoverImg:", analysisCoverImg);
             console.log("play:", play);
           }
         }
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching track data:", error);
       }
@@ -115,10 +119,8 @@ const Page4analysis = () => {
     <div className="container">
       <div className="analysis-banner">
         <p className="analysis-title">노래 취향 분석</p>
-
         <p className="analysis-intro">AI가 분석해주는 나의 노래 취향</p>
       </div>
-
       {loading ? (
         <div style={{ marginLeft: "500px", marginTop: "100px" }}>
           <MutatingDots
@@ -149,7 +151,7 @@ const Page4analysis = () => {
                   key={index}
                   style={{ backgroundColor: hashtagColors[index] }}
                 >
-                  #{tag}
+                  {tag}
                 </div>
               ))}
             </div>
@@ -159,19 +161,19 @@ const Page4analysis = () => {
                 <li className="search-list" key={index}>
                   <div className="img-box">
                     <img
-                      className="image"
-                      src={coverImg[index]}
-                      alt={coverImg}
+                      className="ana-image"
+                      src={analysisCoverImg[index]}
+                      alt={analysisCoverImg}
                       style={{ marginTop: "-22px" }}
                     />
                     <div style={{ color: "#161728", marginTop: "100px" }}>
-                      {coverImg}
+                      {analysisCoverImg[index]}
                     </div>
                   </div>
 
-                  <div className="song-intro">
-                    <p className="song-title">{song.title}</p>
-                    <p className="artist">{song.artist}</p>
+                  <div className="ana-song-intro">
+                    <p className="ana-song-title">{song.title}</p>
+                    <p className="ana-artist">{song.artist}</p>
                   </div>
 
                   {musicIcon === song.song_id && isPlaying ? (
@@ -179,14 +181,14 @@ const Page4analysis = () => {
                       onClick={(e) =>
                         handlePlayPause(e, song.song_id, play[index])
                       }
-                      className="btn-play"
+                      className="ana-btn-play"
                       color="#7c93c3"
                       size={34}
                     />
                   ) : (
                     <FaCirclePlay
                       onClick={(e) => handlePlayPause(e, song.song_id)}
-                      className="btn-play"
+                      className="ana-btn-play"
                       color="#7c93c3"
                       size={34}
                     />
@@ -200,7 +202,4 @@ const Page4analysis = () => {
     </div>
   );
 };
-
-//노래 아이디 옛 : 0a4MMyCrzT0En247IhqZbD (하입보이)
-// track.id:"65FftemJ1DbbZ45DUfHJXE"(omg)
 export default Page4analysis;
