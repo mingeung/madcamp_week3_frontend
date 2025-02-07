@@ -14,6 +14,7 @@ import { useAuth } from "../AuthContext";
 import "./SearchResults.css";
 import "../pages/Home.js";
 import axios from "axios";
+import instance from "../axiosConfig.js";
 function SearchResults() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,11 +28,13 @@ function SearchResults() {
   const [searchMusic, setSearchMusic] = useState("");
   const { user_id } = useAuth();
 
-  useEffect(() => {
-    // 로컬 스토리지에서 저장된 즐겨찾기 데이터 가져오기
-    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(storedFavorites);
-  }, []); // 초기 렌더링 시에만 실행
+  //로컬 스토리지와 관련된 내용 우선은 다 주석처리
+
+  // useEffect(() => {
+  //   // 로컬 스토리지에서 저장된 즐겨찾기 데이터 가져오기
+  //   const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  //   setFavorites(storedFavorites);
+  // }, []); // 초기 렌더링 시에만 실행
 
   //검색기능
   const handleSearch = () => {
@@ -86,19 +89,24 @@ function SearchResults() {
   };
   //사용자 노래 기록 저장
   const userMusicSave = async (track) => {
+    let now = new Date().toISOString().slice(0, -1); // 'Z' 제거
+
     try {
-      console.log("사용자 노래 저장 시도");
-      console.log("user_id", user_id);
-      console.log("song_title", track.name);
-      console.log("singer_name", track.artists[0].name);
-      const save_response = await axios.post(
-        "http://172.10.7.24:80/play-song",
-        {
-          user_id: user_id,
-          song_title: track.name,
-          singer_name: track.artists[0].name,
-        }
-      );
+      // console.log("사용자 노래 저장 시도");
+      // console.log("user_id", user_id);
+      // console.log("song_title", track.name);
+      // console.log("singer_name", track.artists[0].name);
+      const postDate = {
+        memberId: "1",
+        trackId: track.name,
+        artistId: track.artists[0].name,
+        date: now,
+      };
+      console.log("postDate:", postDate);
+
+      const response = await instance.post("/playing", {
+        postDate,
+      });
     } catch (e) {
       console.log("사용자 노래 기록 저장 오류 발생:", e);
     }

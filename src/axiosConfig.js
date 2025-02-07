@@ -1,8 +1,7 @@
-// axiosConfig.js (새 파일)
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://172.10.7.24:80",
+  baseURL: "http://localhost:8080",
 });
 
 export default instance;

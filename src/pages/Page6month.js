@@ -4,12 +4,12 @@ import axios from "axios";
 import { useAuth } from "../AuthContext";
 import { assert } from "tone/build/esm/core/util/Debug";
 import { Flex, Row } from "antd";
+import instance from "../axiosConfig";
 
 const Page6month = () => {
   const [nickname, setNickname] = useState("");
   const month = "1월";
   const [totalPlayCount, setTotalPlayCount] = useState(0);
-  const [mostListenedSinger, setMostListenedSinger] = useState("");
   const [mostListenedSingerCount, setMostListenedSingerCount] = useState(0);
   const [mostListenedGenre, setMostListenedGenre] = useState("");
   const [mostListenedGenreCount, setMostListenedGenreCount] = useState(0);
@@ -17,130 +17,144 @@ const Page6month = () => {
   const [mostListenedSongCount, setMostListenedSongCount] = useState(0);
   const { user_id } = useAuth();
 
-  //닉네임 받아오기
-  const fetchNickData = async () => {
-    console.log(user_id);
-    try {
-      const response = await axios.get("http://172.10.7.24:80/users", {
-        params: {
-          user_id: user_id,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(response.data);
-      const userData = response.data;
+  // //닉네임 받아오기
+  // const fetchNickData = async () => {
+  //   console.log(user_id);
+  //   try {
+  //     const response = await axios.get("http://172.10.7.24:80/users", {
+  //       params: {
+  //         user_id: user_id,
+  //       },
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     console.log(response.data);
+  //     const userData = response.data;
 
-      setNickname(userData.nickname);
+  //     setNickname(userData.nickname);
+  //   } catch (error) {
+  //     console.error("Error fetching user data:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchNickData();
+  // }, []);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // console.log("총 들은 곡 수 받아오기 시도 ");
+  //       const totalPlayCountResponse = await axios.get(
+  //         "http://172.10.7.24:80/total-play-count",
+  //         {
+  //           params: {
+  //             user_id: user_id,
+  //           },
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+  //       console.log(
+  //         "총 들은 곡 수",
+  //         totalPlayCountResponse.data.total_play_count
+  //       );
+  //       setTotalPlayCount(totalPlayCountResponse.data.total_play_count);
+  //     } catch (error) {
+  //       console.log("총 들은 곡 수 받아오기 실패:", error);
+  //     }
+
+  //많이 들은 가수 불러오기
+  const [mostArtist, setMostArist] = useState();
+
+  const getResponse = async () => {
+    try {
+      const response = await instance.get(`/most-month-played-artist/${1}`);
+      console.log(response?.data); //빨간 창에 undefined 오류가 뜨면 ? 붙여보기
+      setMostArist(response.data.playingList[0].artistId);
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.log(error);
     }
   };
+  getResponse();
 
-  useEffect(() => {
-    fetchNickData();
-  }, []);
+  // try {
+  //   // console.log("많이 들은 가수 받아오기 시도 ");
+  //   const mostListenedSinger_response = await axios.get(
+  //     "http://172.10.7.24:80/most-listened-singer",
+  //     {
+  //       params: {
+  //         user_id: user_id,
+  //       },
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     }
+  //   );
+  //   const mostListenedSingerData = mostListenedSinger_response.data;
+  //   // console.log("데이터를 보자", mostListenedSingerData);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // console.log("총 들은 곡 수 받아오기 시도 ");
-        const totalPlayCountResponse = await axios.get(
-          "http://172.10.7.24:80/total-play-count",
-          {
-            params: {
-              user_id: user_id,
-            },
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log(
-          "총 들은 곡 수",
-          totalPlayCountResponse.data.total_play_count
-        );
-        setTotalPlayCount(totalPlayCountResponse.data.total_play_count);
-      } catch (error) {
-        console.log("총 들은 곡 수 받아오기 실패:", error);
-      }
+  //   setMostListenedSinger(mostListenedSingerData.most_listened_singer);
+  //   setMostListenedSingerCount(mostListenedSingerData.total_play_count);
+  //   console.log("많이 들은 가수", mostListenedSinger);
+  //   console.log("얼마나 들었는가", mostListenedSingerCount);
+  // } catch (error) {
+  //   console.log("많이 들은 가수 받아오기 실패:", error);
+  // }
 
-      try {
-        // console.log("많이 들은 가수 받아오기 시도 ");
-        const mostListenedSinger_response = await axios.get(
-          "http://172.10.7.24:80/most-listened-singer",
-          {
-            params: {
-              user_id: user_id,
-            },
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const mostListenedSingerData = mostListenedSinger_response.data;
-        // console.log("데이터를 보자", mostListenedSingerData);
+  // try {
+  //   // console.log("많이 들은 장르 받아오기 시도 ");
+  //   const mostListenedGenre_response = await axios.get(
+  //     "http://172.10.7.24:80/most-listened-genre",
+  //     {
+  //       params: {
+  //         user_id: user_id,
+  //       },
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     }
+  //   );
+  //   const mostListenedGenreData = mostListenedGenre_response.data;
+  //   // console.log("데이터를 보자", mostListenedGenreData);
 
-        setMostListenedSinger(mostListenedSingerData.most_listened_singer);
-        setMostListenedSingerCount(mostListenedSingerData.total_play_count);
-        console.log("많이 들은 가수", mostListenedSinger);
-        console.log("얼마나 들었는가", mostListenedSingerCount);
-      } catch (error) {
-        console.log("많이 들은 가수 받아오기 실패:", error);
-      }
+  //       setMostListenedGenre(mostListenedGenreData.most_listened_genre);
+  //       setMostListenedGenreCount(mostListenedGenreData.total_play_count);
+  //       console.log("많이 들은 장르", mostListenedGenre);
+  //       console.log("얼마나 들었는가", mostListenedGenreCount);
+  //     } catch (error) {
+  //       console.log("많이 들은 장르 받아오기 실패:", error);
+  //     }
 
-      try {
-        // console.log("많이 들은 장르 받아오기 시도 ");
-        const mostListenedGenre_response = await axios.get(
-          "http://172.10.7.24:80/most-listened-genre",
-          {
-            params: {
-              user_id: user_id,
-            },
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const mostListenedGenreData = mostListenedGenre_response.data;
-        // console.log("데이터를 보자", mostListenedGenreData);
+  //     try {
+  //       // console.log("많이 들은 장르 받아오기 시도 ");
+  //       const mostListenedSong_response = await axios.get(
+  //         "http://172.10.7.24:80/most-listened-song",
+  //         {
+  //           params: {
+  //             user_id: user_id,
+  //           },
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+  //       const mostListenedSongData = mostListenedSong_response.data;
+  //       console.log("가장 많이 들은 노래 보자", mostListenedSongData);
 
-        setMostListenedGenre(mostListenedGenreData.most_listened_genre);
-        setMostListenedGenreCount(mostListenedGenreData.total_play_count);
-        console.log("많이 들은 장르", mostListenedGenre);
-        console.log("얼마나 들었는가", mostListenedGenreCount);
-      } catch (error) {
-        console.log("많이 들은 장르 받아오기 실패:", error);
-      }
+  //       setMostListenedSong(mostListenedSongData.most_listened_song);
+  //       setMostListenedSongCount(mostListenedSongData.total_play_count);
+  //       // console.log("가장 많이 들은 노래:", mostListenedSong);
+  //       // console.log("��마나 들었는가", mostListenedSongCount);
+  //     } catch (error) {
+  //       console.log("많이 들은 노래 받아오기 실패:", error);
+  //     }
+  //   };
 
-      try {
-        // console.log("많이 들은 장르 받아오기 시도 ");
-        const mostListenedSong_response = await axios.get(
-          "http://172.10.7.24:80/most-listened-song",
-          {
-            params: {
-              user_id: user_id,
-            },
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const mostListenedSongData = mostListenedSong_response.data;
-        console.log("가장 많이 들은 노래 보자", mostListenedSongData);
-
-        setMostListenedSong(mostListenedSongData.most_listened_song);
-        setMostListenedSongCount(mostListenedSongData.total_play_count);
-        // console.log("가장 많이 들은 노래:", mostListenedSong);
-        // console.log("��마나 들었는가", mostListenedSongCount);
-      } catch (error) {
-        console.log("많이 들은 노래 받아오기 실패:", error);
-      }
-    };
-
-    fetchData();
-  }, [user_id]);
+  //   fetchData();
+  // }, [user_id]);
   return (
     <div className="static-container">
       <div className="static-banner">
@@ -161,7 +175,7 @@ const Page6month = () => {
               <p className="static-result">
                 <p className="mini-text">
                   <span style={{ color: "#320000", fontWeight: "bolder" }}>
-                    {mostListenedSinger}
+                    {mostArtist}
                   </span>
                   을
                 </p>
