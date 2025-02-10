@@ -53,17 +53,12 @@ function SearchResults() {
     const fetchData = async () => {
       console.log("검색어:", searchQuery); //검색어가 제대로 나옴!
       try {
-        // 옛날 코드
-        const access_token = await fetchSpotifyToken(); // access token 받기
-        console.log("access_token:", access_token);
-        const results = await fetchSearchResults(access_token, searchQuery); //track 유형의 아이템을 반환
+        const response = await instance.get(
+          `/searchResult/trackName=${searchQuery}`
+        );
+        const results = response.data;
         setSearchResults(results);
-        console.log("검색결과", results);
-        // const results = await instance.get(
-        //   `/searchResult/trackName=${searchQuery}`
-        // );
-        // setSearchResults(results);
-        // console.log("검색결과:", results);
+        console.log("검색결과:", results);
       } catch (error) {
         console.log("Error fetching data:", error);
       }
@@ -100,18 +95,15 @@ function SearchResults() {
     let now = new Date().toISOString().slice(0, -1); // 'Z' 제거
 
     try {
-      // console.log("사용자 노래 저장 시도");
-      // console.log("user_id", user_id);
-      // console.log("song_title", track.name);
-      // console.log("singer_name", track.artists[0].name);
       const postDate = {
         memberId: 1,
         trackId: track.id,
-        artistId: track.artists[0].name,
+        artistName: track.artists[0].name,
+        trackName: track.name,
         date: now,
       };
-      console.log("postDate:", postDate);
-      console.log("track", track.id);
+      // console.log("postDate:", postDate);
+      // console.log("track", track.id);
 
       const response = await instance.post("/playing", postDate);
     } catch (e) {
@@ -120,82 +112,80 @@ function SearchResults() {
   };
 
   //post하기 - 보관함에 추가
-  // const saveFavorites = async (track) => {
-  //   try {
-  //     const postDate = {
-  //       memberId: 1,
-  //       trackId: track.id,
-  //     };
+  const saveFavorites = async (trackId) => {
+    // console.log("보관함에 추가 시도");
+    try {
+      const postDate = {
+        memberId: 1,
+        trackId: trackId,
+      };
 
-  //     const response = await instance.post("/favoritesongs", postDate);
-  //   } catch (e) {
-  //     console.log("보관함 저장 실패:", e);
-  //   }
-  // };
+      const response = await instance.post("/favoritesongs", postDate);
+    } catch (e) {
+      console.log("보관함 저장 실패:", e);
+    }
+  };
 
   // //delete -보관함에서 제거
-  // const deleteFromFavorites = async (track) => {
-  //   try {
-  //     const trackId = track.id;
-  //     const memberId = 1;
-  //     const reponse = await instance.delete(
-  //       `/favoritesongs/${trackId}?${memberId}`
-  //     );
-  //   } catch (e) {
-  //     console.log("보관함에서 제거 실패:", e);
-  //   }
-  // };
+  const deleteFromFavorites = async (trackId) => {
+    // console.log("보관함에서 제거 시도");
+    try {
+      const memberId = 1;
+      const response = await instance.delete(
+        `/favoritesongs/${trackId}&${memberId}`
+      );
+    } catch (e) {
+      console.log("보관함에서 제거 실패:", e);
+    }
+  };
 
-  // //favorites : 예전에는 localstorage에 저장함
-  // const handleFavorite = async (track) => {
-  //   // 이미 추가한 노래인지 확인
-  //   const isAlreadyAdded = favorites.some(
-  //     (favorites) => favorites.song_id === track.id
-  //   );
-  //   //이미 추가한 경우에 제거
-  //   if (isAlreadyAdded) {
-  //     removeFavoriteFromLocalStorage(track.id);
-  //   }
+  //favorites : 예전에는 localstorage에 저장함
+  const handleFavorite = async (track) => {
+    // 이미 추가한 노래인지 확인
+    // const isAlreadyAdded = favorites.some(
+    //   (favorites) => favorites.song_id === track.id
+    // );
+    const trackId = track.id;
+    const memberId = 1;
+    const response = await instance.get(
+      `/favoritesongs/${trackId}&${memberId}`
+    );
+    const isAlreadyAdded = response.data;
+    console.log("이미 추가했나?" + isAlreadyAdded);
+    console.log("trackId: " + trackId + " memberId: " + memberId);
+    //이미 추가한 경우에 제거
+    if (isAlreadyAdded) {
+      deleteFromFavorites(trackId);
+      console.log("보관함에서 제거되었습니다.");
+    } else {
+      saveFavorites(trackId);
+      console.log("보관함에 추가되었습니다.");
+    }
+  };
+  //로컬 스토리지에서 제거하는 함수
+  const removeFavoriteFromLocalStorage = (songId) => {
+    const updatedFavorites = favorites.filter((fav) => fav.song_id !== songId);
+    setFavorites(updatedFavorites);
 
-  //   if (!isAlreadyAdded) {
-  //     // 추가되지 않은 경우에만 추가
-  //     const newFavorite = {
-  //       song_id: track.id,
-  //       signer_name: track.artists[0].name,
-  //       song_title: track.name,
-  //       image_url: track.album.images[0].url,
-  //     };
+    //로컬 스토리지에서 해당 항목 제거
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  };
 
-  //     setFavorites([...favorites, newFavorite]);
+  // 로컬 파일로 저장하는 함수
+  const saveFavoritesToLocalStorage = (favorite) => {
+    // 이전에 저장된 데이터 가져오기
+    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-  //     // 로컬 파일로 저장
-  //     saveFavoritesToLocalStorage(newFavorite);
-  //   }
-  // };
-  // //로컬 스토리지에서 제거하는 함수
-  // const removeFavoriteFromLocalStorage = (songId) => {
-  //   const updatedFavorites = favorites.filter((fav) => fav.song_id !== songId);
-  //   setFavorites(updatedFavorites);
+    // 새로운 데이터 추가
+    const updatedFavorites = [...storedFavorites, favorite];
 
-  //   //로컬 스토리지에서 해당 항목 제거
-  //   localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-  // };
+    // 로컬 스토리지에 저장
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  };
 
-  // // 로컬 파일로 저장하는 함수
-  // const saveFavoritesToLocalStorage = (favorite) => {
-  //   // 이전에 저장된 데이터 가져오기
-  //   const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-  //   // 새로운 데이터 추가
-  //   const updatedFavorites = [...storedFavorites, favorite];
-
-  //   // 로컬 스토리지에 저장
-  //   localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-  // };
-
-  // useEffect(() => {
-  //   console.log(favorites);
-  // }, [favorites]);
+  useEffect(() => {
+    console.log(favorites);
+  }, [favorites]);
 
   return (
     <div className="container">
@@ -243,7 +233,7 @@ function SearchResults() {
                     size={34}
                   />
                 )}
-                {/* {favorites.some((fav) => fav.song_id === track.id) ? (
+                {favorites.some((fav) => fav.song_id === track.id) ? (
                   <FaHeart
                     size={30}
                     className="btn-favorite"
@@ -255,9 +245,10 @@ function SearchResults() {
                     size={30}
                     className="btn-favorite"
                     onClick={() => handleFavorite(track)}
+                    userMusicSave
                     color="#7c93c3"
                   />
-                )} */}
+                )}
               </li>
             ))}
           </ul>
