@@ -12,6 +12,7 @@ const fetchSearchResults = async (accessToken, query) => {
 
     if (response.ok) {
       const data = await response.json();
+      console.log("옛날코오오드", data.tracks.items);
       return data.tracks.items || []; // "track" 유형의 아이템들을 반환
     } else {
       console.error("Failed to fetch search results");
