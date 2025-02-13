@@ -47,6 +47,7 @@ function SearchResults() {
         );
         const results = response.data;
         setSearchResults(results);
+        console.log("검색결과 가져오기: ", results);
       } catch (error) {
         console.log("Error fetching data:", error);
       }
@@ -158,8 +159,6 @@ function SearchResults() {
         const favoritesongs_list = results.favoriteSongsList;
 
         setFavorites(favoritesongs_list.map((song) => song.trackId));
-
-        console.log("useState에 저장되었는지 확인 " + favorites);
       } catch (error) {
         console.log("Error fetching data:", error);
       }

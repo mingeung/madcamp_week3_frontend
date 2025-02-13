@@ -11,6 +11,7 @@ import fetchSpotifyToken from "../utils/spotifyApi"; // 토큰 얻는 파일
 import fetchPlay from "../utils/fetchPlay";
 import "./Page2save.css";
 import axios from "axios";
+import instance from "../axiosConfig.js";
 
 const Page2save = () => {
   const navigate = useNavigate();
@@ -21,26 +22,72 @@ const Page2save = () => {
   const [musicIcon, setMusicIcon] = useState("");
   const { user_id } = useAuth();
 
+  //예전 코드
+  // useEffect(() => {
+  //   // 로컬 스토리지에서 저장된 즐겨찾기 데이터 가져오기
+  //   const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  //   setFavorites(storedFavorites);
+  //   console.log("favorites 상태 확인:", favorites);
+  // }, []);
+
+  //백엔드에 보관함에 넣은 곡들 불러오기
+
   useEffect(() => {
-    // 로컬 스토리지에서 저장된 즐겨찾기 데이터 가져오기
-    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(storedFavorites);
+    const fetchData = async () => {
+      try {
+        const memberId = 1;
+        const response = await instance.get(`/favoritesongs/${memberId}`);
+        const results = response.data.favoriteSongsList;
+        const favoritesongs_trackId = results.map((song) => song.trackId);
+        console.log("보관함 : " + favoritesongs_trackId);
+        //이 id의 정보를 가져오는 api를 만들고 그 내용을 useState에 저장하고 화면에 나타나게 하게
+        try {
+          const response = await instance.get(
+            `/several-track-info/ids=${favoritesongs_trackId}`
+          );
+          const results = response.data;
+          const favorite_list = results.tracks;
+          setFavorites(favorite_list);
+        } catch (error) {
+          console.log("Error 발생:", favoritesongs_trackId);
+        }
+        //여러 정보
+      } catch (error) {
+        console.log("Error fetching data:", error);
+      }
+    };
+    fetchData();
   }, []);
 
   const handleFavorite = async (selectedFavorite) => {
     const confirmDelete = window.confirm("보관함에서 삭제하시겠습니까?");
 
     if (confirmDelete) {
-      // 선택한 노래가 로컬 스토리지의 favorites에서 제거
-      const updatedFavorites = favorites.filter(
-        (fav) => fav.song_id !== selectedFavorite.song_id
-      );
-      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-      setFavorites(updatedFavorites);
+      // // 선택한 노래가 로컬 스토리지의 favorites에서 제거
+      // const updatedFavorites = favorites.filter(
+      //   (fav) => fav.song_id !== selectedFavorite.song_id
+      // );
+      // localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      // setFavorites(updatedFavorites);
+
+      try {
+        const trackId = selectedFavorite.id;
+        setFavorites(
+          favorites.filter((favorite) => favorite.tracks.id !== trackId)
+        );
+
+        const memberId = 1;
+        const response = await instance.delete(
+          `/favoritesongs/${trackId}/${memberId}`
+        );
+        console.log("보관함에서 제거");
+      } catch (e) {
+        console.log("보관함에서 제거 실패:", e);
+      }
     }
   };
 
-  //음원 듣기
+  //음원 듣기 -> 새로 만들어야지
   const handlePlayPause = async (e, PressMusic) => {
     try {
       const access_token = await fetchSpotifyToken();
@@ -66,19 +113,20 @@ const Page2save = () => {
 
   //사용자 노래 기록 저장
   const userMusicSave = async (track) => {
+    let now = new Date().toISOString().slice(0, -1); // 'Z' 제거
+
     try {
-      console.log("사용자 노래 저장 시도");
-      console.log("user_id", user_id);
-      console.log("song_title", track.song_title);
-      console.log("singer_name", track.signer_name);
-      const save_response = await axios.post(
-        "http://172.10.7.24:80/play-song",
-        {
-          user_id: user_id,
-          song_title: track.song_title,
-          singer_name: track.signer_name,
-        }
-      );
+      const postDate = {
+        memberId: 1,
+        trackId: track.id,
+        artistName: track.artists[0].name,
+        trackName: track.name,
+        date: now,
+      };
+      // console.log("postDate:", postDate);
+      // console.log("track", track.id);
+
+      const response = await instance.post("/playing", postDate);
     } catch (e) {
       console.log("사용자 노래 기록 저장 오류 발생:", e);
     }
@@ -95,14 +143,14 @@ const Page2save = () => {
               <div className="img-box">
                 <img
                   className="image"
-                  src={favorite.image_url}
-                  alt={favorite.song_title}
+                  src={favorite.album.images[0].url}
+                  alt={favorite.album.name}
                 />
               </div>
 
               <div className="song-intro">
-                <p className="song-title">{favorite.song_title}</p>
-                <p className="artist">{favorite.signer_name}</p>
+                <p className="song-title">{favorite.name}</p>
+                <p className="artist">{favorite.artists[0].name}</p>
               </div>
 
               {musicIcon === favorite.song_id && isPlaying ? (
