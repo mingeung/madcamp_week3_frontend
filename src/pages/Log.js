@@ -6,6 +6,7 @@ import Home from "./Home";
 import { useNavigate } from "react-router-dom";
 import "./Log.css";
 import { useAuth } from "../AuthContext";
+import instance from "../axiosConfig.js";
 
 const Login = () => {
   const [inputId, setInputId] = useState("");
@@ -15,52 +16,63 @@ const Login = () => {
   const navigate = useNavigate();
   const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(true);
 
-  //input data의 변화가 있을 때마다 value 값을 변경해서 useState 해준다.
-  const handleInputId = (e) => {
-    setInputId(e.target.value);
-    updateIsLoginButtonDisabled();
-  };
-
-  const handleInputPw = (e) => {
-    setInputPw(e.target.value);
-    updateIsLoginButtonDisabled();
-  };
-
-  //회원가입 페이지 이동
-  const onClickSignUp = () => {
-    navigate("/signup");
-  };
-  //바로 홈화면 이동
-  const onClickPass = () => {
-    navigate("/home");
-  };
-
-  //login 버튼 클릭 이벤트
-  const onClickLogin = async () => {
+  // Spotify 로그인 페이지로 이동
+  const handleLogin = async () => {
     try {
-      const response = await axios.post("http://172.10.7.24:80/login", {
-        user_id: inputId,
-        password: inputPw,
-      });
-
-      setResponseData(response.data);
-      const user = response.data.user;
-
-      navigate("/home");
-      login(user.user_id);
-      console.log(user.user_id);
-    } catch (e) {
-      console.log("오류 발생:", e);
+      const response = await axios.get("/spotifyLogin");
+      // 서버에서 반환한 URL로 리디렉션
+      window.location.href = response.data;
+    } catch (error) {
+      console.error("Spotify login redirect failed:", error);
     }
   };
 
-  const updateIsLoginButtonDisabled = () => {
-    if (inputId !== "" && inputPw !== "") {
-      setIsLoginButtonDisabled(false);
-    } else {
-      setIsLoginButtonDisabled(true);
-    }
-  };
+  // //input data의 변화가 있을 때마다 value 값을 변경해서 useState 해준다.
+  // const handleInputId = (e) => {
+  //   setInputId(e.target.value);
+  //   updateIsLoginButtonDisabled();
+  // };
+
+  // const handleInputPw = (e) => {
+  //   setInputPw(e.target.value);
+  //   updateIsLoginButtonDisabled();
+  // };
+
+  // //회원가입 페이지 이동
+  // const onClickSignUp = () => {
+  //   navigate("/signup");
+  // };
+  // //바로 홈화면 이동
+  // const onClickPass = () => {
+  //   navigate("/home");
+  // };
+
+  // //login 버튼 클릭 이벤트
+  // const onClickLogin = async () => {
+  //   try {
+  //     const response = await axios.post("http://172.10.7.24:80/login", {
+  //       user_id: inputId,
+  //       password: inputPw,
+  //     });
+
+  //     setResponseData(response.data);
+  //     const user = response.data.user;
+
+  //     navigate("/home");
+  //     login(user.user_id);
+  //     console.log(user.user_id);
+  //   } catch (e) {
+  //     console.log("오류 발생:", e);
+  //   }
+  // };
+
+  // const updateIsLoginButtonDisabled = () => {
+  //   if (inputId !== "" && inputPw !== "") {
+  //     setIsLoginButtonDisabled(false);
+  //   } else {
+  //     setIsLoginButtonDisabled(true);
+  //   }
+  // };
 
   return (
     <div className="login">
@@ -68,7 +80,10 @@ const Login = () => {
         <h2 className="login-title">음악을 프로답게 즐겨보세요</h2>
         <div className="login-container">
           <div>
-            <input
+            <button className="sign-up-box" onClick={handleLogin}>
+              Spotify 로그인
+            </button>
+            {/* <input
               className="input-box"
               type="text"
               name="input_id"
@@ -111,11 +126,11 @@ const Login = () => {
           </div>
           <button type="button" onClick={onClickPass}>
             건너뛰기
-          </button>
+          </button> */}
+          </div>
         </div>
       </div>
     </div>
   );
 };
-
 export default Login;
