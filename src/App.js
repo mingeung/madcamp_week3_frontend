@@ -28,17 +28,12 @@ import Page6month from "./pages/Page6month";
 import axios from "axios";
 
 const App = () => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    navigate("/login");
-  }, []);
-
   return (
     <div>
       {/* 
         로그인 페이지와 회원가입 페이지에서는 Header와 Sidebar를 나타나지 않도록 조건부 렌더링
       */}
-      {window.location.pathname !== "/login" &&
+      {window.location.pathname !== "/" &&
         window.location.pathname !== "/signup" && (
           <>
             <Sidebar />
@@ -46,7 +41,8 @@ const App = () => {
         )}
 
       <Routes>
-        <Route path="/login" element={<Log />} />
+        <Route path="/" element={<Log />} />
+        {/* path"/"첫화면" */}
         <Route path="/signup" element={<SignUp />} />
         <Route path="/home" element={<Home />} />
         <Route path="/search-results" element={<SearchResults />} />
@@ -64,5 +60,4 @@ const App = () => {
     </div>
   );
 };
-
 export default App;

@@ -36,7 +36,7 @@ const Page2save = () => {
     const fetchData = async () => {
       try {
         const memberId = 1;
-        const response = await instance.get(`/favoritesongs/${memberId}`);
+        const response = await instance.get(`/favoritesongs`);
         const results = response.data.favoriteSongsList;
         const favoritesongs_trackId = results.map((song) => song.trackId);
         console.log("보관함 : " + favoritesongs_trackId);
