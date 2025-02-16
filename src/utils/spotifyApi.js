@@ -28,7 +28,7 @@ const fetchSpotifyToken = async () => {
       const data = await response.json();
       const token = data.access_token;
       // 이후에 token을 사용하여 Spotify API에 요청을 보낼 수 있음
-      console.log(token);
+      // console.log(token);
       return token;
     } else {
       console.error("Failed to fetch Spotify token");

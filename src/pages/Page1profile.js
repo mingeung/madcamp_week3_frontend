@@ -6,6 +6,7 @@ import axios from "axios";
 import { useAuth } from "../AuthContext";
 import { upload } from "@testing-library/user-event/dist/upload";
 import { Navigate, useNavigate } from "react-router-dom";
+import instance from "../axiosConfig";
 
 const Page1profile = () => {
   const navigate = useNavigate();
@@ -19,31 +20,25 @@ const Page1profile = () => {
   const { user_id, logout } = useAuth();
 
   const fetchUserData = async () => {
-    console.log(user_id);
+    // console.log(user_id);
+    console.log("fetchUserData실행");
     try {
-      const response = await axios.get("http://172.10.7.24:80/users", {
-        params: {
-          user_id: user_id,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(response.data);
-      const userData = response.data;
-      setUserId(userData.user_id);
-      setUserEmail(userData.email);
-      setNickname(userData.nickname);
-      setImage(userData.imageurl);
+      console.log("api가져오기 시도");
+      const response = await instance.get("/member");
+      console.log("response:", response.data.memberList[0]);
+
+      const memberData = response.data.memberList[0];
+      setUserId(memberData.id);
+      setUserEmail(memberData.email);
+      setNickname(memberData.nickname);
+      setImage(memberData.imageurl);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
   useEffect(() => {
-    if (user_id) {
-      fetchUserData();
-    }
-  }, [user_id]);
+    fetchUserData();
+  }, []);
 
   //이미지 업로드
   const onChange = async (e) => {
@@ -114,8 +109,8 @@ const Page1profile = () => {
         <div className="email-id-box">
           <div>
             <div className="row-dir">
-              <p className="bold-text">아이디</p>
-              <p className="user-info">{userId}</p>
+              <p className="bold-text">닉네임</p>
+              <p className="user-info">{nickname}</p>
             </div>
 
             <div className="row-dir">
