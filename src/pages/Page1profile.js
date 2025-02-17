@@ -17,21 +17,19 @@ const Page1profile = () => {
   const [nickname, setNickname] = useState("");
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
   const { user_id, logout } = useAuth();
 
   const fetchUserData = async () => {
-    // console.log(user_id);
-    console.log("fetchUserData실행");
     try {
-      console.log("api가져오기 시도");
       const response = await instance.get("/member");
-      console.log("response:", response.data.memberList[0]);
 
       const memberData = response.data.memberList[0];
       setUserId(memberData.id);
       setUserEmail(memberData.email);
       setNickname(memberData.nickname);
-      setImage(memberData.imageurl);
+      setImage(memberData.imageUrl);
+      console.log("현재이미지:", Image);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -42,28 +40,55 @@ const Page1profile = () => {
 
   //이미지 업로드
   const onChange = async (e) => {
-    if (e.target.files[0]) {
-      const imgURL = URL.createObjectURL(e.target.files[0]);
-      console.log(imgURL);
-      try {
-        const response = await axios.put(
-          `http://172.10.7.24:80/upload_image/${user_id}`,
-          { imageurl: imgURL }
-        );
+    const file = e.target.files[0];
+    if (file) {
+      // 미리보기 업데이트: 객체 URL 생성 (브라우저 내에서만 유효)
+      const previewUrl = URL.createObjectURL(file);
+      setImage(previewUrl);
 
-        console.log("Image uploaded successfully:", response.data);
-        // 이미지를 업로드한 후에 서버에서 다시 가져옴
-        fetchUserData();
+      const formData = new FormData();
+      formData.append("profileImage", file);
+      console.log(file);
+
+      try {
+        const response = await instance.patch("/image", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log("reponse:" + response.data);
+        //서버에서 받아오기
+        const imageUrl = response.data; // 예: "/uploads/1739770159564_cat.JPG"
+        // 이미지를 표시할 때, 절대 경로로 바꾸기
+        setImage(`http://localhost:8080${imageUrl}`);
       } catch (error) {
-        console.log("Image upload error:", error);
+        console.error("업로드 실패:", error);
       }
-    } else {
-      // 업로드 취소할 시
-      setImage(
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-      );
-      return;
     }
+  };
+
+  //닉네임 수정
+  // 수정하기 버튼 클릭 시 수정 모드 활성화
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  // 저장 버튼 클릭 시 닉네임 변경
+  const handleSaveClick = async () => {
+    setNickname(nickname); // 새로운 닉네임 저장
+    //백엔드에 수정된 닉네임 저장
+    try {
+      const response = await instance.patch("/nickname?nickname=" + nickname);
+      console.log("닉네임 변경 성공:", response.data);
+    } catch (error) {
+      console.error("닉네임 변경 실패:", error);
+    }
+    setIsEditing(false); // 수정 모드 종료
+  };
+
+  // 입력란에서 텍스트 변경 시 상태 업데이트
+  const handleNicknameChange = (e) => {
+    setNickname(e.target.value);
   };
 
   const onClickLogOut = async () => {
@@ -104,21 +129,36 @@ const Page1profile = () => {
               ref={fileInput}
             />
           </div>
-          <p className="profile-nick-name">{nickname}</p>
+          {/* <p className="profile-nick-name">{nickname}</p> */}
         </div>
         <div className="email-id-box">
           <div>
             <div className="row-dir">
               <p className="bold-text">닉네임</p>
               <p className="user-info">{nickname}</p>
+              {isEditing ? (
+                <div>
+                  <input
+                    type="text"
+                    value={nickname}
+                    onChange={handleNicknameChange}
+                  />
+                  <button onClick={handleSaveClick}>저장하기</button>
+                </div>
+              ) : (
+                <button className="member-edit" onClick={handleEditClick}>
+                  수정하기
+                </button>
+              )}
             </div>
 
             <div className="row-dir">
-              <p className="bold-email-text"> 이메일</p>
+              <p className="bold-email-text">이메일</p>
               <p className="user-email-info">{userEmail}</p>
             </div>
           </div>
         </div>
+        <div></div>
       </div>
       {user_id ? (
         <p className="log-inout" onClick={onClickLogOut}>
