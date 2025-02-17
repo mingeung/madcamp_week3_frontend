@@ -29,7 +29,6 @@ const Page1profile = () => {
       setUserEmail(memberData.email);
       setNickname(memberData.nickname);
       setImage(memberData.imageUrl);
-      console.log("현재이미지:", Image);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -48,7 +47,6 @@ const Page1profile = () => {
 
       const formData = new FormData();
       formData.append("profileImage", file);
-      console.log(file);
 
       try {
         const response = await instance.patch("/image", formData, {
@@ -56,11 +54,12 @@ const Page1profile = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log("reponse:" + response.data);
         //서버에서 받아오기
-        const imageUrl = response.data; // 예: "/uploads/1739770159564_cat.JPG"
-        // 이미지를 표시할 때, 절대 경로로 바꾸기
-        setImage(`http://localhost:8080${imageUrl}`);
+        const imageUrl = response.data; //주소는 잘 받아오는데 이걸로 어떻게 백엔드에서 사진을 다시 받아오지?
+        const fullImageUrl = `http://localhost:8080${imageUrl}`;
+        console.log(fullImageUrl);
+
+        setImage(fullImageUrl);
       } catch (error) {
         console.error("업로드 실패:", error);
       }
