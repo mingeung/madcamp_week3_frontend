@@ -15,6 +15,7 @@ import "./SearchResults.css";
 import "../pages/Home.js";
 import axios from "axios";
 import instance from "../axiosConfig.js";
+import SpotifyPlayer from "../utils/SpotifyPlayer.js";
 function SearchResults() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,7 +28,17 @@ function SearchResults() {
   const [musicIcon, setMusicIcon] = useState("");
   const [searchMusic, setSearchMusic] = useState("");
   const { user_id } = useAuth();
+  //spotify player
+  const [is_paused, setPaused] = useState(false);
+  const [is_active, setActive] = useState(false);
+  const [current_track, setTrack] = useState();
 
+  const [player, setPlayer] = useState(undefined);
+
+  const [deviceId, setDeviceId] = useState(null);
+
+  const access_token =
+    "BQCQTJdFD9696GXJZ_-tEgI5T7Za5ggaTmXS_n3jckQoJPvsqzsd2U3XZ4Wii0kbgmGKD-RXVs-U-gh2ZbuBRYV-HUNVucxRNV_57OaO6vydvEmtiskbRui8lTdYYjNYpcV7EKxxj7WNQW5V0cc5TTAMPDvLq8x2H9i17Y3c6eTOmeyCGJ_BX_g7us4-YJ7F_6rbZnL8BQu8qGj6mFcwnilfjZSwZDLLQvFuCTY-yd4eH_BDYdfQJGrMioJIfRqa";
   //검색기능
   const handleSearch = () => {
     navigate(`/search-results`, { state: { query: searchMusic } });
@@ -55,30 +66,37 @@ function SearchResults() {
     fetchData();
   }, [searchQuery]);
 
-  //음원 듣기
-  const handlePlayPause = async (e, track) => {
-    try {
-      const access_token = await fetchSpotifyToken(); // access token 받기
-      e.preventDefault();
+  // 🎯 SpotifyPlayer에서 deviceId를 전달받는 콜백
+  const handleDeviceReady = (id) => {
+    // console.log("Received Device ID:", id);
+    setDeviceId(id);
+  };
 
-      if (isPlaying) {
-        await fetchPlay(access_token, track.id, false); //stop
-        console.log("isplaying", isPlaying);
-        setIsPlaying((prevIsPlaying) => !prevIsPlaying);
-      } else {
-        await fetchPlay(access_token, track.id, true); //play
-        setMusicIcon(track.id);
-        // console.log("musicIcon", musicIcon);
-        // console.log("isplaying", isPlaying);
-        // console.log("track.id:", track.id);
-        setIsPlaying((prevIsPlaying) => !prevIsPlaying);
-        //play할 때마다 사용자 노래 기록에 저장
-        userMusicSave(track);
-      }
+  //음원 듣기
+  const handlePlayStart = async (trackUri) => {
+    try {
+      const response = await instance.put(
+        `/playStart/${deviceId}/${access_token}`,
+        { uris: trackUri }
+      );
+      setIsPlaying(true);
     } catch (error) {
-      console.log("Error fetching data:", error);
+      console.log("음원 재생하기 실패:", error);
     }
   };
+
+  //재생 pause 안됨
+  const handlePlayPause = async () => {
+    try {
+      const response = await instance.put(
+        `/playPause/${deviceId}/${access_token}`
+      );
+      setIsPlaying(false);
+    } catch (error) {
+      console.log("음원 정지하기 실패:", error);
+    }
+  };
+
   //사용자 노래 기록 저장
   const userMusicSave = async (track) => {
     let now = new Date().toISOString().slice(0, -1); // 'Z' 제거
@@ -199,19 +217,20 @@ function SearchResults() {
 
                 {musicIcon === track.id && isPlaying ? (
                   <FaCircleStop
-                    onClick={(e) => handlePlayPause(e, track)}
+                    onClick={(e) => handlePlayPause(track.uri)}
                     className="btn-play"
                     color="#7c93c3"
                     size={34}
                   />
                 ) : (
                   <FaCirclePlay
-                    onClick={(e) => handlePlayPause(e, track)}
+                    onClick={(e) => handlePlayStart(track.uri)}
                     className="btn-play"
                     color="#7c93c3"
                     size={34}
                   />
                 )}
+
                 {favorites.some((fav) => fav === track.id) ? (
                   <FaHeart
                     size={30}
@@ -230,6 +249,10 @@ function SearchResults() {
                 )}
               </li>
             ))}
+            <SpotifyPlayer
+              token={access_token}
+              onDeviceReady={handleDeviceReady}
+            />
           </ul>
         )}
       </div>

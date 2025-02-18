@@ -103,6 +103,20 @@ const Page1profile = () => {
   const onClickLogIn = () => {
     navigate("/login");
   };
+
+  /**
+   * let과 useState의 차이 => let은 값이 바껴도 아무일 안일어남. setState 는 값이 바뀌면, 그 값을 포함한 모든 함수가 재호출
+   * 근데 useEffect에 있는 애는 setState에 상관없이 []안에 들어있는 값이 바껴야만 호출됨
+   * 그리고 주소를 할당한 변수와 값을 할당한 변수는 차이가 있음.
+   */
+  // let a = 1;
+  // const [b, setB] = useState(1);
+  // console.log("변수가 바꼈어.");
+
+  // useEffect(() => {
+  //   console.log("변수를 바꼈어 effect");
+  // }, [a]);
+
   return (
     <div className="profile-container">
       <div className="box">
@@ -135,6 +149,9 @@ const Page1profile = () => {
             <div className="row-dir">
               <p className="bold-text">닉네임</p>
               <p className="user-info">{nickname}</p>
+
+              {/* <button onClick={() => a++}>변수 let 바꾸기 +{a}</button> */}
+              {/* <button onClick={() => setB(b + 1)}>변수 state 바꾸기+{b}</button> */}
               {isEditing ? (
                 <div>
                   <input

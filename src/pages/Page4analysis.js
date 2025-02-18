@@ -8,6 +8,7 @@ import fetchPlay from "../utils/fetchPlay";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaCircleStop } from "react-icons/fa6";
 import { MutatingDots } from "react-loader-spinner";
+import SpotifyPlayer from "../utils/SpotifyPlayer";
 
 const Page4analysis = () => {
   // const [nickname, setNickname] = useState("");
@@ -21,7 +22,6 @@ const Page4analysis = () => {
   const [musicIcon, setMusicIcon] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
-  //닉네임 정보 가져오기
 
   const fetchUserData = async () => {
     console.log(user_id);
