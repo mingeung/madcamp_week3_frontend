@@ -38,7 +38,8 @@ function SearchResults() {
   const [deviceId, setDeviceId] = useState(null);
 
   const access_token =
-    "BQCQTJdFD9696GXJZ_-tEgI5T7Za5ggaTmXS_n3jckQoJPvsqzsd2U3XZ4Wii0kbgmGKD-RXVs-U-gh2ZbuBRYV-HUNVucxRNV_57OaO6vydvEmtiskbRui8lTdYYjNYpcV7EKxxj7WNQW5V0cc5TTAMPDvLq8x2H9i17Y3c6eTOmeyCGJ_BX_g7us4-YJ7F_6rbZnL8BQu8qGj6mFcwnilfjZSwZDLLQvFuCTY-yd4eH_BDYdfQJGrMioJIfRqa";
+    "BQA3zgX12JtzQQOgZ4icimaIutNLTnO_1d0rA15t6MvqDeCQ0MfBiYjbqOusKrzf9PUoZreB9ea-ad5IEFxAUaGTMxB6fUlpUVbrSPYPhbn5_Zy9BNp1aXWi0CaoaJaAx10Fq9zZfC_KUlmAxs2ELWvoCz9yxevWIuAOlHLSNWtEgIw27meqLCabIAWJoW4F8raAXXTYLOHz1yIsYWG7ziB8jvwQ4MbBTHCNXfr_Rvbdopme09UFPrcWw9I-JP_q";
+
   //검색기능
   const handleSearch = () => {
     navigate(`/search-results`, { state: { query: searchMusic } });
@@ -73,13 +74,16 @@ function SearchResults() {
   };
 
   //음원 듣기
-  const handlePlayStart = async (trackUri) => {
+  const handlePlayStart = async (track) => {
+    const trackUri = track.uri;
     try {
+      console.log("음원재생");
       const response = await instance.put(
         `/playStart/${deviceId}/${access_token}`,
         { uris: trackUri }
       );
       setIsPlaying(true);
+      setMusicIcon(track.id);
     } catch (error) {
       console.log("음원 재생하기 실패:", error);
     }
@@ -88,6 +92,7 @@ function SearchResults() {
   //재생 pause 안됨
   const handlePlayPause = async () => {
     try {
+      console.log("음원 정지");
       const response = await instance.put(
         `/playPause/${deviceId}/${access_token}`
       );
@@ -217,14 +222,14 @@ function SearchResults() {
 
                 {musicIcon === track.id && isPlaying ? (
                   <FaCircleStop
-                    onClick={(e) => handlePlayPause(track.uri)}
+                    onClick={(e) => handlePlayPause(track)}
                     className="btn-play"
                     color="#7c93c3"
                     size={34}
                   />
                 ) : (
                   <FaCirclePlay
-                    onClick={(e) => handlePlayStart(track.uri)}
+                    onClick={(e) => handlePlayStart(track)}
                     className="btn-play"
                     color="#7c93c3"
                     size={34}
