@@ -2,25 +2,26 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa6";
-import { FaCirclePlay } from "react-icons/fa6";
+
 import { FaHeart } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
-import { FaCircleStop } from "react-icons/fa6";
 import { useAuth } from "../AuthContext";
 import "./SearchResults.css";
 import "../pages/Home.js";
 import instance from "../axiosConfig.js";
 import SpotifyPlayer from "../utils/SpotifyPlayer.js";
 import Player from "./Player.js";
+import PlayCard from "./PlayCard.js";
+// import useMusicPlayer from "../utils/useMusicPlayer.js";
 
 function SearchResults() {
   const navigate = useNavigate();
   const location = useLocation();
   const searchQuery = location.state?.query || "";
   const [searchResults, setSearchResults] = useState([]);
-  const [isPlaying, setIsPlaying] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
   const [favorites, setFavorites] = useState([]);
-  const [musicIcon, setMusicIcon] = useState("");
+  // const [musicIcon, setMusicIcon] = useState("");
   const [searchMusic, setSearchMusic] = useState("");
   //spotify player
   const [current_track, setCurrentTrack] = useState();
@@ -29,6 +30,8 @@ function SearchResults() {
   const [access_token, setAccessToken] = useState("");
 
   const [isPlayervisible, setIsPlayervisible] = useState(false);
+
+  // const { a } = useMusicPlayer();
 
   useEffect(() => {
     const getAccessToken = async () => {
@@ -74,35 +77,36 @@ function SearchResults() {
   const handleDeviceReady = (id) => {
     // console.log("Received Device ID:", id);
     setDeviceId(id);
+    console.log("deviceId:", deviceId);
   };
 
   //음원 듣기
-  const handlePlayStart = async (track) => {
-    try {
-      console.log("음원재생");
-      await instance.put(`/playStart/${deviceId}`, {
-        uris: track.uri,
-      });
-      setIsPlaying(true);
-      setMusicIcon(track.id);
-      userMusicSave(track);
-      setIsPlayervisible(true);
-      setCurrentTrack(track);
-    } catch (error) {
-      console.log("음원 재생하기 실패:", error);
-    }
-  };
+  // const handlePlayStart = async (track) => {
+  //   try {
+  //     console.log("음원재생");
+  //     await instance.put(`/playStart/${deviceId}`, {
+  //       uris: track.uri,
+  //     });
+  //     setIsPlaying(true);
+  //     setMusicIcon(track.id);
+  //     userMusicSave(track);
+  //     setIsPlayervisible(true);
+  //     setCurrentTrack(track);
+  //   } catch (error) {
+  //     console.log("음원 재생하기 실패:", error);
+  //   }
+  // };
 
-  //재생 멈추기
-  const handlePlayPause = async () => {
-    try {
-      console.log("음원 정지");
-      await instance.put(`/playPause/${deviceId}`);
-      setIsPlaying(false);
-    } catch (error) {
-      console.log("음원 정지하기 실패:", error);
-    }
-  };
+  // 재생 멈추기
+  // const handlePlayPause = async () => {
+  //   try {
+  //     console.log("음원 정지");
+  //     await instance.put(`/playPause/${deviceId}`);
+  //     setIsPlaying(false);
+  //   } catch (error) {
+  //     console.log("음원 정지하기 실패:", error);
+  //   }
+  // };
 
   //사용자 노래 기록 저장
   const userMusicSave = async (track) => {
@@ -197,53 +201,60 @@ function SearchResults() {
         {searchResults.length > 0 && (
           <ul className="search-grid">
             {searchResults.map((track, index) => (
-              <li className="search-list" key={index}>
-                <div className="img-box">
-                  <img
-                    className="image"
-                    src={track.album.images[0].url}
-                    alt={track.album.name}
-                  />
-                </div>
+              <PlayCard
+                track={track}
+                currentTrack={current_track}
+                setCurrentTrack={setCurrentTrack}
+                deviceId={deviceId}
+                key={index}
+              />
+              // <li className="search-list" key={index}>
+              //   <div className="img-box">
+              //     <img
+              //       className="image"
+              //       src={track.album.images[0].url}
+              //       alt={track.album.name}
+              //     />
+              //   </div>
 
-                <div className="song-intro">
-                  <p className="song-title">{track.name}</p>
-                  <p className="artist">{track.artists[0].name}</p>
-                </div>
+              //   <div className="song-intro">
+              //     <p className="song-title">{track.name}</p>
+              //     <p className="artist">{track.artists[0].name}</p>
+              //   </div>
 
-                {musicIcon === track.id && isPlaying ? (
-                  <FaCircleStop
-                    onClick={(e) => handlePlayPause(track)}
-                    className="btn-play"
-                    color="#7c93c3"
-                    size={34}
-                  />
-                ) : (
-                  <FaCirclePlay
-                    onClick={(e) => handlePlayStart(track)}
-                    className="btn-play"
-                    color="#7c93c3"
-                    size={34}
-                  />
-                )}
+              //   {musicIcon === track.id && isPlaying ? (
+              //     <FaCircleStop
+              //       onClick={(e) => handlePlayPause(track)}
+              //       className="btn-play"
+              //       color="#7c93c3"
+              //       size={34}
+              //     />
+              //   ) : (
+              //     <FaCirclePlay
+              //       onClick={(e) => handlePlayStart(track)}
+              //       className="btn-play"
+              //       color="#7c93c3"
+              //       size={34}
+              //     />
+              //   )}
 
-                {favorites.some((fav) => fav === track.id) ? (
-                  <FaHeart
-                    size={30}
-                    className="btn-favorite"
-                    onClick={() => handleFavorite(track)}
-                    color="#7c93c3"
-                  />
-                ) : (
-                  <FaRegHeart
-                    size={30}
-                    className="btn-favorite"
-                    onClick={() => handleFavorite(track)}
-                    userMusicSave
-                    color="#7c93c3"
-                  />
-                )}
-              </li>
+              //   {favorites.some((fav) => fav === track.id) ? (
+              //     <FaHeart
+              //       size={30}
+              //       className="btn-favorite"
+              //       onClick={() => handleFavorite(track)}
+              //       color="#7c93c3"
+              //     />
+              //   ) : (
+              //     <FaRegHeart
+              //       size={30}
+              //       className="btn-favorite"
+              //       onClick={() => handleFavorite(track)}
+              //       userMusicSave
+              //       color="#7c93c3"
+              //     />
+              //   )}
+              // </li>
             ))}
             <SpotifyPlayer
               token={access_token}
@@ -252,7 +263,7 @@ function SearchResults() {
           </ul>
         )}
       </div>
-      {isPlayervisible && current_track != null && (
+      {/* {isPlayervisible && current_track != null && (
         <Player
           track={current_track}
           isPlaying={isPlaying}
@@ -263,7 +274,7 @@ function SearchResults() {
           favorites={favorites}
           deviceId={deviceId}
         />
-      )}
+      )} */}
     </div>
   );
 }
