@@ -86,13 +86,12 @@ function SearchResults() {
 
   //음원 듣기
   const handlePlayStart = async (track) => {
-    const trackUri = track.uri;
     try {
       console.log("음원재생");
-      const response = await instance.put(
-        `/playStart/${deviceId}/${access_token}`,
-        { uris: trackUri }
-      );
+      console.log("음원재생에 넣을 trackUri:", track.uri);
+      await instance.put(`/playStart/${deviceId}`, {
+        uris: track.uri,
+      });
       setIsPlaying(true);
       setMusicIcon(track.id);
     } catch (error) {
@@ -104,9 +103,7 @@ function SearchResults() {
   const handlePlayPause = async () => {
     try {
       console.log("음원 정지");
-      const response = await instance.put(
-        `/playPause/${deviceId}/${access_token}`
-      );
+      await instance.put(`/playPause/${deviceId}`);
       setIsPlaying(false);
     } catch (error) {
       console.log("음원 정지하기 실패:", error);
@@ -119,7 +116,6 @@ function SearchResults() {
 
     try {
       const postDate = {
-        memberId: 1,
         trackId: track.id,
         artistName: track.artists[0].name,
         trackName: track.name,
@@ -140,7 +136,6 @@ function SearchResults() {
       //하트색깔변하게
       setFavorites([...favorites, trackId]);
       const postDate = {
-        memberId: 1,
         trackId: trackId,
       };
       const response = await instance.post("/favoritesongs", postDate);
