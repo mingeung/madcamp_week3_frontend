@@ -1,20 +1,10 @@
 //App.js
 import React, { useEffect, useState } from "react";
-import {
-  Route,
-  Routes,
-  Navigate,
-  BrowserRouter,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Log from "./pages/Log";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import Sidebar from "./components/Sidebar";
-import fetchSpotifyToken from "../src/utils/spotifyApi";
-import fetchArtistInfo from "./utils/fetchArtistInfo";
-import fetchSearchResults from "./utils/fetchSearchresults";
-import Header from "./components/Header";
 import Profile from "./pages/Page1profile";
 import Save from "./pages/Page2save";
 import Chat from "./pages/Page3chat";
@@ -25,6 +15,8 @@ import ResultComposition from "./pages/Page5resultComposition";
 import Page3chatRock from "./pages/Page3chatRock";
 import Page6month from "./pages/Page6month";
 import Player from "./components/Player";
+
+//App -> hader.js ->haeder.css
 const App = () => {
   return (
     <div>

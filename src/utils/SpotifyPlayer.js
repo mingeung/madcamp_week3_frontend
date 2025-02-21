@@ -7,7 +7,6 @@ function SpotifyPlayer({ token, onDeviceReady }) {
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
     document.body.appendChild(script);
-    console.log("222222222");
     window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new window.Spotify.Player({
         name: "My React Spotify Player",

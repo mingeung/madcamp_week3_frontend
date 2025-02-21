@@ -1,19 +1,14 @@
 // SearchResults.js
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import fetchSearchResults from "../utils/fetchSearchresults";
-import fetchSpotifyToken from "../utils/spotifyApi";
-import getActiveDeviceId from "../to/getActiveDeviceId";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import { FaCircleStop } from "react-icons/fa6";
-import fetchPlay from "../utils/fetchPlay";
 import { useAuth } from "../AuthContext";
 import "./SearchResults.css";
 import "../pages/Home.js";
-import axios from "axios";
 import instance from "../axiosConfig.js";
 import SpotifyPlayer from "../utils/SpotifyPlayer.js";
 import Player from "./Player.js";
@@ -24,18 +19,11 @@ function SearchResults() {
   const searchQuery = location.state?.query || "";
   const [searchResults, setSearchResults] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [activeDeviceId, setActiveDeviceId] = useState(null);
-  const [playResults, setPlayResults] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [musicIcon, setMusicIcon] = useState("");
   const [searchMusic, setSearchMusic] = useState("");
-  const { user_id } = useAuth();
   //spotify player
-  const [is_paused, setPaused] = useState(false);
-  const [is_active, setActive] = useState(false);
   const [current_track, setCurrentTrack] = useState();
-
-  const [player, setPlayer] = useState(undefined);
 
   const [deviceId, setDeviceId] = useState(null);
   const [access_token, setAccessToken] = useState("");
