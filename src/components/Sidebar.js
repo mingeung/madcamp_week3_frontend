@@ -8,28 +8,44 @@ import { FaSearch } from "react-icons/fa";
 import { RiMusicFill } from "react-icons/ri";
 import { ImParagraphLeft } from "react-icons/im";
 import { useAuth } from "../AuthContext";
-import axios from "../axiosConfig";
+import instance from "../axiosConfig";
 
 function Sidebar() {
   //url의 path 값을 받아올 수 있음
   const pathName = useLocation().pathname;
   const [userProfile, setUserProfile] = useState("");
+  const [nickname, setNickname] = useState("");
   const { user_id } = useAuth();
+
+  // const fetchUserData = async () => {
+  //   try {
+  //     const response = await axios.get("http://172.10.7.24:80/users", {
+  //       params: {
+  //         user_id: user_id,
+  //       },
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     console.log(response.data);
+  //     const userData = response.data;
+
+  //     setUserProfile(userData.imageurl);
+  //   } catch (error) {
+  //     console.error("Error fetching user data:", error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchUserData();
+  // }, []);
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get("http://172.10.7.24:80/users", {
-        params: {
-          user_id: user_id,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(response.data);
-      const userData = response.data;
+      const response = await instance.get("/member");
 
-      setUserProfile(userData.imageurl);
+      const memberData = response.data.memberList[0];
+      setNickname(memberData.nickname);
+      setUserProfile(memberData.imageUrl);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -43,7 +59,7 @@ function Sidebar() {
       <img
         style={{ width: "80px", borderRadius: "50px" }}
         src={userProfile}
-        alt="프로필"
+        alt={nickname}
       />
     ),
     // name: "프로필",
