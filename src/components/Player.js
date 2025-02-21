@@ -42,7 +42,6 @@ function Player({
         setRepeatState("track");
         resolve();
       });
-      console.log("repeatState:", repeatState);
       await instance.put(`/repeatMode/${deviceId}/${repeatState}`);
       console.log("반복재생 켜기");
     } catch (error) {
@@ -74,6 +73,23 @@ function Player({
       console.log("셔플재생 켜기");
     } catch (error) {
       console.log("셔플재생 켜기 실패:", error);
+    }
+  };
+
+  const skipToPrevious = async () => {
+    try {
+      await instance.post(`/skipToPrevious/${deviceId}`);
+      console.log("이전 곡 재생 ");
+    } catch (error) {
+      console.log("이전 곡 재생 에러:", error);
+    }
+  };
+  const skipToNext = async () => {
+    try {
+      await instance.post(`/skipToNext/${deviceId}`);
+      console.log("다음 곡 재생 ");
+    } catch (error) {
+      console.log("다음 곡 재생 에러:", error);
     }
   };
 
@@ -137,6 +153,8 @@ function Player({
       ) : (
         <button onClick={(e) => setShuffle()}>셔플재생 하기</button>
       )}
+      <button onClick={(e) => skipToPrevious()}>이전 곡 재생</button>
+      <button onClick={(e) => skipToNext()}>다음 곡 재생</button>
     </div>
   );
 }
