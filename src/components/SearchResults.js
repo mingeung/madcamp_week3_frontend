@@ -136,7 +136,7 @@ function SearchResults() {
       const postDate = {
         trackId: trackId,
       };
-      const response = await instance.post("/favoritesongs", postDate);
+      await instance.post("/favoritesongs", postDate);
       console.log("보관함에 추가");
     } catch (e) {
       console.log("보관함 저장 실패:", e);
@@ -148,10 +148,7 @@ function SearchResults() {
     try {
       setFavorites(favorites.filter((favorite) => favorite !== trackId));
 
-      const memberId = 1;
-      const response = await instance.delete(
-        `/favoritesongs/${trackId}/${memberId}`
-      );
+      await instance.delete(`/favoritesongs/${trackId}`);
       console.log("보관함에서 제거");
     } catch (e) {
       console.log("보관함에서 제거 실패:", e);
@@ -161,12 +158,9 @@ function SearchResults() {
   //favorites
   const handleFavorite = async (track) => {
     const trackId = track.id;
-    const memberId = 1;
-    const response = await instance.get(
-      `/favoritesongs/${trackId}/${memberId}`
-    ); // 여기에서 오류가 발생함
+    const response = await instance.get(`/favoritesongs/${trackId}`); // 여기에서 오류가 발생함
     const isAlreadyAdded = response.data;
-    console.log("trackId" + track.id);
+
     //이미 추가한 경우에 제거
     if (isAlreadyAdded) {
       deleteFromFavorites(trackId);
@@ -180,8 +174,7 @@ function SearchResults() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const memberId = 1;
-        const response = await instance.get(`/favoritesongs/${memberId}`);
+        const response = await instance.get(`/favoritesongs`);
         const results = response.data;
         const favoritesongs_list = results.favoriteSongsList;
 
