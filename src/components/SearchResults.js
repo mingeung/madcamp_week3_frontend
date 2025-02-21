@@ -88,18 +88,18 @@ function SearchResults() {
   const handlePlayStart = async (track) => {
     try {
       console.log("음원재생");
-      console.log("음원재생에 넣을 trackUri:", track.uri);
       await instance.put(`/playStart/${deviceId}`, {
         uris: track.uri,
       });
       setIsPlaying(true);
       setMusicIcon(track.id);
+      userMusicSave(track);
     } catch (error) {
       console.log("음원 재생하기 실패:", error);
     }
   };
 
-  //재생 pause 안됨
+  //재생 멈추기
   const handlePlayPause = async () => {
     try {
       console.log("음원 정지");
@@ -121,10 +121,8 @@ function SearchResults() {
         trackName: track.name,
         date: now,
       };
-      // console.log("postDate:", postDate);
-      // console.log("track", track.id);
-
-      const response = await instance.post("/playing", postDate);
+      await instance.post("/playing", postDate);
+      console.log("사용자 노래 기록 저장");
     } catch (e) {
       console.log("사용자 노래 기록 저장 오류 발생:", e);
     }
