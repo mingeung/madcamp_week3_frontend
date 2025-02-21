@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
 import { FaCircleStop } from "react-icons/fa6";
 import "./Player.css";
+import instance from "../axiosConfig";
 
 function Player({
   track,
@@ -12,10 +14,57 @@ function Player({
   handleFavorite,
   musicIcon,
   favorites,
+  deviceId,
 }) {
+  const [isShuffleMode, setSuhffleMode] = useState(false);
+  const [isRepeatMode, setRepeatMode] = useState(false);
+  const [repeatState, setRepeatState] = useState("");
+
+  const turnOffRepeat = async () => {
+    try {
+      setRepeatMode(false);
+      setRepeatState("off");
+      await instance.put(`/repeatMode/${deviceId}/${repeatState}`);
+      console.log("반복재생 끄기");
+    } catch (error) {
+      console.log("반복재생 끄기 실패:", error);
+    }
+  };
+  const setRepeat = async () => {
+    try {
+      setRepeatMode(true);
+      setRepeatState("track");
+      console.log("deviceId:", deviceId);
+
+      await instance.put(`/repeatMode/${deviceId}/${repeatState}`);
+      console.log("반복재생 켜기");
+    } catch (error) {
+      console.log("반복재생 켜기 실패:", error);
+    }
+  };
+
+  const turnOffShuffle = async () => {
+    try {
+      setSuhffleMode(false);
+      await instance.put(`/shuffle/${deviceId}/${isShuffleMode}`);
+      console.log("셔플재생 끄기");
+    } catch (error) {
+      console.log("셔플재생 끄기 실패:", error);
+    }
+  };
+  const setShuffle = async () => {
+    try {
+      setSuhffleMode(true);
+      await instance.put(`/shuffle/${deviceId}/${isShuffleMode}`);
+      console.log("셔플재생 켜기");
+    } catch (error) {
+      console.log("셔플재생 켜기 실패:", error);
+    }
+  };
+
   return (
     <div>
-      <li className="search-list">
+      <div className="search-list">
         <div className="img-box">
           <img
             className="image"
@@ -61,7 +110,18 @@ function Player({
             color="#7c93c3"
           />
         )}
-      </li>
+      </div>
+      {isRepeatMode ? (
+        <button onClick={(e) => turnOffRepeat()}>반복재생 취소</button>
+      ) : (
+        <button onClick={(e) => setRepeat()}>반복재생 하기</button>
+      )}
+
+      {isShuffleMode ? (
+        <button onClick={(e) => turnOffShuffle()}>셔플재생 취소</button>
+      ) : (
+        <button onClick={(e) => setShuffle()}>셔플재생 하기</button>
+      )}
     </div>
   );
 }

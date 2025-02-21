@@ -273,6 +273,7 @@ function SearchResults() {
           handleFavorite={handleFavorite}
           musicIcon={musicIcon}
           favorites={favorites}
+          deviceId={deviceId}
         />
       )}
     </div>
