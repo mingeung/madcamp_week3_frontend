@@ -18,12 +18,16 @@ function Player({
 }) {
   const [isShuffleMode, setSuhffleMode] = useState(false);
   const [isRepeatMode, setRepeatMode] = useState(false);
-  const [repeatState, setRepeatState] = useState("");
+  const [repeatState, setRepeatState] = useState("track");
 
   const turnOffRepeat = async () => {
     try {
       setRepeatMode(false);
-      setRepeatState("off");
+      // 동기적으로 실행
+      await new Promise((resolve) => {
+        setRepeatState("off");
+        resolve();
+      });
       await instance.put(`/repeatMode/${deviceId}/${repeatState}`);
       console.log("반복재생 끄기");
     } catch (error) {
@@ -33,9 +37,12 @@ function Player({
   const setRepeat = async () => {
     try {
       setRepeatMode(true);
-      setRepeatState("track");
-      console.log("deviceId:", deviceId);
-
+      //동기적으로 실행
+      await new Promise((resolve) => {
+        setRepeatState("track");
+        resolve();
+      });
+      console.log("repeatState:", repeatState);
       await instance.put(`/repeatMode/${deviceId}/${repeatState}`);
       console.log("반복재생 켜기");
     } catch (error) {
@@ -45,7 +52,11 @@ function Player({
 
   const turnOffShuffle = async () => {
     try {
-      setSuhffleMode(false);
+      //   setSuhffleMode(false);
+      await new Promise((resolve) => {
+        setSuhffleMode(false);
+        resolve();
+      });
       await instance.put(`/shuffle/${deviceId}/${isShuffleMode}`);
       console.log("셔플재생 끄기");
     } catch (error) {
@@ -54,7 +65,11 @@ function Player({
   };
   const setShuffle = async () => {
     try {
-      setSuhffleMode(true);
+      //   setSuhffleMode(true);
+      await new Promise((resolve) => {
+        setSuhffleMode(true);
+        resolve();
+      });
       await instance.put(`/shuffle/${deviceId}/${isShuffleMode}`);
       console.log("셔플재생 켜기");
     } catch (error) {
