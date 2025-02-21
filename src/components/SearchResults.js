@@ -36,9 +36,20 @@ function SearchResults() {
   const [player, setPlayer] = useState(undefined);
 
   const [deviceId, setDeviceId] = useState(null);
+  const [access_token, setAccessToken] = useState("");
 
-  const access_token =
-    "BQA3zgX12JtzQQOgZ4icimaIutNLTnO_1d0rA15t6MvqDeCQ0MfBiYjbqOusKrzf9PUoZreB9ea-ad5IEFxAUaGTMxB6fUlpUVbrSPYPhbn5_Zy9BNp1aXWi0CaoaJaAx10Fq9zZfC_KUlmAxs2ELWvoCz9yxevWIuAOlHLSNWtEgIw27meqLCabIAWJoW4F8raAXXTYLOHz1yIsYWG7ziB8jvwQ4MbBTHCNXfr_Rvbdopme09UFPrcWw9I-JP_q";
+  useEffect(() => {
+    const getAccessToken = async () => {
+      try {
+        const response = await instance.get("/accessToken");
+        const accessToken = response.data;
+        setAccessToken(accessToken);
+      } catch (err) {
+        console.log("토큰 받아오기 실패:", err);
+      }
+    };
+    getAccessToken();
+  }, []);
 
   //검색기능
   const handleSearch = () => {

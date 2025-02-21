@@ -56,7 +56,7 @@ function Sidebar() {
     { icon: <IoChatbubble />, name: "채팅방", path: "/chat" },
     { icon: <FaSearch />, name: "노래 취향 분석", path: "/analysis" },
     { icon: <RiMusicFill />, name: "작곡하기", path: "/composition" },
-    { icon: <ImParagraphLeft />, name: "통계", path: "/statistics" },
+    { icon: <ImParagraphLeft />, name: "통계", path: "/Page6month" },
   ];
 
   return (
