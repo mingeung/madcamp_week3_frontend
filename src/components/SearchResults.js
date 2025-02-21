@@ -16,6 +16,8 @@ import "../pages/Home.js";
 import axios from "axios";
 import instance from "../axiosConfig.js";
 import SpotifyPlayer from "../utils/SpotifyPlayer.js";
+import Player from "./Player.js";
+
 function SearchResults() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,12 +33,14 @@ function SearchResults() {
   //spotify player
   const [is_paused, setPaused] = useState(false);
   const [is_active, setActive] = useState(false);
-  const [current_track, setTrack] = useState();
+  const [current_track, setCurrentTrack] = useState();
 
   const [player, setPlayer] = useState(undefined);
 
   const [deviceId, setDeviceId] = useState(null);
   const [access_token, setAccessToken] = useState("");
+
+  const [isPlayervisible, setIsPlayervisible] = useState(false);
 
   useEffect(() => {
     const getAccessToken = async () => {
@@ -94,6 +98,8 @@ function SearchResults() {
       setIsPlaying(true);
       setMusicIcon(track.id);
       userMusicSave(track);
+      setIsPlayervisible(true);
+      setCurrentTrack(track);
     } catch (error) {
       console.log("음원 재생하기 실패:", error);
     }
@@ -258,6 +264,17 @@ function SearchResults() {
           </ul>
         )}
       </div>
+      {isPlayervisible && current_track != null && (
+        <Player
+          track={current_track}
+          isPlaying={isPlaying}
+          handlePlayPause={handlePlayPause}
+          handlePlayStart={handlePlayStart}
+          handleFavorite={handleFavorite}
+          musicIcon={musicIcon}
+          favorites={favorites}
+        />
+      )}
     </div>
   );
 }

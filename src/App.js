@@ -24,8 +24,7 @@ import SearchResults from "./components/SearchResults";
 import ResultComposition from "./pages/Page5resultComposition";
 import Page3chatRock from "./pages/Page3chatRock";
 import Page6month from "./pages/Page6month";
-import axios from "axios";
-
+import Player from "./components/Player";
 const App = () => {
   return (
     <div>
