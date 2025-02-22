@@ -1,4 +1,4 @@
-import instance from "../axiosConfig.js";
+import instance from "../axiosConfig";
 //music과 관련된 api는 여기에 모아두기^^(많이 호출하는 친구들...)
 
 export const userMusicSave = async (track) => {

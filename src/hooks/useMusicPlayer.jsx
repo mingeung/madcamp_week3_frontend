@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import instance from "../axiosConfig.js";
+import instance from "../axiosConfig";
 import { userMusicSave } from "../api/music.js";
 
 export default function useMusicPlayer(

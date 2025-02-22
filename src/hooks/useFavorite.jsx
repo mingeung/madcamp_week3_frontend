@@ -1,5 +1,5 @@
 import { useState } from "react";
-import instance from "../axiosConfig.js";
+import instance from "../axiosConfig";
 
 export default function useFavorites(track, favorites, setFavorites) {
   //post하기 - 보관함에 추가

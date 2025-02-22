@@ -5,7 +5,7 @@ import { FaCircleStop } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
 import "./Page2save.css";
 
-import instance from "../axiosConfig.js";
+import instance from "../axiosConfig";
 
 const Page2save = () => {
   const [favorites, setFavorites] = useState([]);

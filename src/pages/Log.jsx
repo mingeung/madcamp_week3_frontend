@@ -1,20 +1,10 @@
 //Log.js
-import axios from "../axiosConfig";
 import React, { useState, useEffect } from "react";
-import SignUp from "./SignUp";
-import Home from "./Home";
 import { useNavigate } from "react-router-dom";
 import "./Log.css";
-import { useAuth } from "../AuthContext";
-import instance from "../axiosConfig.js";
 
 const Login = () => {
-  const [inputId, setInputId] = useState("");
-  const [inputPw, setInputPw] = useState("");
-  const [responseData, setResponseData] = useState("");
-  const { login } = useAuth();
   const navigate = useNavigate();
-  const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(true);
   //바로 홈화면 이동
   const onClickPass = () => {
     navigate("/home");

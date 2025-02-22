@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import "./SearchResults.css";
-import "../pages/Home.js";
-import instance from "../axiosConfig.js";
+import "../pages/Home";
+import instance from "../axiosConfig";
 import SpotifyPlayer from "../utils/SpotifyPlayer.js";
-import Player from "./Player.js";
-import PlayCard from "./PlayCard.js";
+import Player from "./Player.jsx";
+import PlayCard from "./PlayCard.jsx";
 
 function SearchResults() {
+  const a = 2;
   const navigate = useNavigate();
   const location = useLocation();
   const searchQuery = location.state?.query || "";
@@ -19,6 +20,19 @@ function SearchResults() {
   const [current_track, setCurrentTrack] = useState();
   const [deviceId, setDeviceId] = useState(null);
   const [access_token, setAccessToken] = useState("");
+
+  //userQueue 가져오기
+  useEffect(() => {
+    const getUserQueue = async () => {
+      try {
+        const response = await instance.get("/userQueue");
+        console.log("유저 큐:", response.data);
+      } catch (err) {
+        console.log("유저 큐 받아오기 실패:", err);
+      }
+    };
+    getUserQueue();
+  }, [current_track]);
 
   useEffect(() => {
     const getAccessToken = async () => {
@@ -115,18 +129,7 @@ function SearchResults() {
           </ul>
         )}
       </div>
-      {/* {current_track != null && (
-        <Player
-          track={current_track}
-          isPlaying={isPlaying}
-          handlePlayPause={handlePlayPause}
-          handlePlayStart={handlePlayStart}
-          handleFavorite={handleFavorite}
-          musicIcon={musicIcon}
-          favorites={favorites}
-          deviceId={deviceId}
-        />
-      )} */}
+      {current_track != null && <Player deviceId={deviceId} />}
     </div>
   );
 }

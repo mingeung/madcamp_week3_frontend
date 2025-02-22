@@ -1,4 +1,3 @@
-import { useState } from "react";
 import useMusicPlayer from "../hooks/useMusicPlayer";
 import useFavorites from "../hooks/useFavorite";
 import { FaCirclePlay } from "react-icons/fa6";

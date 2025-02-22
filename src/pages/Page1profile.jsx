@@ -4,7 +4,6 @@ import "./Page1profile.css";
 import { Avatar } from "antd";
 import axios from "axios";
 import { useAuth } from "../AuthContext";
-import { upload } from "@testing-library/user-event/dist/upload";
 import { Navigate, useNavigate } from "react-router-dom";
 import instance from "../axiosConfig";
 

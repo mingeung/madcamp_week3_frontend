@@ -1,6 +1,12 @@
 //App.js
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  BrowserRouter,
+  useLocation,
+} from "react-router-dom";
 import Log from "./pages/Log";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
@@ -18,18 +24,19 @@ import Player from "./components/Player";
 
 //App -> hader.js ->haeder.css
 const App = () => {
+  const location = useLocation();
+  console.log("실행");
   return (
     <div>
       {/* 
         로그인 페이지와 회원가입 페이지에서는 Header와 Sidebar를 나타나지 않도록 조건부 렌더링
       */}
-      {window.location.pathname !== "/" &&
-        window.location.pathname !== "/signup" && (
-          <>
-            <Sidebar />
-          </>
-        )}
-
+      {location.pathname !== "/" && location.pathname !== "/signup" && (
+        <>
+          <Sidebar />
+        </>
+      )}
+      <p>안농</p>
       <Routes>
         <Route path="/" element={<Log />} />
         {/* path"/"첫화면" */}
