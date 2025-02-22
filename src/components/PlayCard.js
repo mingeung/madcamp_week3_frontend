@@ -1,19 +1,27 @@
 import { useState } from "react";
 import useMusicPlayer from "../hooks/useMusicPlayer";
+import useFavorites from "../hooks/useFavorite";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaCircleStop } from "react-icons/fa6";
+import { FaRegHeart } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa6";
+
 export default function PlayCard({
   track,
   currentTrack,
   setCurrentTrack,
   deviceId,
+  favorites,
+  setFavorites,
 }) {
-  const { isPlaying, handlePlayStart, handlePlayPause } = useMusicPlayer(
+  const { isPlaying, handlePlayPause, handlePlayStart } = useMusicPlayer(
     track,
     currentTrack,
     setCurrentTrack,
     deviceId
   );
+  const { handleFavorite } = useFavorites(track, favorites, setFavorites);
+
   return (
     track && (
       <li className="search-list">
@@ -46,22 +54,22 @@ export default function PlayCard({
           />
         )}
 
-        {/* {favorites.some((fav) => fav === track.id) ? (
-      <FaHeart
-        size={30}
-        className="btn-favorite"
-        onClick={() => handleFavorite(track)}
-        color="#7c93c3"
-      />
-    ) : (
-      <FaRegHeart
-        size={30}
-        className="btn-favorite"
-        onClick={() => handleFavorite(track)}
-        userMusicSave
-        color="#7c93c3"
-      />
-    )} */}
+        {favorites.some((fav) => fav === track.id) ? (
+          <FaHeart
+            size={30}
+            className="btn-favorite"
+            onClick={() => handleFavorite(track)}
+            color="#7c93c3"
+          />
+        ) : (
+          <FaRegHeart
+            size={30}
+            className="btn-favorite"
+            onClick={() => handleFavorite(track)}
+            userMusicSave
+            color="#7c93c3"
+          />
+        )}
       </li>
     )
   );

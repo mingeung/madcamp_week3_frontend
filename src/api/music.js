@@ -1,6 +1,8 @@
 import instance from "../axiosConfig.js";
-const userMusicSave = async (track) => {
-  let now = new Date().toISOString().slice(0, -1); // 'Z' 제거
+//music과 관련된 api는 여기에 모아두기^^(많이 호출하는 친구들...)
+
+export const userMusicSave = async (track) => {
+  let now = new Date().toISOString().slice(0, -1);
 
   try {
     const postDate = {
@@ -15,5 +17,3 @@ const userMusicSave = async (track) => {
     console.log("사용자 노래 기록 저장 오류 발생:", e);
   }
 };
-
-export default userMusicSave;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import instance from "../axiosConfig.js";
-import userMusicSave from "./useMusicSave.js";
+import { userMusicSave } from "../api/music.js";
 
 export default function useMusicPlayer(
   track,
@@ -19,10 +19,7 @@ export default function useMusicPlayer(
       });
 
       setIsPlaying(true);
-
       userMusicSave(track);
-      //   setMusicIcon(track.id);
-      //   setIsPlayervisible(true);
       setCurrentTrack(track);
     } catch (error) {
       console.log("음원 재생하기 실패:", error);
