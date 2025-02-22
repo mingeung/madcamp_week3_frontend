@@ -117,7 +117,9 @@ function SearchResults() {
           </ul>
         )}
       </div>
-      {currentTrack != null && <Player />}
+      {currentTrack != null && (
+        <Player favorites={favorites} setFavorites={setFavorites} />
+      )}
     </div>
   );
 }
