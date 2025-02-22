@@ -1,8 +1,9 @@
 import { useEffect } from "react";
+import usePlayerStore from "../store/usePlayerStore";
 
-function SpotifyPlayer({ token, onDeviceReady }) {
+function SpotifyPlayer({ token }) {
+  const { setDeviceId } = usePlayerStore();
   useEffect(() => {
-    console.log("spotifyPlayer 함수 실행");
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
@@ -15,11 +16,10 @@ function SpotifyPlayer({ token, onDeviceReady }) {
         },
         volume: 0.5,
       });
-      console.log("player", player);
 
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
-        onDeviceReady(device_id);
+        setDeviceId(device_id);
       });
 
       player.addListener("not_ready", ({ device_id }) => {

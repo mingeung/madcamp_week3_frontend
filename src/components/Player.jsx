@@ -2,11 +2,15 @@ import { useState } from "react";
 import "./Player.css";
 import PlayCard from "./PlayCard.jsx";
 import instance from "../axiosConfig";
+import useMusicPlayer from "../hooks/useMusicPlayer.js";
+import usePlayerStore from "../store/usePlayerStore.js";
 
-function Player({ deviceId }) {
+function Player() {
   const [isShuffleMode, setSuhffleMode] = useState(false);
   const [isRepeatMode, setRepeatMode] = useState(false);
   const [repeatState, setRepeatState] = useState("track");
+
+  const { deviceId } = usePlayerStore();
 
   const turnOffRepeat = async () => {
     try {
@@ -86,7 +90,6 @@ function Player({ deviceId }) {
 
   return (
     <div>
-      <PlayCard />
       {isRepeatMode ? (
         <button onClick={(e) => turnOffRepeat()}>반복재생 취소</button>
       ) : (

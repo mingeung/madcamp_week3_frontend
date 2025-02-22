@@ -8,18 +8,18 @@ import instance from "../axiosConfig";
 import SpotifyPlayer from "../utils/SpotifyPlayer.js";
 import Player from "./Player.jsx";
 import PlayCard from "./PlayCard.jsx";
+import usePlayerStore from "../store/usePlayerStore.js";
 
 function SearchResults() {
-  const a = 2;
   const navigate = useNavigate();
   const location = useLocation();
   const searchQuery = location.state?.query || "";
   const [searchResults, setSearchResults] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [searchMusic, setSearchMusic] = useState("");
-  const [current_track, setCurrentTrack] = useState();
-  const [deviceId, setDeviceId] = useState(null);
-  const [access_token, setAccessToken] = useState("");
+  const [accessToken, setAccessToken] = useState("");
+
+  const { currentTrack } = usePlayerStore();
 
   //userQueue 가져오기
   useEffect(() => {
@@ -32,14 +32,14 @@ function SearchResults() {
       }
     };
     getUserQueue();
-  }, [current_track]);
+  }, [currentTrack]);
 
   useEffect(() => {
     const getAccessToken = async () => {
       try {
         const response = await instance.get("/accessToken");
-        const accessToken = response.data;
-        setAccessToken(accessToken);
+        const getAccessToken = response.data;
+        setAccessToken(getAccessToken);
       } catch (err) {
         console.log("토큰 받아오기 실패:", err);
       }
@@ -72,12 +72,6 @@ function SearchResults() {
     };
     fetchData();
   }, [searchQuery]);
-
-  // 🎯 SpotifyPlayer에서 deviceId를 전달받는 콜백
-  const handleDeviceReady = (id) => {
-    setDeviceId(id);
-    // console.log("Received Device ID:", id);
-  };
 
   //처음 화면을 로드할 때 백엔드에서 보관함 목록을 가져와서 setFavorites에 담기
   useEffect(() => {
@@ -114,22 +108,16 @@ function SearchResults() {
             {searchResults.map((track, index) => (
               <PlayCard
                 track={track}
-                currentTrack={current_track}
-                setCurrentTrack={setCurrentTrack}
-                deviceId={deviceId}
                 key={index}
                 favorites={favorites}
                 setFavorites={setFavorites}
               />
             ))}
-            <SpotifyPlayer
-              token={access_token}
-              onDeviceReady={handleDeviceReady}
-            />
+            {accessToken.length > 0 && <SpotifyPlayer token={accessToken} />}
           </ul>
         )}
       </div>
-      {current_track != null && <Player deviceId={deviceId} />}
+      {currentTrack != null && <Player />}
     </div>
   );
 }

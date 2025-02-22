@@ -5,20 +5,8 @@ import { FaCircleStop } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
 
-export default function PlayCard({
-  track,
-  currentTrack,
-  setCurrentTrack,
-  deviceId,
-  favorites,
-  setFavorites,
-}) {
-  const { isPlaying, handlePlayPause, handlePlayStart } = useMusicPlayer(
-    track,
-    currentTrack,
-    setCurrentTrack,
-    deviceId
-  );
+export default function PlayCard({ track, favorites, setFavorites }) {
+  const { isPlaying, handlePlayPause, handlePlayStart } = useMusicPlayer(track);
   const { handleFavorite } = useFavorites(track, favorites, setFavorites);
 
   return (
