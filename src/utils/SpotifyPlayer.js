@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import usePlayerStore from "../store/usePlayerStore";
 
 function SpotifyPlayer({ token }) {
-  const { setDeviceId } = usePlayerStore();
+  const { setDeviceId, setPlayer } = usePlayerStore();
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
@@ -38,6 +38,12 @@ function SpotifyPlayer({ token }) {
         console.error("Account Error:", message);
       });
 
+      player.addListener("player_state_changed", (state) => {
+        if (state?.paused) {
+          // 음악이 끝났거나 멈췄을 때 상태 변경
+          setPlayer(false);
+        }
+      });
       player.connect();
     };
 
