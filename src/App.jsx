@@ -25,7 +25,6 @@ import Player from "./components/Player";
 //App -> hader.js ->haeder.css
 const App = () => {
   const location = useLocation();
-  console.log("실행");
   return (
     <div>
       {/* 
@@ -36,7 +35,6 @@ const App = () => {
           <Sidebar />
         </>
       )}
-      <p>안농</p>
       <Routes>
         <Route path="/" element={<Log />} />
         {/* path"/"첫화면" */}

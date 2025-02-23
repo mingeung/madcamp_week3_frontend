@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Player.css";
 import instance from "../axiosConfig";
 import useMusicPlayer from "../hooks/useMusicPlayer.js";
 import usePlayerStore from "../store/usePlayerStore.js";
 import useFavorites from "../hooks/useFavorite.js";
+import { getUserMusicQueue } from "../api/music.js";
 
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaCircleStop } from "react-icons/fa6";
@@ -15,7 +16,7 @@ function Player({ favorites, setFavorites }) {
   const [isRepeatMode, setRepeatMode] = useState(false);
   const [repeatState, setRepeatState] = useState("track");
 
-  const { currentTrack: track } = usePlayerStore();
+  const { currentTrack: track, setCurrentTrack } = usePlayerStore();
 
   const { isPlaying, handlePlayPause, handlePlayStart } = useMusicPlayer(track);
 
@@ -82,22 +83,25 @@ function Player({ favorites, setFavorites }) {
   const skipToPrevious = async () => {
     try {
       await instance.post(`/skipToPrevious/${deviceId}`);
-      console.log("이전 곡 재생 ");
+      console.log("이전 곡 재생");
+      getUserMusicQueue(setCurrentTrack); //유저큐에서 불러온 현재 곡을 currentTrack에 저장
     } catch (error) {
       console.log("이전 곡 재생 에러:", error);
     }
   };
   const skipToNext = async () => {
     try {
+      getUserMusicQueue(setCurrentTrack);
       await instance.post(`/skipToNext/${deviceId}`);
       console.log("다음 곡 재생 ");
     } catch (error) {
       console.log("다음 곡 재생 에러:", error);
     }
   };
-
-  // jsx => js + x => javascript + xml => javascript + html
-  // react => jsx => js, jsx
+  // useEffect(() => {
+  //   getUserMusicQueue(setCurrentTrack);
+  // }, [skipToNext, skipToPrevious]);
+  //getUseMusicQuee를 실행할 때마다 마운트되기
 
   return (
     <div>

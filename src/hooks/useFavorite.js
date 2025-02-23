@@ -11,7 +11,7 @@ export default function useFavorites(track, favorites, setFavorites) {
         trackId: trackId,
       };
       await instance.post("/favoritesongs", postDate);
-      console.log("보관함에 추가");
+      // console.log("보관함에 추가");
     } catch (e) {
       console.log("보관함 저장 실패:", e);
     }
@@ -23,7 +23,7 @@ export default function useFavorites(track, favorites, setFavorites) {
       setFavorites(favorites.filter((favorite) => favorite !== trackId));
 
       await instance.delete(`/favoritesongs/${trackId}`);
-      console.log("보관함에서 제거");
+      // console.log("보관함에서 제거");
     } catch (e) {
       console.log("보관함에서 제거 실패:", e);
     }

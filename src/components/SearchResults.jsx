@@ -21,18 +21,18 @@ function SearchResults() {
 
   const { currentTrack } = usePlayerStore();
 
-  //userQueue 가져오기
-  useEffect(() => {
-    const getUserQueue = async () => {
-      try {
-        const response = await instance.get("/userQueue");
-        console.log("유저 큐:", response.data);
-      } catch (err) {
-        console.log("유저 큐 받아오기 실패:", err);
-      }
-    };
-    getUserQueue();
-  }, [currentTrack]);
+  // userQueue 가져오기
+  // useEffect(() => {
+  //   const getUserQueue = async () => {
+  //     try {
+  //       const response = await instance.get("/userQueue");
+  //       console.log("유저 큐:", response.data);
+  //     } catch (err) {
+  //       console.log("유저 큐 받아오기 실패:", err);
+  //     }
+  //   };
+  //   getUserQueue();
+  // }, [currentTrack]);
 
   useEffect(() => {
     const getAccessToken = async () => {

@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import instance from "../axiosConfig";
-import { userMusicSave } from "../api/music.js";
+import { userMusicSave, userMusicQueueSave } from "../api/music.js";
 import usePlayerStore from "../store/usePlayerStore.js";
 
 export default function useMusicPlayer(track) {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const { deviceId, setCurrentTrack, currentTrack } = usePlayerStore();
+  const { deviceId, currentTrack, setCurrentTrack } = usePlayerStore();
 
   //시작
   const handlePlayStart = async (track) => {
     try {
-      console.log("음원재생");
       await instance.put(`/playStart/${deviceId}`, {
         uris: track.uri,
       });
 
       setIsPlaying(true);
       userMusicSave(track);
-      setCurrentTrack(track);
+      userMusicQueueSave(track, deviceId);
+      setCurrentTrack(track); //현재 재생중인 목록 저장
     } catch (error) {
       console.log("음원 재생하기 실패:", error);
     }
