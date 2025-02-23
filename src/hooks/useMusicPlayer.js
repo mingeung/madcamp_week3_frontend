@@ -38,6 +38,7 @@ export default function useMusicPlayer(track) {
     try {
       await instance.put(`/playPause/${deviceId}`);
       setIsPlaying(false);
+      setCurrentTrack(track);
     } catch (error) {
       console.log("음원 정지하기 실패:", error);
     }

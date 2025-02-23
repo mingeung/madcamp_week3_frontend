@@ -15,14 +15,31 @@ function Player({ favorites, setFavorites }) {
   const [isShuffleMode, setSuhffleMode] = useState(false);
   const [isRepeatMode, setRepeatMode] = useState(false);
   const [repeatState, setRepeatState] = useState("track");
-
-  const { currentTrack: track, setCurrentTrack } = usePlayerStore();
-
-  const { isPlaying, handlePlayPause, handlePlayStart } = useMusicPlayer(track);
-
+  const [isPausing, setIsPausing] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
+  const [track, setTrack] = useState(null);
+  // const { currentTrack: track, setCurrentTrack } = usePlayerStore();\
+  const { handlePlayPause, handlePlayStart } = useMusicPlayer(track);
   const { handleFavorite } = useFavorites(track, favorites, setFavorites);
+  const { deviceId, currentTrack } = usePlayerStore();
 
-  const { deviceId } = usePlayerStore();
+  useEffect(() => {
+    const fetchPlaybackState = async () => {
+      try {
+        const response = await instance.get("/playbackState");
+        console.log("으아:", response.data);
+        // const isPlaying = response.data.is_playing;
+        // setIsPlaying(isPlaying);
+        const nowTrack = response.data.item;
+        setTrack(nowTrack);
+        const pause = response.data.actions.disallows.pausing;
+        setIsPausing(pause);
+      } catch (e) {
+        console.log("재생상태 받아오기 오류:", e);
+      }
+    };
+    fetchPlaybackState();
+  }, [currentTrack]);
 
   const turnOffRepeat = async () => {
     try {
@@ -104,69 +121,71 @@ function Player({ favorites, setFavorites }) {
   //getUseMusicQuee를 실행할 때마다 마운트되기
 
   return (
-    <div>
-      <div className="search-list">
-        <div className="img-box">
-          <img
-            className="image"
-            src={track.album.images[0].url}
-            alt={track.album.name}
-          />
+    track && (
+      <div>
+        <div className="search-list">
+          <div className="img-box">
+            <img
+              className="image"
+              src={track.album.images[0].url}
+              alt={track.album.name}
+            />
+          </div>
+
+          <div className="song-intro">
+            <p className="song-title">{track.name}</p>
+            <p className="artist">{track.artists[0].name}</p>
+          </div>
+
+          {isPausing ? (
+            <FaCirclePlay
+              onClick={(e) => handlePlayStart(track)}
+              className="btn-play"
+              color="#7c93c3"
+              size={34}
+            />
+          ) : (
+            <FaCircleStop
+              onClick={(e) => handlePlayPause(track)}
+              className="btn-play"
+              color="#7c93c3"
+              size={34}
+            />
+          )}
+
+          {favorites.some((fav) => fav === track.id) ? (
+            <FaHeart
+              size={30}
+              className="btn-favorite"
+              onClick={() => handleFavorite(track)}
+              color="#7c93c3"
+            />
+          ) : (
+            <FaRegHeart
+              size={30}
+              className="btn-favorite"
+              onClick={() => handleFavorite(track)}
+              userMusicSave
+              color="#7c93c3"
+            />
+          )}
         </div>
 
-        <div className="song-intro">
-          <p className="song-title">{track.name}</p>
-          <p className="artist">{track.artists[0].name}</p>
-        </div>
-
-        {isPlaying ? (
-          <FaCircleStop
-            onClick={(e) => handlePlayPause(track)}
-            className="btn-play"
-            color="#7c93c3"
-            size={34}
-          />
+        {isRepeatMode ? (
+          <button onClick={(e) => turnOffRepeat()}>반복재생 취소</button>
         ) : (
-          <FaCirclePlay
-            onClick={(e) => handlePlayStart(track)}
-            className="btn-play"
-            color="#7c93c3"
-            size={34}
-          />
+          <button onClick={(e) => setRepeat()}>반복재생 하기</button>
         )}
 
-        {favorites.some((fav) => fav === track.id) ? (
-          <FaHeart
-            size={30}
-            className="btn-favorite"
-            onClick={() => handleFavorite(track)}
-            color="#7c93c3"
-          />
+        {isShuffleMode ? (
+          <button onClick={(e) => turnOffShuffle()}>셔플재생 취소</button>
         ) : (
-          <FaRegHeart
-            size={30}
-            className="btn-favorite"
-            onClick={() => handleFavorite(track)}
-            userMusicSave
-            color="#7c93c3"
-          />
+          <button onClick={(e) => setShuffle()}>셔플재생 하기</button>
         )}
+        <button onClick={(e) => skipToPrevious()}>이전 곡 재생</button>
+        <button onClick={(e) => skipToNext()}>다음 곡 재생</button>
       </div>
-
-      {isRepeatMode ? (
-        <button onClick={(e) => turnOffRepeat()}>반복재생 취소</button>
-      ) : (
-        <button onClick={(e) => setRepeat()}>반복재생 하기</button>
-      )}
-
-      {isShuffleMode ? (
-        <button onClick={(e) => turnOffShuffle()}>셔플재생 취소</button>
-      ) : (
-        <button onClick={(e) => setShuffle()}>셔플재생 하기</button>
-      )}
-      <button onClick={(e) => skipToPrevious()}>이전 곡 재생</button>
-      <button onClick={(e) => skipToNext()}>다음 곡 재생</button>
-    </div>
+    )
   );
 }
 
