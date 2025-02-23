@@ -20,18 +20,20 @@ export const userMusicQueueSave = async (track, deviceId) => {
   const uri = track.uri;
   try {
     await instance.post(`/userQueue/${uri}/${deviceId}`);
+    console.log("큐에 노래 저장");
   } catch (e) {
     console.log("큐에 노래 저장 실패");
   }
 };
 
 export const getUserMusicQueue = async (setCurrentTrack) => {
+  const currentTrackQueue = null;
   try {
     const response = await instance.get("/userQueue");
-    const currentTrack = response.data.currently_playing;
-    // setCurrentTrack(currentTrack); // 이걸 하면 오류가 남. 분명 이전 / 다음 버튼 누를 때만 실행되게 했는데
-    // console.log("현재 유저 큐:", currentTrack);
+    console.log("사용자 유저 큐 받아오기:", response.data);
+    currentTrackQueue = response.data.currently_playing;
   } catch (err) {
     console.log("유저 큐 받아오기 실패:", err);
   }
+  return currentTrackQueue;
 };

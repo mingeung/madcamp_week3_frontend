@@ -16,20 +16,17 @@ function Player({ favorites, setFavorites }) {
   const [isRepeatMode, setRepeatMode] = useState(false);
   const [repeatState, setRepeatState] = useState("track");
   const [isPausing, setIsPausing] = useState(false);
-  // const [isPlaying, setIsPlaying] = useState(false);
   const [track, setTrack] = useState(null);
-  // const { currentTrack: track, setCurrentTrack } = usePlayerStore();\
   const { handlePlayPause, handlePlayStart } = useMusicPlayer(track);
   const { handleFavorite } = useFavorites(track, favorites, setFavorites);
-  const { deviceId, currentTrack } = usePlayerStore();
+  const { deviceId, currentTrack, setCurrentTrack } = usePlayerStore();
 
   useEffect(() => {
     const fetchPlaybackState = async () => {
       try {
+        console.log("지금 재생중인 곡 받아오기");
+
         const response = await instance.get("/playbackState");
-        console.log("으아:", response.data);
-        // const isPlaying = response.data.is_playing;
-        // setIsPlaying(isPlaying);
         const nowTrack = response.data.item;
         setTrack(nowTrack);
         const pause = response.data.actions.disallows.pausing;
@@ -99,26 +96,23 @@ function Player({ favorites, setFavorites }) {
 
   const skipToPrevious = async () => {
     try {
+      setCurrentTrack(getUserMusicQueue());
       await instance.post(`/skipToPrevious/${deviceId}`);
       console.log("이전 곡 재생");
-      getUserMusicQueue(setCurrentTrack); //유저큐에서 불러온 현재 곡을 currentTrack에 저장
     } catch (error) {
       console.log("이전 곡 재생 에러:", error);
     }
   };
   const skipToNext = async () => {
     try {
-      getUserMusicQueue(setCurrentTrack);
+      setCurrentTrack(getUserMusicQueue());
+      // getUserMusicQueue(setCurrentTrack); //한박자씩 밀린다.
       await instance.post(`/skipToNext/${deviceId}`);
       console.log("다음 곡 재생 ");
     } catch (error) {
       console.log("다음 곡 재생 에러:", error);
     }
   };
-  // useEffect(() => {
-  //   getUserMusicQueue(setCurrentTrack);
-  // }, [skipToNext, skipToPrevious]);
-  //getUseMusicQuee를 실행할 때마다 마운트되기
 
   return (
     track && (

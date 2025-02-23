@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import instance from "../axiosConfig";
-import { userMusicSave, userMusicQueueSave } from "../api/music.js";
+import {
+  userMusicSave,
+  userMusicQueueSave,
+  getUserMusicQueue,
+} from "../api/music.js";
 import usePlayerStore from "../store/usePlayerStore.js";
 
 export default function useMusicPlayer(track) {
@@ -17,6 +21,7 @@ export default function useMusicPlayer(track) {
       setIsPlaying(true);
       userMusicSave(track);
       userMusicQueueSave(track, deviceId);
+
       setCurrentTrack(track); //현재 재생중인 목록 저장
 
       if (player) {
