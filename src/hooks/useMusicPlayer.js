@@ -39,11 +39,12 @@ export default function useMusicPlayer(track) {
   };
 
   //정지
-  const handlePlayPause = async () => {
+  const handlePlayPause = async (track) => {
     try {
       await instance.put(`/playPause/${deviceId}`);
-      setIsPlaying(false);
       setCurrentTrack(track);
+      setIsPlaying(false);
+      console.log("음원 정지");
     } catch (error) {
       console.log("음원 정지하기 실패:", error);
     }

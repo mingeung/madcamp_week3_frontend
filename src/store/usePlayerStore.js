@@ -3,7 +3,7 @@ import { create } from "zustand";
 const usePlayerStore = create((set) => ({
   deviceId: null,
   currentTrack: null,
-  player: null,
+  player: true,
   position: null,
   duration: null,
 

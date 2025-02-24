@@ -18,12 +18,19 @@ function Player({ favorites, setFavorites }) {
   const [track, setTrack] = useState(null);
   const { handlePlayPause, handlePlayStart } = useMusicPlayer(track);
   const { handleFavorite } = useFavorites(track, favorites, setFavorites);
-  const { deviceId, currentTrack, setCurrentTrack, position, duration } =
-    usePlayerStore();
+  const {
+    deviceId,
+    currentTrack,
+    setCurrentTrack,
+    position,
+    duration,
+    player,
+  } = usePlayerStore();
 
   useEffect(() => {
     const fetchPlaybackState = async () => {
       try {
+        console.log("재생, 정지버튼 누를 때마다 호출");
         const response = await instance.get("/playbackState");
         const nowTrack = response.data.item;
         setTrack(nowTrack);
@@ -138,16 +145,16 @@ function Player({ favorites, setFavorites }) {
             <p className="artist">{track.artists[0].name}</p>
           </div>
 
-          {isPausing ? (
-            <FaCirclePlay
-              onClick={(e) => handlePlayStart(track)}
+          {player ? (
+            <FaCircleStop
+              onClick={(e) => handlePlayPause(track)}
               className="btn-play"
               color="#7c93c3"
               size={34}
             />
           ) : (
-            <FaCircleStop
-              onClick={(e) => handlePlayPause(track)}
+            <FaCirclePlay
+              onClick={(e) => handlePlayStart(track)}
               className="btn-play"
               color="#7c93c3"
               size={34}
