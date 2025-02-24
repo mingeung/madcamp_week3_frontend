@@ -18,6 +18,7 @@ export default function useMusicPlayer(track) {
       await instance.put(`/playStart/${deviceId}`, {
         uris: track.uri,
       });
+      console.log("음원재생");
       setIsPlaying(true);
       userMusicSave(track);
       userMusicQueueSave(track, deviceId);

@@ -14,13 +14,26 @@ const Home = () => {
       try {
         const response = await instance.get("/recentlyPlayed");
         setRecentlyPlayed(response.data);
+        console.log("최근 들은 곡 받아오기:", recentlyPlayed);
       } catch (error) {
         console.log("최근 들은 곡 받아오기 실패:", error);
       }
     };
     fetchRecentlyPlayed();
   }, []);
-  console.log("최근 들은 곡 받아오기:", recentlyPlayed);
+
+  //최근 발매된 앨범
+  useEffect(() => {
+    const fetchNewReleasedAlbums = async () => {
+      try {
+        const response = await instance.get("/newReleasedAlbum");
+        console.log("최근 발매한 앨범:", response.data.albums.items);
+      } catch (error) {
+        console.log("최근 발매앨범 받아오기 실패:", error);
+      }
+    };
+    fetchNewReleasedAlbums();
+  }, []);
 
   //검색 기능
   const [searchQuery, setSearchQuery] = useState("");

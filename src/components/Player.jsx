@@ -5,7 +5,6 @@ import useMusicPlayer from "../hooks/useMusicPlayer.js";
 import usePlayerStore from "../store/usePlayerStore.js";
 import useFavorites from "../hooks/useFavorite.js";
 import { getUserMusicQueue } from "../api/music.js";
-
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaCircleStop } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa6";
@@ -19,13 +18,12 @@ function Player({ favorites, setFavorites }) {
   const [track, setTrack] = useState(null);
   const { handlePlayPause, handlePlayStart } = useMusicPlayer(track);
   const { handleFavorite } = useFavorites(track, favorites, setFavorites);
-  const { deviceId, currentTrack, setCurrentTrack } = usePlayerStore();
+  const { deviceId, currentTrack, setCurrentTrack, position, duration } =
+    usePlayerStore();
 
   useEffect(() => {
     const fetchPlaybackState = async () => {
       try {
-        console.log("지금 재생중인 곡 받아오기");
-
         const response = await instance.get("/playbackState");
         const nowTrack = response.data.item;
         setTrack(nowTrack);
@@ -37,6 +35,15 @@ function Player({ favorites, setFavorites }) {
     };
     fetchPlaybackState();
   }, [currentTrack]);
+
+  //막대바 만들기
+  useEffect(() => {
+    const updateProgressBar = () => {
+      const intervalId = setInterval(updateProgressBar, 100);
+      return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 interval 정리
+    };
+  }, []);
+  const progress = (position / duration) * 100;
 
   const turnOffRepeat = async () => {
     try {
@@ -178,6 +185,22 @@ function Player({ favorites, setFavorites }) {
         )}
         <button onClick={(e) => skipToPrevious()}>이전 곡 재생</button>
         <button onClick={(e) => skipToNext()}>다음 곡 재생</button>
+
+        <div>
+          <div
+            className="progress-bar"
+            style={{ width: "100%", background: "#eee", height: "10px" }}
+          >
+            <div
+              className="progress"
+              style={{
+                width: `${progress}%`,
+                background: "green",
+                height: "100%",
+              }}
+            ></div>
+          </div>
+        </div>
       </div>
     )
   );
