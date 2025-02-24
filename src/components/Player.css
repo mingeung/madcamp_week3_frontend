@@ -59,3 +59,7 @@
   border-radius: 4px;
   transition: width 0.1s ease;
 }
+
+.progress-bar-time {
+  color: #ffffff;
+}

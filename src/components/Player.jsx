@@ -16,6 +16,7 @@ function Player({ favorites, setFavorites }) {
   const [repeatState, setRepeatState] = useState("track");
   const [currentPosition, setCurrentPosition] = useState(0);
   const [track, setTrack] = useState(null);
+  const [newPosition, setNewPosition] = useState(0);
   const { handlePlayPause, handlePlayStart } = useMusicPlayer(track);
   const { handleFavorite } = useFavorites(track, favorites, setFavorites);
   const {
@@ -47,6 +48,7 @@ function Player({ favorites, setFavorites }) {
       if (position !== null && duration && player) {
         setCurrentPosition((prevPosition) => {
           const newPosition = prevPosition + 1000; // 1초 증가
+          setNewPosition(newPosition);
           if (newPosition >= duration) return duration; // 노래 길이를 초과하지 않도록 설정
           return newPosition;
         });
@@ -138,6 +140,13 @@ function Player({ favorites, setFavorites }) {
     }
   };
 
+  function formatTime(durationInSeconds) {
+    const totalSeconds = Math.floor(durationInSeconds);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} : ${seconds}`;
+  }
+
   return (
     track && (
       <div>
@@ -216,6 +225,10 @@ function Player({ favorites, setFavorites }) {
                 height: "100%",
               }}
             ></div>
+            <p className="progress-bar-time">
+              {formatTime(newPosition / 1000)}
+            </p>
+            <p className="progress-bar-time"> {formatTime(duration / 1000)}</p>
           </div>
         </div>
       </div>
