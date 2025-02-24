@@ -41,20 +41,27 @@ function Player({ favorites, setFavorites }) {
   }, [currentTrack]);
 
   // 막대바 실시간 업데이트
-  // useEffect(() => {
-  //   const updateProgressBar = () => {
-  //     if (position && duration) {
-  //       setCurrentPosition(position); // position 값을 실시간으로 업데이트
-  //     }
-  //   };
+  useEffect(() => {
+    if (!duration) return;
+    const updateProgressBar = () => {
+      if (position !== null && duration && player) {
+        setCurrentPosition((prevPosition) => {
+          const newPosition = prevPosition + 1000; // 1초 증가
+          if (newPosition >= duration) return duration; // 노래 길이를 초과하지 않도록 설정
+          return newPosition;
+        });
+      }
+    };
+    const intervalId = setInterval(updateProgressBar, 1000); // 1초마다 업데이트
 
-  //   const intervalId = setInterval(updateProgressBar, 1000); // 1초마다 업데이트
+    return () => clearInterval(intervalId);
+  }, [duration]); // duration이 바뀔 때마다 useEffect 실행
 
-  //   // 컴포넌트 언마운트 시 interval 정리
-  //   return () => clearInterval(intervalId);
-  // }, [position, duration]); // position이나 duration 값이 바뀔 때마다 실행
+  useEffect(() => {
+    setCurrentPosition(0); // 새로운 트랙이 시작될 때 막대 초기화
+  }, [currentTrack]); // currentTrack이 바뀔 때마다 실행
 
-  // const progress = (currentPosition / duration) * 100; // 막대바 진행률 계산
+  const progress = (currentPosition / duration) * 100; // 막대바 진행률 계산
 
   const turnOffRepeat = async () => {
     try {
@@ -123,8 +130,7 @@ function Player({ favorites, setFavorites }) {
   };
   const skipToNext = async () => {
     try {
-      setCurrentTrack(getUserMusicQueue());
-      // getUserMusicQueue(setCurrentTrack); //한박자씩 밀린다.
+      setCurrentTrack(getUserMusicQueue()); //한박자씩 밀림
       await instance.post(`/skipToNext/${deviceId}`);
       console.log("다음 곡 재생 ");
     } catch (error) {
@@ -198,7 +204,7 @@ function Player({ favorites, setFavorites }) {
         <button onClick={(e) => skipToNext()}>다음 곡 재생</button>
 
         <div>
-          {/* <div
+          <div
             className="progress-bar"
             style={{ width: "100%", background: "#eee", height: "10px" }}
           >
@@ -210,7 +216,7 @@ function Player({ favorites, setFavorites }) {
                 height: "100%",
               }}
             ></div>
-          </div> */}
+          </div>
         </div>
       </div>
     )
