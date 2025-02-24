@@ -4,8 +4,24 @@ import "../components/Header.css";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import { FaSearch } from "react-icons/fa";
+import instance from "../axiosConfig";
 
 const Home = () => {
+  //최근 들은 곡 불러오기
+  const [recentlyPlayed, setRecentlyPlayed] = useState([]);
+  useEffect(() => {
+    const fetchRecentlyPlayed = async () => {
+      try {
+        const response = await instance.get("/recentlyPlayed");
+        setRecentlyPlayed(response.data);
+      } catch (error) {
+        console.log("최근 들은 곡 받아오기 실패:", error);
+      }
+    };
+    fetchRecentlyPlayed();
+  }, []);
+  console.log("최근 들은 곡 받아오기:", recentlyPlayed);
+
   //검색 기능
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
