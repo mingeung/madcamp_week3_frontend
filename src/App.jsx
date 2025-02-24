@@ -1,12 +1,6 @@
 //App.js
-import React, { useEffect, useState } from "react";
-import {
-  Route,
-  Routes,
-  Navigate,
-  BrowserRouter,
-  useLocation,
-} from "react-router-dom";
+import React from "react";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import Log from "./pages/Log";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";

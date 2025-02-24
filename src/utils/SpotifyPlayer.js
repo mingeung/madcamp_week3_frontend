@@ -39,8 +39,6 @@ function SpotifyPlayer({ token }) {
       });
 
       player.addListener("player_state_changed", (state) => {
-        // console.log("Player state changed:", state);
-        console.log("정지확인:", state.paused);
         if (state?.paused) {
           // 음악이 끝났거나 멈췄을 때 상태 변경
           setPlayer(false);
@@ -48,7 +46,6 @@ function SpotifyPlayer({ token }) {
           setPlayer(true);
         }
       });
-
       player.addListener("player_state_changed", ({ position, duration }) => {
         setPosition(position);
         setDuration(duration);

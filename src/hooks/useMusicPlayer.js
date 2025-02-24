@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import instance from "../axiosConfig";
-import {
-  userMusicSave,
-  userMusicQueueSave,
-  getUserMusicQueue,
-} from "../api/music.js";
+import { userMusicSave, userMusicQueueSave } from "../api/music.js";
 import usePlayerStore from "../store/usePlayerStore.js";
 
 export default function useMusicPlayer(track) {
   const [isPlaying, setIsPlaying] = useState(false);
-
   const { deviceId, currentTrack, setCurrentTrack, player } = usePlayerStore();
 
   //시작

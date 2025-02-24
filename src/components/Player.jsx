@@ -14,7 +14,7 @@ function Player({ favorites, setFavorites }) {
   const [isShuffleMode, setSuhffleMode] = useState(false);
   const [isRepeatMode, setRepeatMode] = useState(false);
   const [repeatState, setRepeatState] = useState("track");
-  const [isPausing, setIsPausing] = useState(false);
+  const [currentPosition, setCurrentPosition] = useState(0);
   const [track, setTrack] = useState(null);
   const { handlePlayPause, handlePlayStart } = useMusicPlayer(track);
   const { handleFavorite } = useFavorites(track, favorites, setFavorites);
@@ -30,12 +30,9 @@ function Player({ favorites, setFavorites }) {
   useEffect(() => {
     const fetchPlaybackState = async () => {
       try {
-        console.log("재생, 정지버튼 누를 때마다 호출");
         const response = await instance.get("/playbackState");
         const nowTrack = response.data.item;
         setTrack(nowTrack);
-        const pause = response.data.actions.disallows.pausing;
-        setIsPausing(pause);
       } catch (e) {
         console.log("재생상태 받아오기 오류:", e);
       }
@@ -43,14 +40,21 @@ function Player({ favorites, setFavorites }) {
     fetchPlaybackState();
   }, [currentTrack]);
 
-  //막대바 만들기
-  useEffect(() => {
-    const updateProgressBar = () => {
-      const intervalId = setInterval(updateProgressBar, 100);
-      return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 interval 정리
-    };
-  }, []);
-  const progress = (position / duration) * 100;
+  // 막대바 실시간 업데이트
+  // useEffect(() => {
+  //   const updateProgressBar = () => {
+  //     if (position && duration) {
+  //       setCurrentPosition(position); // position 값을 실시간으로 업데이트
+  //     }
+  //   };
+
+  //   const intervalId = setInterval(updateProgressBar, 1000); // 1초마다 업데이트
+
+  //   // 컴포넌트 언마운트 시 interval 정리
+  //   return () => clearInterval(intervalId);
+  // }, [position, duration]); // position이나 duration 값이 바뀔 때마다 실행
+
+  // const progress = (currentPosition / duration) * 100; // 막대바 진행률 계산
 
   const turnOffRepeat = async () => {
     try {
@@ -194,7 +198,7 @@ function Player({ favorites, setFavorites }) {
         <button onClick={(e) => skipToNext()}>다음 곡 재생</button>
 
         <div>
-          <div
+          {/* <div
             className="progress-bar"
             style={{ width: "100%", background: "#eee", height: "10px" }}
           >
@@ -206,7 +210,7 @@ function Player({ favorites, setFavorites }) {
                 height: "100%",
               }}
             ></div>
-          </div>
+          </div> */}
         </div>
       </div>
     )
