@@ -2,11 +2,13 @@ import instance from "../axiosConfig";
 
 export const userMusicSave = async (track) => {
   let now = new Date().toISOString().slice(0, -1);
+  console.log("아티스트 아이디:", track.artists[0].id);
 
   try {
     const postDate = {
       trackId: track.id,
       artistName: track.artists[0].name,
+      artistId: track.artists[0].id,
       trackName: track.name,
       date: now,
     };

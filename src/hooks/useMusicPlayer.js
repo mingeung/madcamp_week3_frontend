@@ -21,7 +21,6 @@ export default function useMusicPlayer(track) {
       setIsPlaying(true);
       userMusicSave(track);
       userMusicQueueSave(track, deviceId);
-
       setCurrentTrack(track); //현재 재생중인 목록 저장
 
       if (player) {

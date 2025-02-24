@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Page6month.css";
-import axios from "axios";
 import { useAuth } from "../AuthContext";
-// import { assert } from "tone/build/esm/core/util/Debug";
-import { Flex, Row } from "antd";
 import instance from "../axiosConfig";
+import { configConsumerProps } from "antd/es/config-provider";
 
 const Page6month = () => {
   const [nickname, setNickname] = useState("");
@@ -12,10 +10,10 @@ const Page6month = () => {
   const month = today.getMonth() + 1;
   const [totalPlayCount, setTotalPlayCount] = useState(0);
   const [mostListenedSinger, setMostListenedSinger] = useState();
+  const [mostListenedSingerId, setMostListenedSingerId] = useState();
   const [mostListenedSingerCount, setMostListenedSingerCount] = useState(0);
   const [mostListenedSong, setMostListenedSong] = useState("");
   const [mostListenedSongCount, setMostListenedSongCount] = useState(0);
-  const { user_id } = useAuth();
 
   useEffect(() => {
     getUserNickname();
@@ -23,6 +21,9 @@ const Page6month = () => {
     getTotalTrack();
     getMostListenTrack();
   }, []);
+  useEffect(() => {
+    getArtistTopTracks();
+  });
 
   const getUserNickname = async () => {
     try {
@@ -51,12 +52,26 @@ const Page6month = () => {
   const getMostListenArtist = async () => {
     try {
       const response = await instance.get(`/most-month-played-artist`);
-      const artist = response?.data?.playingList?.[0]?.artistName;
-      const artistCount = response?.data?.playingList?.[0]?.count;
+      const artist = response.data.playingList[0].artistName;
+      const artistId = response.data.playingList[0].artistId;
+      const artistCount = response.data.playingList[0].count;
       setMostListenedSinger(artist);
+      setMostListenedSingerId(artistId);
       setMostListenedSingerCount(artistCount);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  //많이 들은 가수의 유명한 곡 불러오기
+  const getArtistTopTracks = async () => {
+    try {
+      const response = await instance.get(
+        `/artistTopTracks/${mostListenedSingerId}`
+      );
+      console.log("가장 많이 들은 가수 유명한 곡 :", response.data.tracks);
+    } catch (error) {
+      console.log("가장 많이 들은 가수의 유명한 트랙 받아오기 실패:", error);
     }
   };
 
