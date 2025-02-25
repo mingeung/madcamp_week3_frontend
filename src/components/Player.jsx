@@ -54,14 +54,19 @@ function Player({ favorites, setFavorites }) {
         });
       }
     };
-    const intervalId = setInterval(updateProgressBar, 1000); // 1초마다 업데이트
+    // player가 true일 때만 진행되도록 조건을 추가
+    if (player) {
+      const intervalId = setInterval(updateProgressBar, 1000); // 1초마다 업데이트
+      return () => clearInterval(intervalId); // player가 false일 때 interval을 정리
+    }
+    // player가 false일 때는 막대바를 멈추므로 interval을 clearInterval로 정리
+    return () => {};
+  }, [duration, player]);
 
-    return () => clearInterval(intervalId);
-  }, [duration]); // duration이 바뀔 때마다 useEffect 실행
-
-  useEffect(() => {
-    setCurrentPosition(0); // 새로운 트랙이 시작될 때 막대 초기화
-  }, [currentTrack]); // currentTrack이 바뀔 때마다 실행
+  // 막대 초기화
+  // useEffect(() => {
+  //   setCurrentPosition(0);
+  // }, [duration]);
 
   const progress = (currentPosition / duration) * 100; // 막대바 진행률 계산
 
