@@ -41,7 +41,6 @@ function Player({ favorites, setFavorites }) {
     fetchPlaybackState();
   }, [currentTrack]);
 
-  // 막대바 실시간 업데이트
   useEffect(() => {
     if (!duration) return;
     const updateProgressBar = () => {
@@ -54,19 +53,18 @@ function Player({ favorites, setFavorites }) {
         });
       }
     };
-    // player가 true일 때만 진행되도록 조건을 추가
+
     if (player) {
       const intervalId = setInterval(updateProgressBar, 1000); // 1초마다 업데이트
       return () => clearInterval(intervalId); // player가 false일 때 interval을 정리
     }
-    // player가 false일 때는 막대바를 멈추므로 interval을 clearInterval로 정리
     return () => {};
   }, [duration, player]);
 
   // 막대 초기화
-  // useEffect(() => {
-  //   setCurrentPosition(0);
-  // }, [duration]);
+  useEffect(() => {
+    setCurrentPosition(0);
+  }, [track]);
 
   const progress = (currentPosition / duration) * 100; // 막대바 진행률 계산
 
