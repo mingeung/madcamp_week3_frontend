@@ -26,6 +26,7 @@ function Player({ favorites, setFavorites }) {
     position,
     duration,
     player,
+    playDifferentTrack,
   } = usePlayerStore();
 
   useEffect(() => {
@@ -63,8 +64,10 @@ function Player({ favorites, setFavorites }) {
 
   // 막대 초기화
   useEffect(() => {
-    setCurrentPosition(0);
-  }, [track]);
+    if (playDifferentTrack) {
+      setCurrentPosition(0);
+    }
+  }, [playDifferentTrack]);
 
   const progress = (currentPosition / duration) * 100; // 막대바 진행률 계산
 

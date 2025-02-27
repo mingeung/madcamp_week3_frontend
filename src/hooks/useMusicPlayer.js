@@ -5,24 +5,34 @@ import usePlayerStore from "../store/usePlayerStore.js";
 
 export default function useMusicPlayer(track) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [nowPosition, setNowPosition] = useState(0);
-  const { deviceId, currentTrack, setCurrentTrack, player, position } =
-    usePlayerStore();
+  const {
+    deviceId,
+    currentTrack,
+    setCurrentTrack,
+    player,
+    position,
+    setPlayDifferentTrack,
+  } = usePlayerStore();
   //시작
   const handlePlayStart = async (track) => {
+    console.log("current track:", currentTrack);
+    console.log("track:", track);
     try {
-      if (track === currentTrack) {
+      if (currentTrack && track.uri === currentTrack.uri) {
+        console.log("같은 곡 다시 실행");
         await instance.put(`/playStart/${deviceId}`, {
           uris: track.uri,
           position_ms: position,
         });
+        setPlayDifferentTrack(false);
       } else {
+        console.log("다른 곡 실행");
         await instance.put(`/playStart/${deviceId}`, {
           uris: track.uri,
           // position_ms: position,
         });
+        setPlayDifferentTrack(true);
       }
-
       setIsPlaying(true);
       userMusicSave(track);
       userMusicQueueSave(track, deviceId);
