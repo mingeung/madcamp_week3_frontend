@@ -27,6 +27,7 @@ function Player({ favorites, setFavorites }) {
     duration,
     player,
     playDifferentTrack,
+    setPlayDifferentTrack,
   } = usePlayerStore();
 
   useEffect(() => {
@@ -66,6 +67,7 @@ function Player({ favorites, setFavorites }) {
   useEffect(() => {
     if (playDifferentTrack) {
       setCurrentPosition(0);
+      setPlayDifferentTrack(false);
     }
   }, [playDifferentTrack]);
 
@@ -138,9 +140,14 @@ function Player({ favorites, setFavorites }) {
   };
   const skipToNext = async () => {
     try {
-      setCurrentTrack(getUserMusicQueue()); //한박자씩 밀림
+      setPlayDifferentTrack(true);
       await instance.post(`/skipToNext/${deviceId}`);
-      console.log("다음 곡 재생 ");
+      setTimeout(async () => {
+        const getUserCurrentTrack = await getUserMusicQueue();
+        console.log("유저 큐 받아오기:", getUserCurrentTrack);
+        setCurrentTrack(getUserCurrentTrack);
+        console.log("다음 곡 재생 ");
+      }, 1000); // 1초 대기 (상황에 맞게 시간 조정 가능)
     } catch (error) {
       console.log("다음 곡 재생 에러:", error);
     }

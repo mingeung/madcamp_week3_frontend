@@ -26,8 +26,8 @@ export const userMusicQueueSave = async (track, deviceId) => {
   }
 };
 
-export const getUserMusicQueue = async (setCurrentTrack) => {
-  const currentTrackQueue = null;
+export const getUserMusicQueue = async () => {
+  let currentTrackQueue = null;
   try {
     const response = await instance.get("/userQueue");
     currentTrackQueue = response.data.currently_playing;

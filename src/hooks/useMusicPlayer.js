@@ -15,8 +15,6 @@ export default function useMusicPlayer(track) {
   } = usePlayerStore();
   //시작
   const handlePlayStart = async (track) => {
-    console.log("current track:", currentTrack);
-    console.log("track:", track);
     try {
       if (currentTrack && track.uri === currentTrack.uri) {
         console.log("같은 곡 다시 실행");
@@ -41,7 +39,7 @@ export default function useMusicPlayer(track) {
       if (player) {
         player.on("player_state_changed", (state) => {
           if (state?.paused) {
-            setIsPlaying(false); // 음악이 끝나면 isPlaying을 false로 설정
+            setIsPlaying(false);
           }
         });
       }
