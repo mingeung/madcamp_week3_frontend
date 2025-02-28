@@ -15,12 +15,13 @@ import ResultComposition from "./pages/Page5resultComposition";
 import Page3chatRock from "./pages/Page3chatRock";
 import Page6month from "./pages/Page6month";
 import Player from "./components/Player";
+import Header from "./components/Header";
 
 //App -> hader.js ->haeder.css
 const App = () => {
   const location = useLocation();
   return (
-    <div>
+    <div class="bg-black">
       {/* 
         로그인 페이지와 회원가입 페이지에서는 Header와 Sidebar를 나타나지 않도록 조건부 렌더링
       */}

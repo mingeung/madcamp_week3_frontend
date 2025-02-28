@@ -4,4 +4,9 @@
   --font-roboto: ui-sans-serif, sans-serif, "Roboto";
   --font-pretendard: "pretendard";
   --color-main-pink: #f79aad;
+  --color-dark-gray: #222325;
+}
+
+body {
+  background-color: black;
 }

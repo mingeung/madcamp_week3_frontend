@@ -59,10 +59,9 @@ function Sidebar() {
   ];
 
   return (
-    <div class="fixed top-0 bottom-0 h-100% w-[165px] bg-black">
+    <div class=" fixed top-0 bottom-0 h-100% w-[165px] bg-black">
       <div class="flex flex-col justify-center items-center mt-10">
-        {/* 프로필 메뉴 따로 렌더링 */}
-        <div class="mb-20 flex items-center gap-4 text-white font-bo cursor-pointer">
+        <div class="mb-20 flex items-center gap-5 text-white font-bo cursor-pointer">
           <Link to={profileMenu.path} style={{ textDecoration: "none" }}>
             <ProfileItem
               icon={profileMenu.icon}

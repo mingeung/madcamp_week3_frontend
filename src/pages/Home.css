@@ -1,7 +1,7 @@
 /* home.css */
-body {
-  background-color: #161728;
-}
+/* body {
+  background-color: black;
+} */
 .body::-webkit-scrollbar {
   display: none;
 }

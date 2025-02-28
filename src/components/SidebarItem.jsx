@@ -3,7 +3,7 @@ import "../index.css";
 
 function SidebarItem({ menu, isActive, icon }) {
   return isActive === true ? (
-    <div class="flex flex-row justify-center items-center  text-main-pink mb-5 ">
+    <div class="flex flex-row justify-center items-center gap-[10px] text-main-pink mb-5 ">
       <div class="text-[20px]">{icon}</div>
       <p>{menu.name}</p>
     </div>
