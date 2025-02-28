@@ -10,6 +10,7 @@ import Player from "./Player.jsx";
 import PlayCard from "./PlayCard.jsx";
 import usePlayerStore from "../store/usePlayerStore.js";
 import "tailwindcss";
+import Header from "./Header.jsx";
 
 function SearchResults() {
   const navigate = useNavigate();
@@ -78,7 +79,8 @@ function SearchResults() {
   }, []);
 
   return (
-    <div class="w-4" className="container">
+    <div class=" ml-[190px]" className="container">
+      <Header />
       <div className="search-bar-container">
         <input
           type="text"
