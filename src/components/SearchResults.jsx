@@ -9,6 +9,7 @@ import SpotifyPlayer from "../utils/SpotifyPlayer.js";
 import Player from "./Player.jsx";
 import PlayCard from "./PlayCard.jsx";
 import usePlayerStore from "../store/usePlayerStore.js";
+import "tailwindcss";
 
 function SearchResults() {
   const navigate = useNavigate();
@@ -18,7 +19,6 @@ function SearchResults() {
   const [favorites, setFavorites] = useState([]);
   const [searchMusic, setSearchMusic] = useState("");
   const [accessToken, setAccessToken] = useState("");
-
   const { currentTrack } = usePlayerStore();
 
   useEffect(() => {
@@ -52,6 +52,7 @@ function SearchResults() {
           `/searchResult/trackName=${searchQuery}`
         );
         const results = response.data;
+        console.log("검색결과:", results);
         setSearchResults(results);
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -77,7 +78,7 @@ function SearchResults() {
   }, []);
 
   return (
-    <div className="container">
+    <div class="w-4" className="container">
       <div className="search-bar-container">
         <input
           type="text"
