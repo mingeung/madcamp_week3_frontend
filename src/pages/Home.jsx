@@ -12,13 +12,14 @@ const Home = () => {
   const [newReleasedAlbums, setNewReleasedAlbums] = useState([]);
   const [favoriteSongs, setFavoriteSongs] = useState([]);
 
+  //최근 들은 곡
   useEffect(() => {
     const fetchRecentlyPlayed = async () => {
       try {
         const response = await instance.get("/recentlyPlayed");
-        setRecentlyPlayed(response.data);
-
-        // console.log("최근 들은 곡 받아오기:", recentlyPlayed);
+        const recentlyPlayed = response.data.items;
+        setRecentlyPlayed(recentlyPlayed);
+        console.log("최근 들은 곡 받아오기:", response.data.items);
       } catch (error) {
         console.log("최근 들은 곡 받아오기 실패:", error);
       }
@@ -73,26 +74,38 @@ const Home = () => {
             </ul>
           )}
         </div>
-
-        <div
-          className="w-[calc((100vw-190px)/2)]"
-          class="rounded-2xl bg-dark-gray p-5 mt-12"
-        >
-          <p class="text-white font-pretendard font-bold text-[24px] mb-6">
-            My Tracks
-          </p>
-          {favoriteSongs.length > 0 && (
-            <ul class="flex flex-col gap-4">
-              {favoriteSongs.map((favoriteTrack, index) => (
-                <li key={index} className="min-x-max">
-                  <HomeTrackCard favoriteTrack={favoriteTrack} />
-                </li>
-              ))}
-            </ul>
-          )}
+        {/* //My Tracks */}
+        <div class="flex flex-row gap-[27px] pr-[52px]">
+          <div className="flex-1 rounded-2xl bg-dark-gray p-5 mt-12">
+            <p class="text-white font-pretendard font-bold text-[24px] mb-6">
+              My Favorites
+            </p>
+            {favoriteSongs.length > 0 && (
+              <ul class="flex flex-col gap-4">
+                {favoriteSongs.map((favoriteTrack, index) => (
+                  <li key={index} className="min-x-max">
+                    <HomeTrackCard favoriteTrack={favoriteTrack.trackId} />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          {/* 최근들은 노래 */}
+          <div className="flex-1  rounded-2xl bg-dark-gray p-5 mt-12">
+            <p class="text-white font-pretendard font-bold text-[24px] mb-6">
+              Listening history
+            </p>
+            {recentlyPlayed.length > 0 && (
+              <ul class="flex flex-col gap-4">
+                {recentlyPlayed.map((recentlyPlayed, index) => (
+                  <li key={index} className="min-x-max">
+                    <HomeTrackCard favoriteTrack={recentlyPlayed.track.id} />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
-
-        <div className="최근 들은 노래"></div>
       </div>
     </div>
   );

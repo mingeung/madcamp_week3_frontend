@@ -54,14 +54,14 @@ function Sidebar() {
     {
       icon: <MdOutlineShowChart />,
       name: "Analysis",
-      path: "/analysis",
+      path: "/month-analysis",
     },
   ];
 
   return (
     <div class=" fixed top-0 bottom-0 h-100% w-[165px] bg-black">
-      <div class="flex flex-col justify-center items-center mt-10">
-        <div class="mb-20 flex items-center gap-5 text-white font-bo cursor-pointer">
+      <div class="flex flex-col justify-center items-center p-10 gap-20">
+        <div class=" flex items-center gap-5 text-white font-bo cursor-pointer">
           <Link to={profileMenu.path} style={{ textDecoration: "none" }}>
             <ProfileItem
               icon={profileMenu.icon}
@@ -70,19 +70,24 @@ function Sidebar() {
             />
           </Link>
         </div>
-
-        {menus.map((menu, index) => {
-          return (
-            <Link to={menu.path} key={index} style={{ textDecoration: "none" }}>
-              <SidebarItem
-                icon={menu.icon}
-                menu={menu}
-                isActive={pathName === menu.path ? true : false}
-                class="font-pretendard cursor-pointer"
-              />
-            </Link>
-          );
-        })}
+        <div class="flex flex-col items-start">
+          {menus.map((menu, index) => {
+            return (
+              <Link
+                to={menu.path}
+                key={index}
+                style={{ textDecoration: "none" }}
+              >
+                <SidebarItem
+                  icon={menu.icon}
+                  menu={menu}
+                  isActive={pathName === menu.path ? true : false}
+                  class="font-pretendard cursor-pointer"
+                />
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

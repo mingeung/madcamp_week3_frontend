@@ -12,9 +12,7 @@ export default function HomeTrackCard({ favoriteTrack }) {
   useEffect(() => {
     const getTrackInfo = async () => {
       try {
-        const response = await instance.get(
-          `/track-info/${favoriteTrack.trackId}`
-        );
+        const response = await instance.get(`/track-info/${favoriteTrack}`);
         const trackInfo = response.data.tracks[0];
         setTrack(trackInfo);
       } catch (error) {
