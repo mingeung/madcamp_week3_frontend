@@ -1,6 +1,7 @@
 //Log.js
 import React from "react";
 import "../index.css";
+import Chat from "../components/Chat";
 
 const Login = () => {
   // Spotify 로그인 페이지로 이동
@@ -28,6 +29,7 @@ const Login = () => {
             </p>
           </div>
         </div>
+        <Chat/>
         <div
           onClick={handleLogin}
           class="mt-8 my-auto top-[320px] w-[384px] h-[60px] rounded opacity-100 flex flex-row justify-center items-center p-4 px-6 gap-0 flex-wrap content-center bg-[#1DB954] z-10 text-white cursor-pointer hover:bg-green-500 transition"

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import {Link, Route, useLocation} from "react-router-dom";
 import SidebarItem from "./SidebarItem";
 import ProfileItem from "./Profileitem";
 import "../index.css";
@@ -7,6 +7,7 @@ import { FaHeart } from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
 import { MdOutlineShowChart } from "react-icons/md";
 import instance from "../axiosConfig";
+// import Page3chatRock from "../pages/Page3chatRock.jsx";
 
 function Sidebar() {
   //url의 path 값을 받아올 수 있음
@@ -56,6 +57,12 @@ function Sidebar() {
       name: "Analysis",
       path: "/month-analysis",
     },
+    // {
+    //   icon: <MdOutlineShowChart />,
+    //   name: "Chat",
+    //   path: "/chat-rock",
+    // },
+
   ];
 
   return (
